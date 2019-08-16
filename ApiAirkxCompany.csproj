@@ -162,6 +162,9 @@
     <Compile Include="Models\BLL\T_AirCompany.cs" />
     <Compile Include="Models\BLL\T_AirFlightInfo.cs" />
     <Compile Include="Models\BLL\T_AirFlightInfoTo.cs" />
+    <Compile Include="Models\BLL\T_Company.cs" />
+    <Compile Include="Models\BLL\T_Order.cs" />
+    <Compile Include="Models\BLL\T_OrderFlightInfo.cs" />
     <Compile Include="Models\BLL\T_Ticket.cs" />
     <Compile Include="Models\BLL\T_TicketPrice.cs" />
     <Compile Include="Models\Model\Company.cs" />
@@ -171,6 +174,9 @@
     <Compile Include="Models\Model\T_AirCompany.cs" />
     <Compile Include="Models\Model\T_AirFlightInfo.cs" />
     <Compile Include="Models\Model\T_AirFlightInfoTo.cs" />
+    <Compile Include="Models\Model\T_Company.cs" />
+    <Compile Include="Models\Model\T_Order.cs" />
+    <Compile Include="Models\Model\T_OrderFlightInfo.cs" />
     <Compile Include="Models\Model\T_Ticket.cs" />
     <Compile Include="Models\Model\T_TicketPrice.cs" />
     <Compile Include="Models\SQLServerDAL\T_Admin.cs" />
@@ -178,6 +184,9 @@
     <Compile Include="Models\SQLServerDAL\T_AirCompany.cs" />
     <Compile Include="Models\SQLServerDAL\T_AirFlightInfo.cs" />
     <Compile Include="Models\SQLServerDAL\T_AirFlightInfoTo.cs" />
+    <Compile Include="Models\SQLServerDAL\T_Company.cs" />
+    <Compile Include="Models\SQLServerDAL\T_Order.cs" />
+    <Compile Include="Models\SQLServerDAL\T_OrderFlightInfo.cs" />
     <Compile Include="Models\SQLServerDAL\T_Ticket.cs" />
     <Compile Include="Models\SQLServerDAL\T_TicketPrice.cs" />
     <Compile Include="Models\Tool\DbHelperSQL.cs" />
