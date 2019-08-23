@@ -293,7 +293,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage GetSubCompanyLinkman(string id)
         {
             string n = PageValidate.SQL_KILL(id);
-            string sql = "select a.dcUserName as uname, a.dcPassword as upass, dcCLMID as id,a.dcCompanyID as cid,dcLinkName as linkname,dcPhone as phone,dcEmail as email,dcQQ as qq,dcWechat as wechat"; 
+            string sql = "select a.dcUserName as uname, a.dcPassword as upass, dcCLMID as id,a.dcCompanyID as cid,b.dcLinkName as linkname,b.dcPhone as phone,b.dcEmail as email,b.dcQQ as qq,b.dcWechat as wechat"; 
             sql += " from T_Company a, T_CompanyLinkMan b where a.dcParentCompanyID = '" + n + "' and a.dcCompanyID = b.dcCompanyID  ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)

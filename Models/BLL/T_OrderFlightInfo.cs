@@ -95,6 +95,10 @@ namespace ApiAirkxCompany.BLL {
 				{
 					model.dnAirType=int.Parse(dt.Rows[n]["dnAirType"].ToString());
 				}
+																								if(dt.Rows[n]["dnFlightType"].ToString()!="")
+				{
+					model.dnFlightType=int.Parse(dt.Rows[n]["dnFlightType"].ToString());
+				}
 																								if(dt.Rows[n]["dnAirID"].ToString()!="")
 				{
 					model.dnAirID=int.Parse(dt.Rows[n]["dnAirID"].ToString());

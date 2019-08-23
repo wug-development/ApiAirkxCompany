@@ -96,11 +96,12 @@ namespace ApiAirkxCompany.BLL {
 					model.dnAirType=int.Parse(dt.Rows[n]["dnAirType"].ToString());
 				}
 																												model.dcStartDate= dt.Rows[n]["dcStartDate"].ToString();
-																												model.dcBackData= dt.Rows[n]["dcBackData"].ToString();
+																												model.dcBackDate= dt.Rows[n]["dcBackDate"].ToString();
 																												model.dcStartCity= dt.Rows[n]["dcStartCity"].ToString();
 																												model.dcBackCity= dt.Rows[n]["dcBackCity"].ToString();
 																												model.dcCompanyID= dt.Rows[n]["dcCompanyID"].ToString();
 																												model.dcLinkName= dt.Rows[n]["dcLinkName"].ToString();
+																												model.dcPhone= dt.Rows[n]["dcPhone"].ToString();
 																								if(dt.Rows[n]["dnPrice"].ToString()!="")
 				{
 					model.dnPrice=decimal.Parse(dt.Rows[n]["dnPrice"].ToString());

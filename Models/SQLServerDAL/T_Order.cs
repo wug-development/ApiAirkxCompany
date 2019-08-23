@@ -31,9 +31,9 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_Order(");			
-            strSql.Append("dcOrderID,dcOrderCode,dnAirType,dcStartDate,dcBackData,dcStartCity,dcBackCity,dcCompanyID,dcLinkName,dnPrice,dnTax,dnTotalPrice,dcContent,dcAdminID,dcAdminName,dtAddTime,dnTicketID,dnDetailID");
+            strSql.Append("dcOrderID,dcOrderCode,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcLinkName,dcPhone,dnPrice,dnTax,dnTotalPrice,dcContent,dcAdminID,dcAdminName,dtAddTime,dnTicketID,dnDetailID");
 			strSql.Append(") values (");
-            strSql.Append("@dcOrderID,@dcOrderCode,@dnAirType,@dcStartDate,@dcBackData,@dcStartCity,@dcBackCity,@dcCompanyID,@dcLinkName,@dnPrice,@dnTax,@dnTotalPrice,@dcContent,@dcAdminID,@dcAdminName,@dtAddTime,@dnTicketID,@dnDetailID");            
+            strSql.Append("@dcOrderID,@dcOrderCode,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnTotalPrice,@dcContent,@dcAdminID,@dcAdminName,@dtAddTime,@dnTicketID,@dnDetailID");            
             strSql.Append(") ");            
             		
 			SqlParameter[] parameters = {
@@ -41,11 +41,12 @@ namespace ApiAirkxCompany.SQLServerDAL
                         new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnAirType", SqlDbType.Int,4) ,            
                         new SqlParameter("@dcStartDate", SqlDbType.VarChar,20) ,            
-                        new SqlParameter("@dcBackData", SqlDbType.VarChar,20) ,            
+                        new SqlParameter("@dcBackDate", SqlDbType.VarChar,20) ,            
                         new SqlParameter("@dcStartCity", SqlDbType.NVarChar,30) ,            
                         new SqlParameter("@dcBackCity", SqlDbType.NVarChar,30) ,            
                         new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dcPhone", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnTax", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnTotalPrice", SqlDbType.Decimal,9) ,            
@@ -62,20 +63,21 @@ namespace ApiAirkxCompany.SQLServerDAL
             parameters[1].Value = model.dcOrderCode;                        
             parameters[2].Value = model.dnAirType;                        
             parameters[3].Value = model.dcStartDate;                        
-            parameters[4].Value = model.dcBackData;                        
+            parameters[4].Value = model.dcBackDate;                        
             parameters[5].Value = model.dcStartCity;                        
             parameters[6].Value = model.dcBackCity;                        
             parameters[7].Value = model.dcCompanyID;                        
             parameters[8].Value = model.dcLinkName;                        
-            parameters[9].Value = model.dnPrice;                        
-            parameters[10].Value = model.dnTax;                        
-            parameters[11].Value = model.dnTotalPrice;                        
-            parameters[12].Value = model.dcContent;                        
-            parameters[13].Value = model.dcAdminID;                        
-            parameters[14].Value = model.dcAdminName;                        
-            parameters[15].Value = model.dtAddTime;                        
-            parameters[16].Value = model.dnTicketID;                        
-            parameters[17].Value = model.dnDetailID;                        
+            parameters[9].Value = model.dcPhone;                        
+            parameters[10].Value = model.dnPrice;                        
+            parameters[11].Value = model.dnTax;                        
+            parameters[12].Value = model.dnTotalPrice;                        
+            parameters[13].Value = model.dcContent;                        
+            parameters[14].Value = model.dcAdminID;                        
+            parameters[15].Value = model.dcAdminName;                        
+            parameters[16].Value = model.dtAddTime;                        
+            parameters[17].Value = model.dnTicketID;                        
+            parameters[18].Value = model.dnDetailID;                        
 			            DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
             			
 		}
@@ -93,11 +95,12 @@ namespace ApiAirkxCompany.SQLServerDAL
             strSql.Append(" dcOrderCode = @dcOrderCode , ");                                    
             strSql.Append(" dnAirType = @dnAirType , ");                                    
             strSql.Append(" dcStartDate = @dcStartDate , ");                                    
-            strSql.Append(" dcBackData = @dcBackData , ");                                    
+            strSql.Append(" dcBackDate = @dcBackDate , ");                                    
             strSql.Append(" dcStartCity = @dcStartCity , ");                                    
             strSql.Append(" dcBackCity = @dcBackCity , ");                                    
             strSql.Append(" dcCompanyID = @dcCompanyID , ");                                    
             strSql.Append(" dcLinkName = @dcLinkName , ");                                    
+            strSql.Append(" dcPhone = @dcPhone , ");                                    
             strSql.Append(" dnPrice = @dnPrice , ");                                    
             strSql.Append(" dnTax = @dnTax , ");                                    
             strSql.Append(" dnTotalPrice = @dnTotalPrice , ");                                    
@@ -114,11 +117,12 @@ SqlParameter[] parameters = {
                         new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnAirType", SqlDbType.Int,4) ,            
                         new SqlParameter("@dcStartDate", SqlDbType.VarChar,20) ,            
-                        new SqlParameter("@dcBackData", SqlDbType.VarChar,20) ,            
+                        new SqlParameter("@dcBackDate", SqlDbType.VarChar,20) ,            
                         new SqlParameter("@dcStartCity", SqlDbType.NVarChar,30) ,            
                         new SqlParameter("@dcBackCity", SqlDbType.NVarChar,30) ,            
                         new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dcPhone", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnTax", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnTotalPrice", SqlDbType.Decimal,9) ,            
@@ -135,20 +139,21 @@ SqlParameter[] parameters = {
             parameters[1].Value = model.dcOrderCode;                        
             parameters[2].Value = model.dnAirType;                        
             parameters[3].Value = model.dcStartDate;                        
-            parameters[4].Value = model.dcBackData;                        
+            parameters[4].Value = model.dcBackDate;                        
             parameters[5].Value = model.dcStartCity;                        
             parameters[6].Value = model.dcBackCity;                        
             parameters[7].Value = model.dcCompanyID;                        
             parameters[8].Value = model.dcLinkName;                        
-            parameters[9].Value = model.dnPrice;                        
-            parameters[10].Value = model.dnTax;                        
-            parameters[11].Value = model.dnTotalPrice;                        
-            parameters[12].Value = model.dcContent;                        
-            parameters[13].Value = model.dcAdminID;                        
-            parameters[14].Value = model.dcAdminName;                        
-            parameters[15].Value = model.dtAddTime;                        
-            parameters[16].Value = model.dnTicketID;                        
-            parameters[17].Value = model.dnDetailID;                        
+            parameters[9].Value = model.dcPhone;                        
+            parameters[10].Value = model.dnPrice;                        
+            parameters[11].Value = model.dnTax;                        
+            parameters[12].Value = model.dnTotalPrice;                        
+            parameters[13].Value = model.dcContent;                        
+            parameters[14].Value = model.dcAdminID;                        
+            parameters[15].Value = model.dcAdminName;                        
+            parameters[16].Value = model.dtAddTime;                        
+            parameters[17].Value = model.dnTicketID;                        
+            parameters[18].Value = model.dnDetailID;                        
             int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
@@ -195,7 +200,7 @@ SqlParameter[] parameters = {
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select dcOrderID, dcOrderCode, dnAirType, dcStartDate, dcBackData, dcStartCity, dcBackCity, dcCompanyID, dcLinkName, dnPrice, dnTax, dnTotalPrice, dcContent, dcAdminID, dcAdminName, dtAddTime, dnTicketID, dnDetailID  ");			
+			strSql.Append("select dcOrderID, dcOrderCode, dnAirType, dcStartDate, dcBackDate, dcStartCity, dcBackCity, dcCompanyID, dcLinkName, dcPhone, dnPrice, dnTax, dnTotalPrice, dcContent, dcAdminID, dcAdminName, dtAddTime, dnTicketID, dnDetailID  ");			
 			strSql.Append("  from T_Order ");
 			strSql.Append(" where dcOrderID=@dcOrderID ");
 						SqlParameter[] parameters = {
@@ -215,11 +220,12 @@ SqlParameter[] parameters = {
 					model.dnAirType=int.Parse(ds.Tables[0].Rows[0]["dnAirType"].ToString());
 				}
 																																				model.dcStartDate= ds.Tables[0].Rows[0]["dcStartDate"].ToString();
-																																model.dcBackData= ds.Tables[0].Rows[0]["dcBackData"].ToString();
+																																model.dcBackDate= ds.Tables[0].Rows[0]["dcBackDate"].ToString();
 																																model.dcStartCity= ds.Tables[0].Rows[0]["dcStartCity"].ToString();
 																																model.dcBackCity= ds.Tables[0].Rows[0]["dcBackCity"].ToString();
 																																model.dcCompanyID= ds.Tables[0].Rows[0]["dcCompanyID"].ToString();
 																																model.dcLinkName= ds.Tables[0].Rows[0]["dcLinkName"].ToString();
+																																model.dcPhone= ds.Tables[0].Rows[0]["dcPhone"].ToString();
 																												if(ds.Tables[0].Rows[0]["dnPrice"].ToString()!="")
 				{
 					model.dnPrice=decimal.Parse(ds.Tables[0].Rows[0]["dnPrice"].ToString());

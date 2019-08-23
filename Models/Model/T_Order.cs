@@ -46,11 +46,11 @@ namespace ApiAirkxCompany.Model{
 		/// <summary>
 		/// 返回日期
         /// </summary>		
-		private string _dcbackdata;
-        public string dcBackData
+		private string _dcbackdate;
+        public string dcBackDate
         {
-            get{ return _dcbackdata; }
-            set{ _dcbackdata = value; }
+            get{ return _dcbackdate; }
+            set{ _dcbackdate = value; }
         }        
 		/// <summary>
 		/// 出发城市
@@ -87,6 +87,15 @@ namespace ApiAirkxCompany.Model{
         {
             get{ return _dclinkname; }
             set{ _dclinkname = value; }
+        }        
+		/// <summary>
+		/// 联系电话
+        /// </summary>		
+		private string _dcphone;
+        public string dcPhone
+        {
+            get{ return _dcphone; }
+            set{ _dcphone = value; }
         }        
 		/// <summary>
 		/// 票价

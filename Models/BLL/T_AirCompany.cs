@@ -85,12 +85,21 @@ namespace ApiAirkxCompany.BLL
 		{
 			
 			return dal.GetModel(dcAirCompanyID);
-		}
+        }
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetList(string strWhere)
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public ApiAirkxCompany.Model.T_AirCompany GetModel(string dcCompanyCode)
+        {
+
+            return dal.GetModel(dcCompanyCode);
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(string strWhere)
 		{
 			return dal.GetList(strWhere);
 		}

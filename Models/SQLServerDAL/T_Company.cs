@@ -31,9 +31,9 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_Company(");			
-            strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dtCheckOutDate,dcAdminID,dcOther,dtAddDatetime,dnIsCheck");
+            strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck");
 			strSql.Append(") values (");
-            strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dtCheckOutDate,@dcAdminID,@dcOther,@dtAddDatetime,@dnIsCheck");            
+            strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dtCheckOutDate,@dcLinkName,@dcPhone,@dcAdminID,@dcAdminName,@dcOther,@dtAddDatetime,@dnIsCheck");            
             strSql.Append(") ");            
             		
 			SqlParameter[] parameters = {
@@ -54,7 +54,10 @@ namespace ApiAirkxCompany.SQLServerDAL
                         new SqlParameter("@dcParentCompanyID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnCreditLine", SqlDbType.Int,4) ,            
                         new SqlParameter("@dtCheckOutDate", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dcPhone", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcAdminID", SqlDbType.VarChar,40) ,            
+                        new SqlParameter("@dcAdminName", SqlDbType.NVarChar,20) ,            
                         new SqlParameter("@dcOther", SqlDbType.NVarChar,200) ,            
                         new SqlParameter("@dtAddDatetime", SqlDbType.SmallDateTime) ,            
                         new SqlParameter("@dnIsCheck", SqlDbType.Int,4)             
@@ -78,10 +81,13 @@ namespace ApiAirkxCompany.SQLServerDAL
             parameters[14].Value = model.dcParentCompanyID;                        
             parameters[15].Value = model.dnCreditLine;                        
             parameters[16].Value = model.dtCheckOutDate;                        
-            parameters[17].Value = model.dcAdminID;                        
-            parameters[18].Value = model.dcOther;                        
-            parameters[19].Value = model.dtAddDatetime;                        
-            parameters[20].Value = model.dnIsCheck;                        
+            parameters[17].Value = model.dcLinkName;                        
+            parameters[18].Value = model.dcPhone;                        
+            parameters[19].Value = model.dcAdminID;                        
+            parameters[20].Value = model.dcAdminName;                        
+            parameters[21].Value = model.dcOther;                        
+            parameters[22].Value = model.dtAddDatetime;                        
+            parameters[23].Value = model.dnIsCheck;                        
 			            DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
             			
 		}
@@ -112,7 +118,10 @@ namespace ApiAirkxCompany.SQLServerDAL
             strSql.Append(" dcParentCompanyID = @dcParentCompanyID , ");                                    
             strSql.Append(" dnCreditLine = @dnCreditLine , ");                                    
             strSql.Append(" dtCheckOutDate = @dtCheckOutDate , ");                                    
+            strSql.Append(" dcLinkName = @dcLinkName , ");                                    
+            strSql.Append(" dcPhone = @dcPhone , ");                                    
             strSql.Append(" dcAdminID = @dcAdminID , ");                                    
+            strSql.Append(" dcAdminName = @dcAdminName , ");                                    
             strSql.Append(" dcOther = @dcOther , ");                                    
             strSql.Append(" dtAddDatetime = @dtAddDatetime , ");                                    
             strSql.Append(" dnIsCheck = @dnIsCheck  ");            			
@@ -136,7 +145,10 @@ SqlParameter[] parameters = {
                         new SqlParameter("@dcParentCompanyID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnCreditLine", SqlDbType.Int,4) ,            
                         new SqlParameter("@dtCheckOutDate", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dcPhone", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcAdminID", SqlDbType.VarChar,40) ,            
+                        new SqlParameter("@dcAdminName", SqlDbType.NVarChar,20) ,            
                         new SqlParameter("@dcOther", SqlDbType.NVarChar,200) ,            
                         new SqlParameter("@dtAddDatetime", SqlDbType.SmallDateTime) ,            
                         new SqlParameter("@dnIsCheck", SqlDbType.Int,4)             
@@ -160,10 +172,13 @@ SqlParameter[] parameters = {
             parameters[14].Value = model.dcParentCompanyID;                        
             parameters[15].Value = model.dnCreditLine;                        
             parameters[16].Value = model.dtCheckOutDate;                        
-            parameters[17].Value = model.dcAdminID;                        
-            parameters[18].Value = model.dcOther;                        
-            parameters[19].Value = model.dtAddDatetime;                        
-            parameters[20].Value = model.dnIsCheck;                        
+            parameters[17].Value = model.dcLinkName;                        
+            parameters[18].Value = model.dcPhone;                        
+            parameters[19].Value = model.dcAdminID;                        
+            parameters[20].Value = model.dcAdminName;                        
+            parameters[21].Value = model.dcOther;                        
+            parameters[22].Value = model.dtAddDatetime;                        
+            parameters[23].Value = model.dnIsCheck;                        
             int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
@@ -210,7 +225,7 @@ SqlParameter[] parameters = {
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select dcCompanyID, dcUserName, dcPassword, dcFullName, dcShortName, dcRegistrationNumber, dnRegisteredFunds, dcBusinessAddress, dcMainBusiness, dcShareholder, dcLegalRepresentative, dcLicenseRegistrationAddr, dcBankAccount, dcOpeningBank, dcParentCompanyID, dnCreditLine, dtCheckOutDate, dcAdminID, dcOther, dtAddDatetime, dnIsCheck  ");			
+			strSql.Append("select dcCompanyID, dcUserName, dcPassword, dcFullName, dcShortName, dcRegistrationNumber, dnRegisteredFunds, dcBusinessAddress, dcMainBusiness, dcShareholder, dcLegalRepresentative, dcLicenseRegistrationAddr, dcBankAccount, dcOpeningBank, dcParentCompanyID, dnCreditLine, dtCheckOutDate, dcLinkName, dcPhone, dcAdminID, dcAdminName, dcOther, dtAddDatetime, dnIsCheck  ");			
 			strSql.Append("  from T_Company ");
 			strSql.Append(" where dcCompanyID=@dcCompanyID ");
 						SqlParameter[] parameters = {
@@ -246,7 +261,10 @@ SqlParameter[] parameters = {
 					model.dnCreditLine=int.Parse(ds.Tables[0].Rows[0]["dnCreditLine"].ToString());
 				}
 																																				model.dtCheckOutDate= ds.Tables[0].Rows[0]["dtCheckOutDate"].ToString();
+																																model.dcLinkName= ds.Tables[0].Rows[0]["dcLinkName"].ToString();
+																																model.dcPhone= ds.Tables[0].Rows[0]["dcPhone"].ToString();
 																																model.dcAdminID= ds.Tables[0].Rows[0]["dcAdminID"].ToString();
+																																model.dcAdminName= ds.Tables[0].Rows[0]["dcAdminName"].ToString();
 																																model.dcOther= ds.Tables[0].Rows[0]["dcOther"].ToString();
 																												if(ds.Tables[0].Rows[0]["dtAddDatetime"].ToString()!="")
 				{

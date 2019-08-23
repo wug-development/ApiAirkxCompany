@@ -31,15 +31,16 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_OrderFlightInfo(");			
-            strSql.Append("dcOrderFlightID,dcOrderID,dnAirType,dnAirID,dcAirCode,dcSPortName,dcEPortName,dcSCode,dcECode,dcSTime,dcETime,dcJixing,dcAirCompanyID,dcCompanyName,dcEnCompanyName,dcCompanyLogo,dcCompanyCode,dcContent");
+            strSql.Append("dcOrderFlightID,dcOrderID,dnAirType,dnFlightType,dnAirID,dcAirCode,dcSPortName,dcEPortName,dcSCode,dcECode,dcSTime,dcETime,dcJixing,dcAirCompanyID,dcCompanyName,dcEnCompanyName,dcCompanyLogo,dcCompanyCode,dcContent");
 			strSql.Append(") values (");
-            strSql.Append("@dcOrderFlightID,@dcOrderID,@dnAirType,@dnAirID,@dcAirCode,@dcSPortName,@dcEPortName,@dcSCode,@dcECode,@dcSTime,@dcETime,@dcJixing,@dcAirCompanyID,@dcCompanyName,@dcEnCompanyName,@dcCompanyLogo,@dcCompanyCode,@dcContent");            
+            strSql.Append("@dcOrderFlightID,@dcOrderID,@dnAirType,@dnFlightType,@dnAirID,@dcAirCode,@dcSPortName,@dcEPortName,@dcSCode,@dcECode,@dcSTime,@dcETime,@dcJixing,@dcAirCompanyID,@dcCompanyName,@dcEnCompanyName,@dcCompanyLogo,@dcCompanyCode,@dcContent");            
             strSql.Append(") ");            
             		
 			SqlParameter[] parameters = {
 			            new SqlParameter("@dcOrderFlightID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnAirType", SqlDbType.Int,4) ,            
+                        new SqlParameter("@dnFlightType", SqlDbType.Int,4) ,            
                         new SqlParameter("@dnAirID", SqlDbType.Int,4) ,            
                         new SqlParameter("@dcAirCode", SqlDbType.VarChar,20) ,            
                         new SqlParameter("@dcSPortName", SqlDbType.NVarChar,50) ,            
@@ -61,21 +62,22 @@ namespace ApiAirkxCompany.SQLServerDAL
             parameters[0].Value = model.dcOrderFlightID;                        
             parameters[1].Value = model.dcOrderID;                        
             parameters[2].Value = model.dnAirType;                        
-            parameters[3].Value = model.dnAirID;                        
-            parameters[4].Value = model.dcAirCode;                        
-            parameters[5].Value = model.dcSPortName;                        
-            parameters[6].Value = model.dcEPortName;                        
-            parameters[7].Value = model.dcSCode;                        
-            parameters[8].Value = model.dcECode;                        
-            parameters[9].Value = model.dcSTime;                        
-            parameters[10].Value = model.dcETime;                        
-            parameters[11].Value = model.dcJixing;                        
-            parameters[12].Value = model.dcAirCompanyID;                        
-            parameters[13].Value = model.dcCompanyName;                        
-            parameters[14].Value = model.dcEnCompanyName;                        
-            parameters[15].Value = model.dcCompanyLogo;                        
-            parameters[16].Value = model.dcCompanyCode;                        
-            parameters[17].Value = model.dcContent;                        
+            parameters[3].Value = model.dnFlightType;                        
+            parameters[4].Value = model.dnAirID;                        
+            parameters[5].Value = model.dcAirCode;                        
+            parameters[6].Value = model.dcSPortName;                        
+            parameters[7].Value = model.dcEPortName;                        
+            parameters[8].Value = model.dcSCode;                        
+            parameters[9].Value = model.dcECode;                        
+            parameters[10].Value = model.dcSTime;                        
+            parameters[11].Value = model.dcETime;                        
+            parameters[12].Value = model.dcJixing;                        
+            parameters[13].Value = model.dcAirCompanyID;                        
+            parameters[14].Value = model.dcCompanyName;                        
+            parameters[15].Value = model.dcEnCompanyName;                        
+            parameters[16].Value = model.dcCompanyLogo;                        
+            parameters[17].Value = model.dcCompanyCode;                        
+            parameters[18].Value = model.dcContent;                        
 			            DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
             			
 		}
@@ -92,6 +94,7 @@ namespace ApiAirkxCompany.SQLServerDAL
             strSql.Append(" dcOrderFlightID = @dcOrderFlightID , ");                                    
             strSql.Append(" dcOrderID = @dcOrderID , ");                                    
             strSql.Append(" dnAirType = @dnAirType , ");                                    
+            strSql.Append(" dnFlightType = @dnFlightType , ");                                    
             strSql.Append(" dnAirID = @dnAirID , ");                                    
             strSql.Append(" dcAirCode = @dcAirCode , ");                                    
             strSql.Append(" dcSPortName = @dcSPortName , ");                                    
@@ -113,6 +116,7 @@ SqlParameter[] parameters = {
 			            new SqlParameter("@dcOrderFlightID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnAirType", SqlDbType.Int,4) ,            
+                        new SqlParameter("@dnFlightType", SqlDbType.Int,4) ,            
                         new SqlParameter("@dnAirID", SqlDbType.Int,4) ,            
                         new SqlParameter("@dcAirCode", SqlDbType.VarChar,20) ,            
                         new SqlParameter("@dcSPortName", SqlDbType.NVarChar,50) ,            
@@ -134,21 +138,22 @@ SqlParameter[] parameters = {
             parameters[0].Value = model.dcOrderFlightID;                        
             parameters[1].Value = model.dcOrderID;                        
             parameters[2].Value = model.dnAirType;                        
-            parameters[3].Value = model.dnAirID;                        
-            parameters[4].Value = model.dcAirCode;                        
-            parameters[5].Value = model.dcSPortName;                        
-            parameters[6].Value = model.dcEPortName;                        
-            parameters[7].Value = model.dcSCode;                        
-            parameters[8].Value = model.dcECode;                        
-            parameters[9].Value = model.dcSTime;                        
-            parameters[10].Value = model.dcETime;                        
-            parameters[11].Value = model.dcJixing;                        
-            parameters[12].Value = model.dcAirCompanyID;                        
-            parameters[13].Value = model.dcCompanyName;                        
-            parameters[14].Value = model.dcEnCompanyName;                        
-            parameters[15].Value = model.dcCompanyLogo;                        
-            parameters[16].Value = model.dcCompanyCode;                        
-            parameters[17].Value = model.dcContent;                        
+            parameters[3].Value = model.dnFlightType;                        
+            parameters[4].Value = model.dnAirID;                        
+            parameters[5].Value = model.dcAirCode;                        
+            parameters[6].Value = model.dcSPortName;                        
+            parameters[7].Value = model.dcEPortName;                        
+            parameters[8].Value = model.dcSCode;                        
+            parameters[9].Value = model.dcECode;                        
+            parameters[10].Value = model.dcSTime;                        
+            parameters[11].Value = model.dcETime;                        
+            parameters[12].Value = model.dcJixing;                        
+            parameters[13].Value = model.dcAirCompanyID;                        
+            parameters[14].Value = model.dcCompanyName;                        
+            parameters[15].Value = model.dcEnCompanyName;                        
+            parameters[16].Value = model.dcCompanyLogo;                        
+            parameters[17].Value = model.dcCompanyCode;                        
+            parameters[18].Value = model.dcContent;                        
             int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
@@ -195,7 +200,7 @@ SqlParameter[] parameters = {
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select dcOrderFlightID, dcOrderID, dnAirType, dnAirID, dcAirCode, dcSPortName, dcEPortName, dcSCode, dcECode, dcSTime, dcETime, dcJixing, dcAirCompanyID, dcCompanyName, dcEnCompanyName, dcCompanyLogo, dcCompanyCode, dcContent  ");			
+			strSql.Append("select dcOrderFlightID, dcOrderID, dnAirType, dnFlightType, dnAirID, dcAirCode, dcSPortName, dcEPortName, dcSCode, dcECode, dcSTime, dcETime, dcJixing, dcAirCompanyID, dcCompanyName, dcEnCompanyName, dcCompanyLogo, dcCompanyCode, dcContent  ");			
 			strSql.Append("  from T_OrderFlightInfo ");
 			strSql.Append(" where dcOrderFlightID=@dcOrderFlightID ");
 						SqlParameter[] parameters = {
@@ -213,6 +218,10 @@ SqlParameter[] parameters = {
 																												if(ds.Tables[0].Rows[0]["dnAirType"].ToString()!="")
 				{
 					model.dnAirType=int.Parse(ds.Tables[0].Rows[0]["dnAirType"].ToString());
+				}
+																																if(ds.Tables[0].Rows[0]["dnFlightType"].ToString()!="")
+				{
+					model.dnFlightType=int.Parse(ds.Tables[0].Rows[0]["dnFlightType"].ToString());
 				}
 																																if(ds.Tables[0].Rows[0]["dnAirID"].ToString()!="")
 				{

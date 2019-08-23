@@ -161,6 +161,24 @@ namespace ApiAirkxCompany.Model{
             set{ _dtcheckoutdate = value; }
         }        
 		/// <summary>
+		/// 联系人
+        /// </summary>		
+		private string _dclinkname;
+        public string dcLinkName
+        {
+            get{ return _dclinkname; }
+            set{ _dclinkname = value; }
+        }        
+		/// <summary>
+		/// 联系电话
+        /// </summary>		
+		private string _dcphone;
+        public string dcPhone
+        {
+            get{ return _dcphone; }
+            set{ _dcphone = value; }
+        }        
+		/// <summary>
 		/// 管理员ID
         /// </summary>		
 		private string _dcadminid;
@@ -168,6 +186,15 @@ namespace ApiAirkxCompany.Model{
         {
             get{ return _dcadminid; }
             set{ _dcadminid = value; }
+        }        
+		/// <summary>
+		/// 管理员名称
+        /// </summary>		
+		private string _dcadminname;
+        public string dcAdminName
+        {
+            get{ return _dcadminname; }
+            set{ _dcadminname = value; }
         }        
 		/// <summary>
 		/// 备注

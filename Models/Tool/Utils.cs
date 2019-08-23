@@ -78,7 +78,8 @@ namespace ApiAirkxCompany
         /// <returns></returns>
         public static string getDataID(string IDPrefix)
         {
-            return IDPrefix + BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(DateTime.Now.ToString("yyyyMMddhhmmss")))).Replace("-", "").ToLower();
+            Random rd = new Random();
+            return IDPrefix + BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(DateTime.Now.ToString("yyyyMMddhhmmss")))).Replace("-", "").ToLower() + rd.Next(100, 999).ToString();
         }
         #endregion
 

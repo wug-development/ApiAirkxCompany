@@ -35,6 +35,15 @@ namespace ApiAirkxCompany.Model{
             set{ _dnairtype = value; }
         }        
 		/// <summary>
+		/// 航线类型(0去程1回程)
+        /// </summary>		
+		private int _dnflighttype;
+        public int dnFlightType
+        {
+            get{ return _dnflighttype; }
+            set{ _dnflighttype = value; }
+        }        
+		/// <summary>
 		/// 航班ID
         /// </summary>		
 		private int _dnairid;

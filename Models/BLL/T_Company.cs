@@ -112,7 +112,10 @@ namespace ApiAirkxCompany.BLL {
 					model.dnCreditLine=int.Parse(dt.Rows[n]["dnCreditLine"].ToString());
 				}
 																												model.dtCheckOutDate= dt.Rows[n]["dtCheckOutDate"].ToString();
+																												model.dcLinkName= dt.Rows[n]["dcLinkName"].ToString();
+																												model.dcPhone= dt.Rows[n]["dcPhone"].ToString();
 																												model.dcAdminID= dt.Rows[n]["dcAdminID"].ToString();
+																												model.dcAdminName= dt.Rows[n]["dcAdminName"].ToString();
 																												model.dcOther= dt.Rows[n]["dcOther"].ToString();
 																								if(dt.Rows[n]["dtAddDatetime"].ToString()!="")
 				{

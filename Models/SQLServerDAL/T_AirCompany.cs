@@ -191,13 +191,38 @@ namespace ApiAirkxCompany.SQLServerDAL
 			{
 				return null;
 			}
-		}
+        }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public ApiAirkxCompany.Model.T_AirCompany GetModel(string dcCompanyCode)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 dcAirCompanyID,dcCompanyName,dcEnCompanyName,dcCompanyLogo,dcCompanyCode,dcContent from T_AirCompany ");
+            strSql.Append(" where dcCompanyCode=@dcCompanyCode ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@dcCompanyCode", SqlDbType.VarChar,10)            };
+            parameters[0].Value = dcCompanyCode;
+
+            ApiAirkxCompany.Model.T_AirCompany model = new ApiAirkxCompany.Model.T_AirCompany();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public ApiAirkxCompany.Model.T_AirCompany DataRowToModel(DataRow row)
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public ApiAirkxCompany.Model.T_AirCompany DataRowToModel(DataRow row)
 		{
 			ApiAirkxCompany.Model.T_AirCompany model=new ApiAirkxCompany.Model.T_AirCompany();
 			if (row != null)
