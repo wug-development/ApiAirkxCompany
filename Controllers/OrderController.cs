@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -26,7 +29,8 @@ namespace ApiAirkxCompany.Controllers
         {
             if (order != null)
             {
-                string orderid = Utils.getDataID("o");
+                Random rd = new Random();
+                string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000,9999).ToString();
                                 
                 if (order.persons.Count > 0) {
                     // 添加常用乘机人
@@ -427,11 +431,78 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage getOrderList(string cid)
         {
             string n = PageValidate.SQL_KILL(cid);
-            string sql = "select dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice from T_Order where dcOrderID = '" + n + "'";
+            string sqlwhere = "";
+            if (n != "")
+            {
+                sqlwhere = " and dcCompanyID = '" + n + "' ";
+            }
+            string sql = "select dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate from T_Order where 1=1 " + sqlwhere;
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];                       
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                string strsql = "";
+                int qk = 0;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    strsql += " select dcPerName as pername from T_OrderPerson where dcOrderID='" + dt.Rows[i]["OrderID"] + "'; ";
+                    qk += Convert.ToInt32(dt.Rows[i]["TotalPrice"]);
+                }
+                DataSet ds = DbHelperSQL.Query(strsql);
+                string json = Utils.tableToJson(dt);
+                
+                JArray objA = JArray.Parse(json);
+                for (int j = 0; j < dt.Rows.Count; j++)
+                {
+                    objA[j]["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[j]));
+                }
+
+                string sqlpay = "  select Count(dnMoney) from T_PayRecord where dnStatus = 1 and dcCompanyID = '" + n + "' ";
+                int paycount = Convert.ToInt32(DbHelperSQL.GetSingle(sqlpay));
+
+                var obj = new
+                {
+                    orderlist = objA,
+                    qiankuan = (qk - paycount) > 0? (qk - paycount) : 0,
+                    paycount = paycount
+                };
+
+                return Utils.pubResult(1, "success", obj);
+            }
+            else
+            {
+                return Utils.pubResult(0, "获取失败", "");
+            }
+        }
+
+        /// <summary>
+        /// 获取订单详情
+        /// </summary>
+        /// <param name="id">订单ID</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage getOrderInfo(string id)
+        {
+            string n = PageValidate.SQL_KILL(id);
+            string sqlwhere = "";
+            if (n != "")
+            {
+                sqlwhere = " and dcOrderID = '" + n + "' ";
+            }
+            string sql = "select * from T_Order where 1=1 " + sqlwhere;
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {
-                return Utils.pubResult(1, "success", dt);
+                string strsql = " select dcPerName as pername,dcSex as sex,dcPassportNo as pno,dcType as type from T_OrderPerson where dcOrderID='" + dt.Rows[0]["dcOrderID"] + "'; ";
+                strsql += " select * from T_OrderFlightInfo where  dcOrderID='" + dt.Rows[0]["dcOrderID"] + "'; ";
+                DataSet ds = DbHelperSQL.Query(strsql);
+                string json = Utils.tableToJson(dt);
+
+                JArray aobj = JArray.Parse(json);
+                JObject jo = JObject.Parse(aobj[0].ToString());
+                jo["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[0]));
+                jo["flight"] = JArray.Parse(Utils.tableToJson(ds.Tables[1]));
+                
+                return Utils.pubResult(1, "success", jo);
             }
             else
             {
