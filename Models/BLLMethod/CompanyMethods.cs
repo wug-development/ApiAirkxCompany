@@ -15,13 +15,13 @@ namespace ApiAirkxCompany
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_Company(");
-            strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dtCheckOutDate,dcAdminID,dcOther,dtAddDatetime)");
+            strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther)");
             strSql.Append(" values (");
-            strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dtCheckOutDate,@dcAdminID,@dcOther,@dtAddDatetime)");
+            strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dtCheckOutDate,@dcLinkName,@dcPhone,@dcAdminID,@dcAdminName,@dcOther)");
             return strSql;
         }
 
-        public static SqlParameter[] companyParams(string id, CompanyInfo comInfo, string uname, string upass, string other, string parentno)
+        public static SqlParameter[] companyParams(string id, CompanyInfo comInfo, string uname, string upass, string other, string parentno, LinkMan lman)
         {
             SqlParameter[] parameters = {
                     new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40),
@@ -41,16 +41,25 @@ namespace ApiAirkxCompany
                     new SqlParameter("@dcParentCompanyID", SqlDbType.VarChar,40),
                     new SqlParameter("@dnCreditLine", SqlDbType.Int,4),
                     new SqlParameter("@dtCheckOutDate", SqlDbType.NVarChar,20),
+                    new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20),
+                    new SqlParameter("@dcPhone", SqlDbType.VarChar,40),
                     new SqlParameter("@dcAdminID", SqlDbType.VarChar,40),
-                    new SqlParameter("@dcOther", SqlDbType.NVarChar,200),
-                    new SqlParameter("@dtAddDatetime", SqlDbType.SmallDateTime)};
+                    new SqlParameter("@dcAdminName", SqlDbType.NVarChar,20),
+                    new SqlParameter("@dcOther", SqlDbType.NVarChar,200)};
             parameters[0].Value = id;
             parameters[1].Value = uname;
             parameters[2].Value = upass;
             parameters[3].Value = comInfo.nickname;
             parameters[4].Value = uname;
             parameters[5].Value = comInfo.reno;
-            parameters[6].Value = comInfo.remoney;
+            if (comInfo.remoney == "" || comInfo.remoney == null)
+            {
+                parameters[6].Value = 0;
+            }
+            else
+            {
+                parameters[6].Value = comInfo.remoney;
+            }
             parameters[7].Value = comInfo.readdr;
             parameters[8].Value = comInfo.business;
             parameters[9].Value = comInfo.shareholder;
@@ -61,9 +70,11 @@ namespace ApiAirkxCompany
             parameters[14].Value = parentno;
             parameters[15].Value = comInfo.credit;
             parameters[16].Value = DateTime.Now;
-            parameters[17].Value = comInfo.manager;
-            parameters[18].Value = other;
-            parameters[19].Value = DateTime.Now;
+            parameters[17].Value = lman.name;
+            parameters[18].Value = lman.phone;
+            parameters[19].Value = comInfo.manager.id;
+            parameters[20].Value = comInfo.manager.name;
+            parameters[21].Value = other;
             return parameters;
         }
 

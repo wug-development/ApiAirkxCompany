@@ -36,5 +36,21 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0);
             }
         }
+        
+        // GET api/<controller>/5 ricky
+        [HttpGet]
+        public HttpResponseMessage getList()
+        {
+            string sql = " select dcAdminID as id,dcAdminName as name from T_Admin where dcAdminID !='a000001' ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return Utils.pubResult(1, "获取成功", dt);
+            }
+            else
+            {
+                return Utils.pubResult(0);
+            }
+        }
     }
 }

@@ -125,8 +125,9 @@ namespace ApiAirkxCompany.Controllers
         {
             string comid = Utils.getDataID("com");
             Hashtable SQLStringList = new Hashtable();
-            SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, ""));
-            for (int i = 0; i < 2; i++)
+
+            SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
+            for (int i = 0; i < company.linkman.Count; i++)
             {
                 SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lm" + i), comid, company.linkman[i]));
             }       
@@ -138,7 +139,7 @@ namespace ApiAirkxCompany.Controllers
             for (int n = 0; n < company.subcompany.Count; n++)
             {
                 string subcomid = Utils.getDataID("coms" + n);
-                SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].other, comid));
+                SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].other, comid, company.subcompany[n].linkmanList));
                 SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lms" + n), subcomid, company.subcompany[n].linkmanList));
             }
 
