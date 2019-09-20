@@ -42,5 +42,55 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "删除成功", count);
         }
 
+        //getgjorder
+        [HttpGet]
+        public HttpResponseMessage GetGJOrder(string cid, int page, int pagenum, string other)
+        {
+            string n = PageValidate.SQL_KILL(cid);
+            string sqlwhere = " and a.dcCompanyID = '" + n + "' and a.dcCompanyID = b.dcCompanyID ";
+            if (!string.IsNullOrWhiteSpace(other))
+            {
+                sqlwhere += " and dcContent like '% " + PageValidate.SQL_KILL(other) + " %' ";
+            }
+            string sqlfeild = " dcOrderID as orderid,a.dcCompanyID as cid,dcUserName as cname,dcOrderCode as ordercode,(select top 1 dcPerName from T_OrderPerson p where p.dcOrderID=a.dcOrderID) as pername,dcStartCity as scity,dcBackCity as ecity,dcStartDate as sdate,dnTotalPrice as totalprice,a.dtAddTime as addtime,dnStatus as status,a.dcAdminName as adminname ";
+            string sql = "select top " + (page * pagenum) + sqlfeild + " from T_Order a,T_Company b where 1=1 " + sqlwhere + " and a.dcOrderID not in (";
+            sql += " select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order a,T_Company b where 1=1 " + sqlwhere + ")";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+
+            decimal count = 0;
+            if (page == 1)
+            {
+                string sqlcount = "select count(a.dcOrderID) from T_Order a,T_Company b where 1=1 " + sqlwhere;
+                count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
+            }
+
+            var res = new
+            {
+                data = dt,
+                pagecount = Math.Ceiling(count / pagenum)
+            };
+            return Utils.pubResult(1, "获取成功", res);
+        }
+
+
+        [HttpGet]
+        public HttpResponseMessage GetGJOrderDetail(string id, string cid)
+        {
+            string _id = PageValidate.SQL_KILL(id);
+            string _cid = PageValidate.SQL_KILL(cid);
+            string sql = " select * from T_Order where dcOrderID = '"+ _id + "' and dcCompanyID = '"+ _cid + "'; ";
+            sql += " select * from T_OrderFlightInfo where dcOrderID = '" + _id + "'; ";
+            sql += " select * from T_OrderPerson where dcOrderID = '" + _id + "'; ";
+            DataSet ds = DbHelperSQL.Query(sql);
+            
+            var obj = new
+            {
+                info = ds.Tables[0],
+                flight = ds.Tables[1],
+                person = ds.Tables[2]
+            };
+            return Utils.pubResult(1, "登录成功", obj);
+        }
+
     }
 }

@@ -13,7 +13,6 @@ namespace ApiAirkxCompany.Controllers
 {
     public class CompanyController : ApiController
     {
-
         #region 获取筛选企业
         /// <summary>
         /// 获取筛选企业
@@ -27,7 +26,7 @@ namespace ApiAirkxCompany.Controllers
             string sqlwhere = "";
             if (v != "")
             {
-                sqlwhere = " and dcFullName like '%" + v + "%' ";
+                sqlwhere = " and dcUserName like '%" + v + "%' ";
             }
             string sql = " select dcCompanyID as id,dcUserName as name,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2  ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
@@ -72,7 +71,7 @@ namespace ApiAirkxCompany.Controllers
             if (filters != null && filters != "")
             {
                 string v = PageValidate.SQL_KILL(filters);
-                sqlwhere = " and dcUserName='" + v + "' ";
+                sqlwhere = " and dcUserName like '%" + v + "%' ";
             }
             string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,c.dcLinkName as linkman,c.dcPhone as phone,dnCreditLine as xinyong,1 as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID not in ( ";
             sql += " select top " + ((page - 1) * pagenum) + " dcCompanyID  from T_Company where dcParentCompanyID='' and dnIsCheck!=2 " + sqlwhere + " order by dtAddDatetime desc) " + sqlwhere + " order by dtAddDatetime desc ";
@@ -84,17 +83,17 @@ namespace ApiAirkxCompany.Controllers
                 _d = dt.AsEnumerable().Cast<DataRow>().GroupBy(p => p.Field<string>("id")).Select(p => p.FirstOrDefault()).CopyToDataTable();
             }
 
-            object count = 0;
+            decimal count = 0;
             if (page == 1)
             {
                 string sqlcount = "select count (dcCompanyID) from dbo.T_Company where dcParentCompanyID='' " + sqlwhere;
-                count = DbHelperSQL.GetSingle(sqlcount);
+                count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
             }
 
             var res = new
             {
                 data = _d,
-                pageCount = count
+                pagecount = Math.Ceiling(count / pagenum)
             };
             return Utils.pubResult(1, "获取成功", res);
         }
@@ -123,34 +122,47 @@ namespace ApiAirkxCompany.Controllers
         [HttpPost]
         public HttpResponseMessage AddCompany([FromBody] Company company)
         {
-            string comid = Utils.getDataID("com");
-            Hashtable SQLStringList = new Hashtable();
+            string hand = PageValidate.SQL_KILL(company.comShorthand);
+            string sql = " select count(1) from T_Company where dcUserName='" + hand + "'";
+            int count = Convert.ToInt32(DbHelperSQL.GetSingle(sql));
+            if (count < 1)
+            {
+                string comid = Utils.getDataID("com");
+                Hashtable SQLStringList = new Hashtable();
 
-            SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
-            for (int i = 0; i < company.linkman.Count; i++)
-            {
-                SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lm" + i), comid, company.linkman[i]));
-            }       
-            string[] companyFields = company.billfields.Split(',');
-            for (int m = 0; m < companyFields.Length; m++)
-            {
-                SQLStringList.Add(CompanyMethods.comfieldsql(), CompanyMethods.comfieldParams(Utils.getDataID("cf" + m), comid, companyFields[m]));
-            }
-            for (int n = 0; n < company.subcompany.Count; n++)
-            {
-                string subcomid = Utils.getDataID("coms" + n);
-                SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].other, comid, company.subcompany[n].linkmanList));
-                SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lms" + n), subcomid, company.subcompany[n].linkmanList));
-            }
+                SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
+                SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma"), comid, company.comInfo.remoney));
 
-            try
-            {
-                DbHelperSQL.ExecuteSqlTran(SQLStringList);
-                return Utils.pubResult(1);
+                for (int i = 0; i < company.linkman.Count; i++)
+                {
+                    SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lm" + i), comid, company.linkman[i]));
+                }
+                string[] companyFields = company.billfields.Split(',');
+                for (int m = 0; m < companyFields.Length; m++)
+                {
+                    SQLStringList.Add(CompanyMethods.comfieldsql(), CompanyMethods.comfieldParams(Utils.getDataID("cf" + m), comid, companyFields[m]));
+                }
+                for (int n = 0; n < company.subcompany.Count; n++)
+                {
+                    string subcomid = Utils.getDataID("coms" + n);
+                    SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].other, comid, company.subcompany[n].linkmanList));
+                    SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma" + n), subcomid, company.comInfo.remoney));
+                    SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lms" + n), subcomid, company.subcompany[n].linkmanList));
+                }
+
+                try
+                {
+                    DbHelperSQL.ExecuteSqlTran(SQLStringList);
+                    return Utils.pubResult(1);
+                }
+                catch
+                {
+                    return Utils.pubResult(0, "error", "注册失败，请检查数据！");
+                }
             }
-            catch
+            else
             {
-                return Utils.pubResult(0, "error", "注册失败，请检查数据！");
+                return Utils.pubResult(-1, "error", "注册失败，企业简称已存在！");
             }
         }
         #endregion
@@ -170,6 +182,21 @@ namespace ApiAirkxCompany.Controllers
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
             return Utils.pubResult(1, "获取成功", dt);
+        }
+        #endregion
+
+        #region 获取企业账户信息
+        /// <summary>
+        /// 获取企业账户信息
+        /// </summary>
+        /// <param name="id">企业ID</param>
+        /// <returns></returns>
+        public HttpResponseMessage getCompanyAccount(string id)
+        {
+            string _id = PageValidate.SQL_KILL(id);
+            string sql = " select top 1 a.dnCreditLine as creditcount,b.dnCreditLine as credit ,b.dnDebt as debt ,b.dnPayCount as paycount,b.dnUrgentMoney as urgentmoney,b.dcLastOrderDate as lastdate from T_Company a, T_CompanyAccount b where a.dcCompanyID=b.dcCompanyID and a.dcCompanyID='" + _id + "' ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            return Utils.pubResult(1, "success", dt);
         }
         #endregion
 
@@ -305,6 +332,64 @@ namespace ApiAirkxCompany.Controllers
             {
                 return Utils.pubResult(0, "获取失败", "");
             }
+        }
+        #endregion
+
+        #region 需要催款的客户
+        /// <summary>
+        /// 需要催款的客户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage getNotPurchased(int page, int pagenum)
+        {
+            string sqlwhere = " and a.dcCompanyID=b.dcCompanyID and b.dcLastOrderDate != '' and b.dcLastOrderDate <= '" + DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd") + "'";
+            string sql = " select top " + (page * pagenum) + " a.dcUserName as name,b.dcLastOrderDate as lastdate from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " and a.dcCompanyID not in (";
+            sql += " select top " + ((page - 1) * pagenum) + " a.dcCompanyID from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + ")  ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+
+            decimal count = 0;
+            if (page == 1)
+            {
+                string sqlcount = "select count(a.dcCompanyID) from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere;
+                count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
+            }
+
+            var res = new
+            {
+                data = dt,
+                pagecount = Math.Ceiling(count / pagenum)
+            };
+            return Utils.pubResult(1, "获取成功", res);
+        }
+        #endregion
+
+        #region 需要催款的客户
+        /// <summary>
+        /// 连续30天未出票的客户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage getMoreDateOrder(int page, int pagenum)
+        {
+            string sqlwhere = " and a.dcCompanyID=b.dcCompanyID and b.dnUrgentMoney > 0";
+            string sql = " select top " + (page * pagenum) + " a.dcUserName as name,b.dcLastOrderDate,b.dnDebt as debt,dcLastOrderDate as lastdate,dnUrgentMoney as price,b.dnCreditLine as credit from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " and a.dcCompanyID not in (";
+            sql += " select top " + ((page - 1) * pagenum) + " a.dcCompanyID from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " ) ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+
+            decimal count = 0;
+            if (page == 1)
+            {
+                string sqlcount = "select count(a.dcCompanyID) from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere;
+                count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
+            }
+
+            var res = new
+            {
+                data = dt,
+                pagecount = Math.Ceiling(count / pagenum)
+            };
+            return Utils.pubResult(1, "获取成功", res);
         }
         #endregion
     }

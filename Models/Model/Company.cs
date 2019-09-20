@@ -60,4 +60,15 @@ namespace ApiAirkxCompany
         public string id { get; set; }
         public string name { get; set; }
     }
+
+    public class Passenger
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string phone { get; set; }
+        public string jjphone { get; set; }
+        public string idcard { get; set; }
+        public string hzh { get; set; }
+        public string hzyxq { get; set; }
+    }
 }

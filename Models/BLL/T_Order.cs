@@ -1,16 +1,34 @@
-﻿using System; 
+﻿/**  版本信息模板在安装目录下，可自行修改。
+* T_Order.cs
+*
+* 功 能： N/A
+* 类 名： T_Order
+*
+* Ver    变更日期             负责人  变更内容
+* ───────────────────────────────────
+* V0.01  2019/9/20 18:21:33   N/A    初版
+*
+* Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
+*/
+using System;
 using System.Data;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using ApiAirkxCompany.Model;
-namespace ApiAirkxCompany.BLL {
-	 	//T_Order
-		public partial class T_Order
+namespace ApiAirkxCompany.BLL
+{
+	/// <summary>
+	/// T_Order
+	/// </summary>
+	public partial class T_Order
 	{
-		private readonly SQLServerDAL.T_Order dal= new SQLServerDAL.T_Order();
+		private readonly SQLServerDAL.T_Order dal = new SQLServerDAL.T_Order();
 		public T_Order()
 		{}
-		
-		#region  Method
+		#region  BasicMethod
 		/// <summary>
 		/// 是否存在该记录
 		/// </summary>
@@ -22,10 +40,9 @@ namespace ApiAirkxCompany.BLL {
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
-		public void  Add(ApiAirkxCompany.Model.T_Order model)
+		public bool Add(ApiAirkxCompany.Model.T_Order model)
 		{
-			dal.Add(model);
-						
+			return dal.Add(model);
 		}
 
 		/// <summary>
@@ -44,7 +61,14 @@ namespace ApiAirkxCompany.BLL {
 			
 			return dal.Delete(dcOrderID);
 		}
-		
+		/// <summary>
+		/// 删除一条数据
+		/// </summary>
+		public bool DeleteList(string dcOrderIDlist )
+		{
+			return dal.DeleteList(dcOrderIDlist );
+		}
+
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
@@ -88,50 +112,11 @@ namespace ApiAirkxCompany.BLL {
 				ApiAirkxCompany.Model.T_Order model;
 				for (int n = 0; n < rowsCount; n++)
 				{
-					model = new ApiAirkxCompany.Model.T_Order();					
-													model.dcOrderID= dt.Rows[n]["dcOrderID"].ToString();
-																												model.dcOrderCode= dt.Rows[n]["dcOrderCode"].ToString();
-																								if(dt.Rows[n]["dnAirType"].ToString()!="")
-				{
-					model.dnAirType=int.Parse(dt.Rows[n]["dnAirType"].ToString());
-				}
-																												model.dcStartDate= dt.Rows[n]["dcStartDate"].ToString();
-																												model.dcBackDate= dt.Rows[n]["dcBackDate"].ToString();
-																												model.dcStartCity= dt.Rows[n]["dcStartCity"].ToString();
-																												model.dcBackCity= dt.Rows[n]["dcBackCity"].ToString();
-																												model.dcCompanyID= dt.Rows[n]["dcCompanyID"].ToString();
-																												model.dcLinkName= dt.Rows[n]["dcLinkName"].ToString();
-																												model.dcPhone= dt.Rows[n]["dcPhone"].ToString();
-																								if(dt.Rows[n]["dnPrice"].ToString()!="")
-				{
-					model.dnPrice=decimal.Parse(dt.Rows[n]["dnPrice"].ToString());
-				}
-																								if(dt.Rows[n]["dnTax"].ToString()!="")
-				{
-					model.dnTax=decimal.Parse(dt.Rows[n]["dnTax"].ToString());
-				}
-																								if(dt.Rows[n]["dnTotalPrice"].ToString()!="")
-				{
-					model.dnTotalPrice=decimal.Parse(dt.Rows[n]["dnTotalPrice"].ToString());
-				}
-																												model.dcContent= dt.Rows[n]["dcContent"].ToString();
-																												model.dcAdminID= dt.Rows[n]["dcAdminID"].ToString();
-																												model.dcAdminName= dt.Rows[n]["dcAdminName"].ToString();
-																								if(dt.Rows[n]["dtAddTime"].ToString()!="")
-				{
-					model.dtAddTime=DateTime.Parse(dt.Rows[n]["dtAddTime"].ToString());
-				}
-																								if(dt.Rows[n]["dnTicketID"].ToString()!="")
-				{
-					model.dnTicketID=int.Parse(dt.Rows[n]["dnTicketID"].ToString());
-				}
-																								if(dt.Rows[n]["dnDetailID"].ToString()!="")
-				{
-					model.dnDetailID=int.Parse(dt.Rows[n]["dnDetailID"].ToString());
-				}
-																						
-				
-					modelList.Add(model);
+					model = dal.DataRowToModel(dt.Rows[n]);
+					if (model != null)
+					{
+						modelList.Add(model);
+					}
 				}
 			}
 			return modelList;
@@ -144,7 +129,33 @@ namespace ApiAirkxCompany.BLL {
 		{
 			return GetList("");
 		}
-#endregion
-   
+
+		/// <summary>
+		/// 分页获取数据列表
+		/// </summary>
+		public int GetRecordCount(string strWhere)
+		{
+			return dal.GetRecordCount(strWhere);
+		}
+		/// <summary>
+		/// 分页获取数据列表
+		/// </summary>
+		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+		{
+			return dal.GetListByPage( strWhere,  orderby,  startIndex,  endIndex);
+		}
+		/// <summary>
+		/// 分页获取数据列表
+		/// </summary>
+		//public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+		//{
+			//return dal.GetList(PageSize,PageIndex,strWhere);
+		//}
+
+		#endregion  BasicMethod
+		#region  ExtensionMethod
+
+		#endregion  ExtensionMethod
 	}
 }
+

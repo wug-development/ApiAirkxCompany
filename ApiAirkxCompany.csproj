@@ -191,6 +191,7 @@
     <Compile Include="Models\BLL\T_TicketPrice.cs" />
     <Compile Include="Models\Model\Company.cs" />
     <Compile Include="Models\Model\OrderBody.cs" />
+    <Compile Include="Models\Model\PayRecordBody.cs" />
     <Compile Include="Models\Model\T_Admin.cs" />
     <Compile Include="Models\Model\T_AdminMenu.cs" />
     <Compile Include="Models\Model\T_AirCompany.cs" />

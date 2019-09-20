@@ -30,9 +30,10 @@ namespace ApiAirkxCompany.Controllers
             if (order != null)
             {
                 Random rd = new Random();
-                string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000,9999).ToString();
-                                
-                if (order.persons.Count > 0) {
+                string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000, 9999).ToString();
+
+                if (order.persons.Count > 0)
+                {
                     // 添加常用乘机人
                     runPerson(order.persons, order.cid);
                     // 添加订单乘机人
@@ -40,13 +41,15 @@ namespace ApiAirkxCompany.Controllers
                 }
 
                 // 添加去程
-                if (order.airinfo != null && order.airinfo.flightInfo != null && order.airinfo.flightInfo.airID > 0) {
+                if (order.airinfo != null && order.airinfo.flightInfo != null && order.airinfo.flightInfo.airID > 0)
+                {
                     addflight(order.airinfo.flightInfo.airID, orderid, order.airinfo.airtype, 0);
-                    if (order.airinfo.flightInfo.toFlightInfo.Length > 0) {
-                        for (int i = 0; i< order.airinfo.flightInfo.toFlightInfo.Length; i++)
+                    if (order.airinfo.flightInfo.toFlightInfo.Length > 0)
+                    {
+                        for (int i = 0; i < order.airinfo.flightInfo.toFlightInfo.Length; i++)
                         {
                             addsubflight(order.airinfo.flightInfo.toFlightInfo[i], orderid, order.airinfo.airtype, 0, i);
-                        }                        
+                        }
                     }
                 }
                 // 添加回程
@@ -109,7 +112,7 @@ namespace ApiAirkxCompany.Controllers
 
                     int tax = order.airinfo.airtype == 1 ? m_ticket.WFS : m_ticket.DCS;
                     decimal total = (m_price.TicketPrice + tax) * order.persons.Count;
-                    
+
                     parameters[0].Value = orderid;
                     parameters[1].Value = "";// 订单编码
                     parameters[2].Value = order.airinfo.airtype;
@@ -153,13 +156,13 @@ namespace ApiAirkxCompany.Controllers
             int i = 0;
             foreach (Person person in p)
             {
-                if (!String.IsNullOrEmpty(person.ID))
+                if (String.IsNullOrEmpty(person.ID))
                 {
                     StringBuilder strSql = new StringBuilder();
                     strSql.Append("insert into T_Passenger(");
-                    strSql.Append("dcPerID,dcCompanyID,dcPerName,dcBirthday,dcPassportNo,dcPassportDate,dcSex,dcIDNumber,dcPhone,dcUrgentPhone,dcType,dtAddTime");
+                    strSql.Append("dcPerID,dcCompanyID,dcPerName,dcBirthday,dcPassportNo,dcPassportDate,dcSex,dcIDNumber,dcPhone,dcUrgentPhone,dcType");
                     strSql.Append(") values (");
-                    strSql.Append("@dcPerID,@dcCompanyID,@dcPerName,@dcBirthday,@dcPassportNo,@dcPassportDate,@dcSex,@dcIDNumber,@dcPhone,@dcUrgentPhone,@dcType,@dtAddTime");
+                    strSql.Append("@dcPerID,@dcCompanyID,@dcPerName,@dcBirthday,@dcPassportNo,@dcPassportDate,@dcSex,@dcIDNumber,@dcPhone,@dcUrgentPhone,@dcType");
                     strSql.Append(") ");
 
                     SqlParameter[] parameters = {
@@ -176,7 +179,7 @@ namespace ApiAirkxCompany.Controllers
                         new SqlParameter("@dcType", SqlDbType.Int,4)
                     };
 
-                    parameters[0].Value = Utils.getDataID("per" + i++);
+                    parameters[0].Value = Utils.getDataID("per") + i++;
                     parameters[1].Value = cid;
                     parameters[2].Value = person.PName;
                     parameters[3].Value = person.PBD;
@@ -223,7 +226,7 @@ namespace ApiAirkxCompany.Controllers
                     new SqlParameter("@dcType", SqlDbType.Int,4)
                 };
 
-                parameters[0].Value = Utils.getDataID("op" + i++);
+                parameters[0].Value = Utils.getDataID("op") + i++;
                 parameters[1].Value = oid;
                 parameters[2].Value = person.PName;
                 parameters[3].Value = person.PBD;
@@ -333,7 +336,7 @@ namespace ApiAirkxCompany.Controllers
                     new SqlParameter("@dcContent", SqlDbType.NVarChar,200)
                 };
 
-                parameters[0].Value = Utils.getDataID("of" + i);
+                parameters[0].Value = Utils.getDataID("of") + i;
                 parameters[1].Value = oid;
                 parameters[2].Value = airtype;
                 parameters[3].Value = flighttype;
@@ -397,7 +400,7 @@ namespace ApiAirkxCompany.Controllers
                     new SqlParameter("@dcContent", SqlDbType.NVarChar,200)
                 };
 
-                parameters[0].Value = Utils.getDataID("oft" + i);
+                parameters[0].Value = Utils.getDataID("oft") + i;
                 parameters[1].Value = oid;
                 parameters[2].Value = airtype;
                 parameters[3].Value = flighttype;
@@ -422,6 +425,7 @@ namespace ApiAirkxCompany.Controllers
 
         #endregion
 
+        #region 获取订单列表
         /// <summary>
         /// 获取订单列表
         /// </summary>
@@ -437,7 +441,7 @@ namespace ApiAirkxCompany.Controllers
                 sqlwhere = " and dcCompanyID = '" + n + "' ";
             }
             string sql = "select dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate from T_Order where 1=1 " + sqlwhere;
-            DataTable dt = DbHelperSQL.Query(sql).Tables[0];                       
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {
                 string strsql = "";
@@ -449,7 +453,7 @@ namespace ApiAirkxCompany.Controllers
                 }
                 DataSet ds = DbHelperSQL.Query(strsql);
                 string json = Utils.tableToJson(dt);
-                
+
                 JArray objA = JArray.Parse(json);
                 for (int j = 0; j < dt.Rows.Count; j++)
                 {
@@ -462,7 +466,7 @@ namespace ApiAirkxCompany.Controllers
                 var obj = new
                 {
                     orderlist = objA,
-                    qiankuan = (qk - paycount) > 0? (qk - paycount) : 0,
+                    qiankuan = (qk - paycount) > 0 ? (qk - paycount) : 0,
                     paycount = paycount
                 };
 
@@ -473,7 +477,9 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "获取失败", "");
             }
         }
+        #endregion
 
+        #region 获取订单详情
         /// <summary>
         /// 获取订单详情
         /// </summary>
@@ -501,7 +507,7 @@ namespace ApiAirkxCompany.Controllers
                 JObject jo = JObject.Parse(aobj[0].ToString());
                 jo["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[0]));
                 jo["flight"] = JArray.Parse(Utils.tableToJson(ds.Tables[1]));
-                
+
                 return Utils.pubResult(1, "success", jo);
             }
             else
@@ -509,5 +515,85 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "获取失败", "");
             }
         }
+        #endregion
+
+        #region 获取企业订单乘客
+        [HttpGet]
+        public HttpResponseMessage GetOrderPerson(string cid, int page, int pagenum, string filterdate, string filtername)
+        {
+            string n = PageValidate.SQL_KILL(cid);
+            string sqlwhere = " and b.dcCompanyID = '" + n + "' and a.dcOrderID = b.dcOrderID ";
+            if (!string.IsNullOrWhiteSpace(filtername))
+            {
+                sqlwhere += " and dcPerName like '% " + PageValidate.SQL_KILL(filtername) + " %' ";
+            }
+            if (!string.IsNullOrWhiteSpace(filterdate))
+            {
+                string[] dates = filterdate.Split(',');
+                sqlwhere += " and dtAddTime>='" + PageValidate.SQL_KILL(dates[0]) + "' ";
+                sqlwhere += " and dtAddTime<='" + PageValidate.SQL_KILL(dates[1]) + "' ";
+            }
+            string sqlfeild = " dcPerName as CjrName,dcStartCity as scity,dcBackCity as ecity,     dcUserName as cname,dcPerID as id,dcBirthday as CSRQ,dcPassportNo as HZH,dcPassportDate as HZYXQ,dcSex as Sex,dcIDNumber as idcard,a.dcPhone as phone,dcUrgentPhone as jingji,dcType as type,a.dtAddTime as adddate ";
+            string sql = "select top " + (page * pagenum) + sqlfeild + " from T_Passenger a,T_Company b where 1=1 " + sqlwhere + " and a.dcPerID not in (";
+            sql += " select top " + ((page - 1) * pagenum) + " dcPerID from T_Passenger a,T_Company b where 1=1 " + sqlwhere + ")";
+
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+
+            decimal count = 0;
+            if (page == 1)
+            {
+                string sqlcount = "select count(a.dcOPID) from T_OrderPerson a,T_Company b where 1=1 " + sqlwhere;
+                count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
+            }
+
+            var res = new
+            {
+                data = dt,
+                pagecount = Math.Ceiling(count / pagenum)
+            };
+            return Utils.pubResult(1, "获取成功", res);
+        }
+        #endregion
+
+        #region 修改订单
+        /// <summary>
+        /// 修改订单
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage editOrder([FromBody] Model.T_Order order)
+        {
+            Model.T_Order m_order = new Model.T_Order();
+            BLL.T_Order b_order = new BLL.T_Order();
+            m_order = b_order.GetModel(order.dcOrderID);
+            if (m_order != null)
+            {
+                m_order.dnStatus = order.dnStatus;
+                m_order.dcStartDate = order.dcStartDate;
+                m_order.dcOrderCode = order.dcOrderCode;
+                m_order.dcLinkName = order.dcLinkName;
+                m_order.dcTicketNO = order.dcTicketNO;
+                m_order.dnTotalPrice = order.dnTotalPrice;
+                m_order.dnPrice = order.dnPrice;
+                m_order.dnTax = order.dnTax;
+                m_order.dnServicePrice = order.dnServicePrice;
+                m_order.dnSafePrice = order.dnSafePrice;
+                m_order.dcContent = order.dcContent;
+                if (b_order.Update(m_order))
+                {
+                    return Utils.pubResult(1);
+                }
+                else
+                {
+                    return Utils.pubResult(0);
+                }
+            }
+            else
+            {
+                return Utils.pubResult(0);
+            }
+        } 
+        #endregion
     }
 }

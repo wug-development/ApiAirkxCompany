@@ -223,7 +223,7 @@ namespace ApiAirkxCompany.Controllers
                     Newtonsoft.Json.Linq.JArray hxZhuanjiS = new Newtonsoft.Json.Linq.JArray();
                     foreach (DataRow dr in rows)
                     {
-                        strsql = " ;select * from newsubairtimeinfo where AirID = " + dr["AirID"];
+                        strsql += " ;select * from newsubairtimeinfo where AirID = " + dr["AirID"];
                     }
                     if (strsql != "")
                     {

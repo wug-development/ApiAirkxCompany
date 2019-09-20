@@ -78,6 +78,44 @@ namespace ApiAirkxCompany
             return parameters;
         }
 
+
+        public static StringBuilder companyaccountsql()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into T_CompanyAccount(");
+            strSql.Append("dcCAID,dcCompanyID,dnCreditLine,dnDebt,dnPayCount,dnUrgentMoney,dcLastOrderDate)");
+            strSql.Append(" values (");
+            strSql.Append("@dcCAID,@dcCompanyID,@dnCreditLine,@dnDebt,@dnPayCount,@dnUrgentMoney,@dcLastOrderDate)");
+            return strSql;
+        }
+
+        /// <summary>
+        /// 添加企业账户信息
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="comid">企业ID</param>
+        /// <param name="credit">信用额</param>
+        /// <returns></returns>
+        public static SqlParameter[] companyAccountParams(string id, string comid, string credit)
+        {
+            SqlParameter[] parameters = {
+                    new SqlParameter("@dcCAID", SqlDbType.VarChar,40),
+                    new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40),
+                    new SqlParameter("@dnCreditLine", SqlDbType.Decimal,9),
+                    new SqlParameter("@dnDebt", SqlDbType.Decimal,9),
+                    new SqlParameter("@dnPayCount", SqlDbType.Decimal,9),
+                    new SqlParameter("@dnUrgentMoney", SqlDbType.Decimal,9),
+                    new SqlParameter("@dcLastOrderDate", SqlDbType.VarChar,20)};
+            parameters[0].Value = id;
+            parameters[1].Value = comid;
+            parameters[2].Value = credit;
+            parameters[3].Value = 0;
+            parameters[4].Value = 0;
+            parameters[5].Value = 0;
+            parameters[6].Value = "";
+            return parameters;
+        }
+
         public static StringBuilder linkmansql()
         {
             StringBuilder strSql = new StringBuilder();
