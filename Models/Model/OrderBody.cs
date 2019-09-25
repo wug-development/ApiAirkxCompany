@@ -11,6 +11,8 @@ namespace ApiAirkxCompany
 
         // 企业ID
         public string cid { get; set; }
+        // 企业名称
+        public string cname { get; set; }
         // 乘机人
         public List<Person> persons { get; set; }
         // 航班信息

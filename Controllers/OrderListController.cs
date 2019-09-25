@@ -16,7 +16,7 @@ namespace ApiAirkxCompany.Controllers
             string sdate = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
             string edate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " 00:00:00";
             string sql = " select top " + (page * pagenum) + " a.*,b.JCPY,c.PName,d.StartCity,d.EndCity,d.PNR,d.StartDate from Airkx_Order a,Airkx_UserInfo b,Airkx_GNPeople c,Airkx_GNDetail d  where a.OrderID not in (";
-            sql += " select top " + ((page-1) * pagenum) + " OrderID from dbo.Airkx_Order  where OrderTime > '" + sdate + "' and OrderTime < '" + edate + "' order by OrderTime desc)";
+            sql += " select top " + ((page - 1) * pagenum) + " OrderID from dbo.Airkx_Order  where OrderTime > '" + sdate + "' and OrderTime < '" + edate + "' order by OrderTime desc)";
             sql += " and OrderTime > '" + sdate + "' and OrderTime < '" + edate + "' and a.UserName=b.UserName and a.OrderID=c.OrderID and a.OrderID=d.OrderID order by a.OrderTime desc";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
@@ -27,11 +27,12 @@ namespace ApiAirkxCompany.Controllers
                 count = DbHelperSQL.GetSingle(sqlcount);
             }
 
-            var obj = new {
+            var obj = new
+            {
                 pagecount = count,
                 data = dt
             };
-            return Utils.pubResult(1, "获取成功", obj);
+            return Utils.pubResult(1, "获取成功", "");
         }
 
         public HttpResponseMessage delOrders(string oids)

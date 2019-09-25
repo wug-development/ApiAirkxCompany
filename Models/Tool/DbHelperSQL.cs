@@ -19,8 +19,8 @@ namespace ApiAirkxCompany //可以修改成实际项目的命名空间名称
 		public DbHelperSQL()
 		{			
 		}
-		
-		#region  执行简单SQL语句
+
+        #region  执行简单SQL语句
         /// <summary>
         /// 得到最大值
         /// </summary>

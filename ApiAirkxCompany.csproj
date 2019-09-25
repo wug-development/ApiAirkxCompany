@@ -173,6 +173,7 @@
     <Compile Include="Controllers\PassengerController.cs" />
     <Compile Include="Controllers\PayRecordController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="DynamicJson.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -189,6 +190,7 @@
     <Compile Include="Models\BLL\T_OrderPerson.cs" />
     <Compile Include="Models\BLL\T_Ticket.cs" />
     <Compile Include="Models\BLL\T_TicketPrice.cs" />
+    <Compile Include="Models\BLL\T_TicketSheet.cs" />
     <Compile Include="Models\Model\Company.cs" />
     <Compile Include="Models\Model\OrderBody.cs" />
     <Compile Include="Models\Model\PayRecordBody.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Models\Model\T_OrderPerson.cs" />
     <Compile Include="Models\Model\T_Ticket.cs" />
     <Compile Include="Models\Model\T_TicketPrice.cs" />
+    <Compile Include="Models\Model\T_TicketSheet.cs" />
     <Compile Include="Models\SQLServerDAL\T_Admin.cs" />
     <Compile Include="Models\SQLServerDAL\T_AdminMenu.cs" />
     <Compile Include="Models\SQLServerDAL\T_AirCompany.cs" />
@@ -214,10 +217,12 @@
     <Compile Include="Models\SQLServerDAL\T_OrderPerson.cs" />
     <Compile Include="Models\SQLServerDAL\T_Ticket.cs" />
     <Compile Include="Models\SQLServerDAL\T_TicketPrice.cs" />
+    <Compile Include="Models\SQLServerDAL\T_TicketSheet.cs" />
     <Compile Include="Models\Tool\DbHelperSQL.cs" />
     <Compile Include="Models\Tool\MySqlHelper.cs" />
     <Compile Include="Models\Tool\PageValidate.cs" />
     <Compile Include="Models\Tool\SessionMethod.cs" />
+    <Compile Include="Models\Tool\SqlHelperTool.cs" />
     <Compile Include="Models\Tool\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
