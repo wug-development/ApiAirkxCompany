@@ -15,15 +15,15 @@ namespace ApiAirkxCompany.Controllers
         {
             string sdate = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
             string edate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " 00:00:00";
-            string sql = " select top " + (page * pagenum) + " a.*,b.JCPY,c.PName,d.StartCity,d.EndCity,d.PNR,d.StartDate from Airkx_Order a,Airkx_UserInfo b,Airkx_GNPeople c,Airkx_GNDetail d  where a.OrderID not in (";
-            sql += " select top " + ((page - 1) * pagenum) + " OrderID from dbo.Airkx_Order  where OrderTime > '" + sdate + "' and OrderTime < '" + edate + "' order by OrderTime desc)";
-            sql += " and OrderTime > '" + sdate + "' and OrderTime < '" + edate + "' and a.UserName=b.UserName and a.OrderID=c.OrderID and a.OrderID=d.OrderID order by a.OrderTime desc";
+            string sql = " select top " + (page * pagenum) + " * from T_Order a where a.dcOrderID not in (";
+            sql += " select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "' order by dtAddTime desc)";
+            sql += " and dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "' order by a.dtAddTime desc";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
             object count = 0;
             if (page == 1)
             {
-                string sqlcount = "select count (OrderID) from dbo.Airkx_Order  where OrderTime > '" + sdate + "' and OrderTime < '" + edate + "'";
+                string sqlcount = "select count (dcOrderID) from T_Order where dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "'";
                 count = DbHelperSQL.GetSingle(sqlcount);
             }
 

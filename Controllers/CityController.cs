@@ -11,6 +11,7 @@ namespace ApiAirkxCompany.Controllers
     public class CityController : ApiController
     {
         // GET api/<controller>/5
+        [HttpGet]
         public HttpResponseMessage GetCity()
         {
             string sql = " select dnCityID as id,dcCode as code,dcCityName as name,dcEnCityName as enname,dcCountry as country,dcAirPortName as airportname from T_City where dnType=2 order by dnIsHot desc, dcPinyin asc";
