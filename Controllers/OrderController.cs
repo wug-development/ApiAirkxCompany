@@ -566,9 +566,13 @@ namespace ApiAirkxCompany.Controllers
                 {
                     objA[j]["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[j]));
                 }
-
-                string sqlpay = "  select Count(dnMoney) from T_PayRecord where dnStatus = 1 and dcCompanyID = '" + n + "' ";
-                int paycount = Convert.ToInt32(DbHelperSQL.GetSingle(sqlpay));
+                int paycount = 0;
+                if (!string.IsNullOrWhiteSpace(cid))
+                {
+                    string n = PageValidate.SQL_KILL(cid);
+                    string sqlpay = "  select Count(dnMoney) from T_PayRecord where dnStatus = 1 and dcCompanyID = '" + n + "' ";
+                    paycount = Convert.ToInt32(DbHelperSQL.GetSingle(sqlpay));
+                }
 
                 var obj = new
                 {
