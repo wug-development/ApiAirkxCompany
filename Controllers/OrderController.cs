@@ -514,12 +514,38 @@ namespace ApiAirkxCompany.Controllers
         [HttpGet]
         public HttpResponseMessage getOrderList(string cid, int page, int pagenum, string sdate, string edate, string filtername, string tno, string subcid)
         {
-            string n = PageValidate.SQL_KILL(cid);
             string sqlwhere = "";
-            if (n != "")
+            if (!string.IsNullOrWhiteSpace(subcid))
             {
+                subcid = PageValidate.SQL_KILL(subcid);
+                sqlwhere += " and dcCompanyID = '" + subcid + "' ";
+            }
+            else if (!string.IsNullOrWhiteSpace(cid))
+            {
+                string n = PageValidate.SQL_KILL(cid);
                 sqlwhere = " and dcCompanyID = '" + n + "' ";
             }
+            if (!string.IsNullOrWhiteSpace(sdate))
+            {
+                sdate = PageValidate.SQL_KILL(sdate);
+                sqlwhere += " and dtAddTime > '" + sdate + "' ";
+            }
+            if (!string.IsNullOrWhiteSpace(edate))
+            {
+                edate = PageValidate.SQL_KILL(edate);
+                sqlwhere += " and dtAddTime < '" + edate + "' ";
+            }
+            if (!string.IsNullOrWhiteSpace(filtername))
+            {
+                filtername = PageValidate.SQL_KILL(filtername);
+                sqlwhere += " and dcLinkName = '" + filtername + "' ";
+            }
+            if (!string.IsNullOrWhiteSpace(tno))
+            {
+                tno = PageValidate.SQL_KILL(tno);
+                sqlwhere += " and dcTicketNO = '" + tno + "' ";
+            }
+
             string sql = "select top " + (page * pagenum) + " dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate,dtAddTime as addTime,dnStatus as Status from T_Order where 1=1 " + sqlwhere;
             sql += " and dcOrderID not in (select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where 1=1 " + sqlwhere + ")";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
