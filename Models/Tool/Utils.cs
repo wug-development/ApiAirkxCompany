@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
 
 namespace ApiAirkxCompany
 {
@@ -239,23 +240,30 @@ namespace ApiAirkxCompany
 
             }
             //序列化  
-            return jss.Serialize(dic);
+            var str = jss.Serialize(dic);
+            return Regex.Replace(str, @"\\/Date\((\d+)\)\\/", match =>
+            {
+                DateTime dt = new DateTime(1970, 1, 1);
+                dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                dt = dt.ToLocalTime();
+                return dt.ToString("yyyy-MM-dd HH:mm:ss");
+            });
         }
 
         /// <summary>
         /// 将datarow 转换为json  
         /// </summary>
         /// <param name="rows">DataRowS</param>
-        /// <param name="dt"></param>
+        /// <param name="dtabel"></param>
         /// <returns>JSON字符串</returns>
-        public static string tableToJson(EnumerableRowCollection<DataRow> rows, DataTable dt)
+        public static string tableToJson(EnumerableRowCollection<DataRow> rows, DataTable dtabel)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();
             System.Collections.ArrayList dic = new System.Collections.ArrayList();
             foreach (DataRow dr in rows)
             {
                 System.Collections.Generic.Dictionary<string, object> drow = new System.Collections.Generic.Dictionary<string, object>();
-                foreach (DataColumn dc in dt.Columns)
+                foreach (DataColumn dc in dtabel.Columns)
                 {
                     drow.Add(dc.ColumnName, dr[dc.ColumnName]);
                 }
@@ -263,7 +271,14 @@ namespace ApiAirkxCompany
 
             }
             //序列化  
-            return jss.Serialize(dic);
+            var str = jss.Serialize(dic);
+            return Regex.Replace(str, @"\\/Date\((\d+)\)\\/", match =>
+            {
+                DateTime dt = new DateTime(1970, 1, 1);
+                dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                dt = dt.ToLocalTime();
+                return dt.ToString("yyyy-MM-dd HH:mm:ss");
+            });
         }
         #endregion
     }

@@ -42,6 +42,31 @@ namespace ApiAirkxCompany
         //航班 id
         public string FlightID { get; set; }
     }
+    
+    public class Persons
+    {
+        public Persons() { }
+        //联系人
+        public string CjrName { get; set; }
+        //性别
+        public string Sex { get; set; }
+        //护照号码
+        public string HZH { get; set; }
+        //护照有效期
+        public string HZYXQ { get; set; }
+        //出生日期
+        public string CSRQ { get; set; }
+        //身份证
+        public string idcard { get; set; }
+        //类型1成人 0儿童
+        public string type { get; set; }
+        //id
+        public string id { get; set; }
+        //电话
+        public string phone { get; set; }
+        //紧急电话
+        public string jingji { get; set; }
+    }
 
     public class AirInfo
     {
@@ -73,5 +98,13 @@ namespace ApiAirkxCompany
         public int detailID { get; set; }
         // 转机IDS
         public int[] toFlightInfo { get; set; }
+    }
+
+    public class DZOrderBody
+    {
+        //定制行程内容
+        public string content { get; set; }
+        //企业 ID
+        public string cid { get; set; }
     }
 }

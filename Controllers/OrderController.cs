@@ -85,7 +85,7 @@ namespace ApiAirkxCompany.Controllers
                     strSql.Append("insert into T_Order(");
                     strSql.Append("dcOrderID,dcOrderCode,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnTotalPrice,dcContent,dcAdminID,dcAdminName,dtAddTime,dnTicketID,dnDetailID");
                     strSql.Append(") values (");
-                    strSql.Append("@dcOrderID,@dcOrderCode,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnTotalPrice,@dcContent,@dcAdminID,@dcAdminName,@dtAddTime,@dnTicketID,@dnDetailID");
+                    strSql.Append("@dcOrderID,@dcOrderCode,@dnOrderType,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnTotalPrice,@dcContent,@dcAdminID,@dcAdminName,@dtAddTime,@dnTicketID,@dnDetailID");
                     strSql.Append(") ");
 
                     SqlParameter[] parameters = {
@@ -150,6 +150,7 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "提交失败", "");
             }
         }
+
 
         /// <summary>
         /// 添加常用乘机人
@@ -430,6 +431,80 @@ namespace ApiAirkxCompany.Controllers
 
         #endregion
 
+        #region 提交定制行程
+        /// <summary>
+        /// 提交定制行程
+        /// </summary>
+        /// <param name="content">行程内容</param>
+        /// <param name="cid">企业ID</param>
+        /// <returns>是否成功</returns>
+        [HttpPost]
+        public HttpResponseMessage SubmitDingzhiOrder([FromBody] DZOrderBody order)
+        {
+            Random rd = new Random();
+            string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000, 9999).ToString();
+
+            try
+            {
+                BLL.T_Company b_company = new BLL.T_Company();
+                Model.T_Company m_company = new Model.T_Company();
+
+                m_company = b_company.GetModel(PageValidate.SQL_KILL(order.cid));
+
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("insert into T_Order(");
+                strSql.Append("dcOrderID,dcOrderCode,dnOrderType,dnAirType,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnTax,dnTotalPrice,dcContent,dcAdminID,dcAdminName,dtAddTime");
+                strSql.Append(") values (");
+                strSql.Append("@dcOrderID,@dcOrderCode,@dnOrderType,@dnAirType,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnTax,@dnTotalPrice,@dcContent,@dcAdminID,@dcAdminName,@dtAddTime");
+                strSql.Append(") ");
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,
+                    new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40) ,
+                    new SqlParameter("@dnOrderType", SqlDbType.Int,4) ,
+                    new SqlParameter("@dnAirType", SqlDbType.Int,4) ,
+                    new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,
+                    new SqlParameter("@dcCompanyName", SqlDbType.VarChar,40) ,
+                    new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20) ,
+                    new SqlParameter("@dcPhone", SqlDbType.VarChar,40) ,
+                    new SqlParameter("@dnTax", SqlDbType.Decimal,9) ,
+                    new SqlParameter("@dnTotalPrice", SqlDbType.Decimal,9) ,
+                    new SqlParameter("@dcContent", SqlDbType.Text) ,
+                    new SqlParameter("@dcAdminID", SqlDbType.VarChar,40) ,
+                    new SqlParameter("@dcAdminName", SqlDbType.NVarChar,20) ,
+                    new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime)
+                };
+
+                int tax = 0;
+                decimal total = 0;
+
+                parameters[0].Value = orderid;
+                parameters[1].Value = "";// 订单编码
+                parameters[2].Value = 1;// 订单类型（0国内航班订单1国际航班订单）
+                parameters[3].Value = 2;//0直飞 1往返 2定制
+                parameters[4].Value = m_company.dcCompanyID;
+                parameters[5].Value = m_company.dcUserName;
+                parameters[6].Value = m_company.dcLinkName;// 联系人
+                parameters[7].Value = m_company.dcPhone;// 联系电话
+                parameters[8].Value = tax;
+                parameters[9].Value = total;
+                parameters[10].Value = order.content;// 备注
+                parameters[11].Value = m_company.dcAdminID;
+                parameters[12].Value = m_company.dcAdminName;
+                parameters[13].Value = DateTime.Now;
+
+                DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+
+                return Utils.pubResult(1, "提交成功", "");
+            }
+            catch
+            {
+                return Utils.pubResult(0, "提交失败", "");
+            }
+        }
+
+        #endregion
+
         #region 获取订单列表
         /// <summary>
         /// 获取订单列表
@@ -437,7 +512,7 @@ namespace ApiAirkxCompany.Controllers
         /// <param name="cid">企业ID</param>
         /// <returns></returns>
         [HttpGet]
-        public HttpResponseMessage getOrderList(string cid)
+        public HttpResponseMessage getOrderList(string cid, int page, int pagenum, string sdate, string edate, string filtername, string tno, string subcid)
         {
             string n = PageValidate.SQL_KILL(cid);
             string sqlwhere = "";
@@ -445,7 +520,8 @@ namespace ApiAirkxCompany.Controllers
             {
                 sqlwhere = " and dcCompanyID = '" + n + "' ";
             }
-            string sql = "select dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate from T_Order where 1=1 " + sqlwhere;
+            string sql = "select top " + (page * pagenum) + " dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate,dtAddTime as addTime,dnStatus as Status from T_Order where 1=1 " + sqlwhere;
+            sql += " and dcOrderID not in (select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where 1=1 " + sqlwhere + ")";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -503,12 +579,12 @@ namespace ApiAirkxCompany.Controllers
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {
-                string strsql = " select dcPerName as pername,dcSex as sex,dcPassportNo as pno,dcType as type from T_OrderPerson where dcOrderID='" + dt.Rows[0]["dcOrderID"] + "'; ";
+                string strsql = " select dcPerName as pername,dcSex as sex,dcPassportNo as pno,dcPhone as phone,dcIDNumber as idcard,dcType as type from T_OrderPerson where dcOrderID='" + dt.Rows[0]["dcOrderID"] + "'; ";
                 strsql += " select * from T_OrderFlightInfo where  dcOrderID='" + dt.Rows[0]["dcOrderID"] + "'; ";
                 DataSet ds = DbHelperSQL.Query(strsql);
                 string json = Utils.tableToJson(dt);
 
-                JArray aobj = JArray.Parse(json);
+                JArray aobj = (JArray)JsonConvert.DeserializeObject(json);
                 JObject jo = JObject.Parse(aobj[0].ToString());
                 jo["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[0]));
                 jo["flight"] = JArray.Parse(Utils.tableToJson(ds.Tables[1]));

@@ -178,6 +178,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="JsonDataTimeConverter.cs" />
     <Compile Include="Models\BLLMethod\CompanyMethods.cs" />
     <Compile Include="Models\BLL\T_Admin.cs" />
     <Compile Include="Models\BLL\T_AdminMenu.cs" />
