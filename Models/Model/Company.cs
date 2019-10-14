@@ -49,6 +49,7 @@ namespace ApiAirkxCompany
         public string bankAccount { get; set; }//银行账号
         public string bankName { get; set; }//开户行
         public string credit { get; set; }//信用额度
+        public string servicePirce { get; set; }//信用额度
         public string settleDate { get; set; }//结账日期
         public Manager manager { get; set; }//管理员
         public string other { get; set; }//备注

@@ -15,9 +15,9 @@ namespace ApiAirkxCompany
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_Company(");
-            strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther)");
+            strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther)");
             strSql.Append(" values (");
-            strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dtCheckOutDate,@dcLinkName,@dcPhone,@dcAdminID,@dcAdminName,@dcOther)");
+            strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dnServicePirce,@dtCheckOutDate,@dcLinkName,@dcPhone,@dcAdminID,@dcAdminName,@dcOther)");
             return strSql;
         }
 
@@ -40,6 +40,7 @@ namespace ApiAirkxCompany
                     new SqlParameter("@dcOpeningBank", SqlDbType.NVarChar,50),
                     new SqlParameter("@dcParentCompanyID", SqlDbType.VarChar,40),
                     new SqlParameter("@dnCreditLine", SqlDbType.Int,4),
+                    new SqlParameter("@dnServicePirce", SqlDbType.Decimal,9),
                     new SqlParameter("@dtCheckOutDate", SqlDbType.NVarChar,20),
                     new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20),
                     new SqlParameter("@dcPhone", SqlDbType.VarChar,40),
@@ -69,12 +70,13 @@ namespace ApiAirkxCompany
             parameters[13].Value = comInfo.bankName;
             parameters[14].Value = parentno;
             parameters[15].Value = comInfo.credit;
-            parameters[16].Value = DateTime.Now;
-            parameters[17].Value = lman.name;
-            parameters[18].Value = lman.phone;
-            parameters[19].Value = comInfo.manager.id;
-            parameters[20].Value = comInfo.manager.name;
-            parameters[21].Value = other;
+            parameters[16].Value = comInfo.servicePirce;
+            parameters[17].Value = comInfo.settleDate;
+            parameters[18].Value = lman.name;
+            parameters[19].Value = lman.phone;
+            parameters[20].Value = comInfo.manager.id;
+            parameters[21].Value = comInfo.manager.name;
+            parameters[22].Value = other;
             return parameters;
         }
 
