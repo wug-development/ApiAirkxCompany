@@ -515,15 +515,16 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage getOrderList(string cid, int page, int pagenum, string sdate, string edate, string filtername, string tno, string subcid)
         {
             string sqlwhere = "";
+            string _cid = "";
             if (!string.IsNullOrWhiteSpace(subcid))
             {
-                subcid = PageValidate.SQL_KILL(subcid);
-                sqlwhere += " and dcCompanyID = '" + subcid + "' ";
+                _cid = PageValidate.SQL_KILL(subcid);
+                sqlwhere += " and dcCompanyID = '" + _cid + "' ";
             }
             else if (!string.IsNullOrWhiteSpace(cid))
             {
-                string n = PageValidate.SQL_KILL(cid);
-                sqlwhere = " and dcCompanyID = '" + n + "' ";
+                _cid = PageValidate.SQL_KILL(cid);
+                sqlwhere = " and dcCompanyID = '" + _cid + "' ";
             }
             if (!string.IsNullOrWhiteSpace(sdate))
             {
@@ -567,10 +568,9 @@ namespace ApiAirkxCompany.Controllers
                     objA[j]["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[j]));
                 }
                 int paycount = 0;
-                if (!string.IsNullOrWhiteSpace(cid))
+                if (!string.IsNullOrWhiteSpace(_cid))
                 {
-                    string n = PageValidate.SQL_KILL(cid);
-                    string sqlpay = "  select Count(dnMoney) from T_PayRecord where dnStatus = 1 and dcCompanyID = '" + n + "' ";
+                    string sqlpay = "  select Count(dnMoney) from T_PayRecord where dnStatus = 1 and dcCompanyID = '" + _cid + "' ";
                     paycount = Convert.ToInt32(DbHelperSQL.GetSingle(sqlpay));
                 }
 
