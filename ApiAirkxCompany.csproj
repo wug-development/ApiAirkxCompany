@@ -214,6 +214,8 @@
     <Compile Include="Models\SQLServerDAL\T_TicketPrice.cs" />
     <Compile Include="Models\SQLServerDAL\T_TicketSheet.cs" />
     <Compile Include="Models\Tool\DbHelperSQL.cs" />
+    <Compile Include="Models\Tool\MySort.cs" />
+    <Compile Include="Models\Tool\NoSortHashtable.cs" />
     <Compile Include="Models\Tool\MySqlHelper.cs" />
     <Compile Include="Models\Tool\PageValidate.cs" />
     <Compile Include="Models\Tool\SessionMethod.cs" />

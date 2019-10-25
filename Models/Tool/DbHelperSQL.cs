@@ -4,6 +4,8 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ApiAirkxCompany //可以修改成实际项目的命名空间名称
 {
@@ -152,14 +154,14 @@ namespace ApiAirkxCompany //可以修改成实际项目的命名空间名称
 					throw new Exception(E.Message);
 				}
 			}
-		}
-		/// <summary>
-		/// 执行带一个存储过程参数的的SQL语句。
-		/// </summary>
-		/// <param name="SQLString">SQL语句</param>
-		/// <param name="content">参数内容,比如一个字段是格式复杂的文章，有特殊符号，可以通过这个方式添加</param>
-		/// <returns>影响的记录数</returns>
-		public static int ExecuteSql(string SQLString,string content)
+        }
+        /// <summary>
+        /// 执行带一个存储过程参数的的SQL语句。
+        /// </summary>
+        /// <param name="SQLString">SQL语句</param>
+        /// <param name="content">参数内容,比如一个字段是格式复杂的文章，有特殊符号，可以通过这个方式添加</param>
+        /// <returns>影响的记录数</returns>
+        public static int ExecuteSql(string SQLString,string content)
 		{				
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
@@ -329,7 +331,7 @@ namespace ApiAirkxCompany //可以修改成实际项目的命名空间名称
 		/// 执行多条SQL语句，实现数据库事务。
 		/// </summary>
 		/// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的SqlParameter[]）</param>
-		public static void ExecuteSqlTran(Hashtable SQLStringList)
+		public static void ExecuteSqlTran(NoSortHashtable SQLStringList)
 		{			
 			using (SqlConnection conn = new SqlConnection(connectionString))
 			{
@@ -362,14 +364,51 @@ namespace ApiAirkxCompany //可以修改成实际项目的命名空间名称
 				}				
 			}
 		}
-	
-				
-		/// <summary>
-		/// 执行一条计算查询结果语句，返回查询结果（object）。
-		/// </summary>
-		/// <param name="SQLString">计算查询结果语句</param>
-		/// <returns>查询结果（object）</returns>
-		public static object GetSingle(string SQLString,params SqlParameter[] cmdParms)
+
+        /// <summary>
+        /// 执行多条SQL语句，实现数据库事务。
+        /// </summary>
+        /// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的SqlParameter[]）</param>
+        public static void ExecuteSqlTran(Dictionary<StringBuilder, SqlParameter[]> SQLStringList)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    try
+                    {
+                        //循环
+                        foreach (KeyValuePair<StringBuilder, SqlParameter[]> myDE in SQLStringList)
+                        {
+                            string cmdText = myDE.Key.ToString();
+                            SqlParameter[] cmdParms = (SqlParameter[])myDE.Value;
+                            PrepareCommand(cmd, conn, trans, cmdText, cmdParms);
+                            int val = cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
+                        }
+                        trans.Commit();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw ex;
+                    }
+                    catch (Exception e)
+                    {
+                        trans.Rollback();
+                        throw e;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 执行一条计算查询结果语句，返回查询结果（object）。
+        /// </summary>
+        /// <param name="SQLString">计算查询结果语句</param>
+        /// <returns>查询结果（object）</returns>
+        public static object GetSingle(string SQLString,params SqlParameter[] cmdParms)
 		{
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{

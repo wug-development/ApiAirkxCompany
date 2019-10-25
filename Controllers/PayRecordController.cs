@@ -64,7 +64,8 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage getPayList(string cid, int page, int pagenum)
         {
             string n = PageValidate.SQL_KILL(cid);
-            string sqlwhere = " and a.dcCompanyID = '" + n + "' and a.dcCompanyID=b.dcCompanyID ";
+            string sqlwhere = " and a.dcCompanyID in (SELECT  t.dcCompanyID FROM T_Company AS t where t.dcParentCompanyID='" + n + "' or t.dcCompanyID = '" + n + "') and a.dcCompanyID=b.dcCompanyID ";
+
             string sqlfield = " dcPRID as id,dnMoney as money,dcPayType as method,dcPayDate as datetime,b.dcUserName as company,dcRemarks as other,dnStatus as status ";
             string sql = " select top " + (page * pagenum) + sqlfield + "  from T_PayRecord a,T_Company b where 1=1 " + sqlwhere + " and a.dcPRID not in (";
             sql += " select top " + ((page - 1) * pagenum) + " a.dcPRID from T_PayRecord a,T_Company b where 1=1 " + sqlwhere + " ) ";

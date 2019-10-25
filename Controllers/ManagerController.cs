@@ -36,6 +36,14 @@ namespace ApiAirkxCompany.Controllers
         }
 
         [HttpGet]
+        public HttpResponseMessage GetList()
+        {
+            string sql = " select dcAdminID as id,dcAdminName as name from T_Admin where dnIsCheck != 2";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            return Utils.pubResult(1, "获取成功", dt);
+        }
+
+        [HttpGet]
         public HttpResponseMessage DelUser(string id)
         {
             StringBuilder strSql=new StringBuilder();

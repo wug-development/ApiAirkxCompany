@@ -128,7 +128,7 @@ namespace ApiAirkxCompany.Controllers
             if (count < 1)
             {
                 string comid = Utils.getDataID("com");
-                Hashtable SQLStringList = new Hashtable();
+                NoSortHashtable SQLStringList = new NoSortHashtable();
 
                 SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
                 SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma"), comid, company.comInfo.remoney));
@@ -167,6 +167,93 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 编辑企业信息
+        /// <summary>
+        /// 编辑企业用户
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage EditCompany([FromBody] Company company)
+        {
+            string cid = company.companyid;
+            if (!string.IsNullOrWhiteSpace(cid))
+            {
+                string comid = PageValidate.SQL_KILL(cid);
+                Dictionary<StringBuilder, SqlParameter[]> SQLStringList = new Dictionary<StringBuilder, SqlParameter[]>();
+
+                SQLStringList.Add(CompanyMethods.companyinfoupsql(), CompanyMethods.companyUpParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
+                SQLStringList.Add(CompanyMethods.companyaccountUpSql(), CompanyMethods.companyAccountUpParams(comid, company.comInfo.remoney));
+
+                // 企业联系人
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("delete from T_CompanyLinkMan ");
+                strSql.Append(" where dcCompanyID=@dcCompanyID ");
+                SqlParameter[] parameters = {
+                    new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)  };
+                parameters[0].Value = comid;
+
+                SQLStringList.Add(strSql, parameters);
+
+                for (int i = 0; i < company.linkman.Count; i++)
+                {
+                    SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lm" + i), comid, company.linkman[i]));
+                }
+
+                // 企业账单显示字段
+                StringBuilder strSqlacount = new StringBuilder();
+                strSqlacount.Append("delete from T_CompanyBillField ");
+                strSqlacount.Append(" where dcCompanyID=@dcCompanyID ");
+                SqlParameter[] parameterss = {
+                    new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)  };
+                parameterss[0].Value = comid;
+                SQLStringList.Add(strSqlacount, parameterss);
+
+                string[] companyFields = company.billfields.Split(',');
+                for (int m = 0; m < companyFields.Length; m++)
+                {
+                    SQLStringList.Add(CompanyMethods.comfieldsql(), CompanyMethods.comfieldParams(Utils.getDataID("cf" + m), comid, companyFields[m]));
+                }
+
+                // 子公司
+                for (int n = 0; n < company.subcompany.Count; n++)
+                {
+                    string subcomid = company.subcompany[n].cid;
+                    // 子公司信息
+                    SQLStringList.Add(CompanyMethods.companyinfoupsql(), CompanyMethods.companySubUpParams(company.comInfo, company.subcompany[n], comid));
+                    // 子公司账户资金信息
+                    SQLStringList.Add(CompanyMethods.companyaccountUpSql(), CompanyMethods.companyAccountUpParams(subcomid, company.comInfo.remoney));
+                    // 子公司联系人
+                    StringBuilder strSqls = new StringBuilder();
+                    strSqls.Append("delete from T_CompanyLinkMan ");
+                    strSqls.Append(" where dcCompanyID=@dcCompanyID ");
+                    SqlParameter[] parametersub = {
+                    new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)  };
+                    parametersub[0].Value = subcomid;
+
+                    SQLStringList.Add(strSqls, parametersub);
+                    SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lms"+n), subcomid, company.subcompany[n].linkmanList));
+                    
+                }
+
+                try
+                {
+                    DbHelperSQL.ExecuteSqlTran(SQLStringList);
+                    return Utils.pubResult(1);
+                }
+                catch(Exception e)
+                {
+                    return Utils.pubResult(0, "error", "注册失败，请检查数据！");
+                }
+            }
+            else
+            {
+                return Utils.pubResult(-1, "error", "保存失败，请刷新重试已存在！");
+            }
+        }
+        #endregion
+
+        
         #region 获取子公司
         /// <summary>
         /// 获取子公司
@@ -240,9 +327,9 @@ namespace ApiAirkxCompany.Controllers
         [HttpGet]
         public HttpResponseMessage GetInfo(string id)
         {
-            string sqlfeild = " dcUserName as comShorthand,dcPassword as comPass,dcFullName as nickname,dcRegistrationNumber as reno,dnRegisteredFunds as remoney,dcBusinessAddress as readdr,dcMainBusiness as business,";
+            string sqlfeild = " dcCompanyID as cid,dcUserName as comShorthand,dcPassword as comPass,dcFullName as nickname,dcRegistrationNumber as reno,dnRegisteredFunds as remoney,dcBusinessAddress as readdr,dcMainBusiness as business,";
             sqlfeild += "dcShareholder as shareholder,dcLegalRepresentative as legal,dcLicenseRegistrationAddr as licenseAddr,dcBankAccount as bankAccount,dcOpeningBank as bankName,";
-            sqlfeild += "dnCreditLine as credit,dtCheckOutDate as settleDate,dcAdminID as manager,dcOther as other";
+            sqlfeild += "dnCreditLine as credit,dnServicePirce as servicePirce, dtCheckOutDate as settleDate,dcAdminID as mid,dcAdminName as mname,dcOther as other";
             
             string linkfeild = "b.dcLinkName as name,b.dcPhone as phone,b.dcEmail as email,b.dcQQ as qq,b.dcWechat as wechart";
 

@@ -9,7 +9,7 @@ namespace ApiAirkxCompany
     {
         public Company()
         { }
-
+        public string companyid { get; set; }// 企业ID
         public string comShorthand { get; set; }//企业简称（账号）
         public string comPass { get; set; }//登录密码
         public string billfields { get; set; }//账单字段
@@ -20,6 +20,7 @@ namespace ApiAirkxCompany
 
     public class SubCompany
     {
+        public string cid { get; set; }// 分公司ID
         public string comShorthand { get; set; }// 分公司简称（账号）
         public string comPass { get; set; }// 登录密码
         public string other { get; set; }// 备注
@@ -49,7 +50,7 @@ namespace ApiAirkxCompany
         public string bankAccount { get; set; }//银行账号
         public string bankName { get; set; }//开户行
         public string credit { get; set; }//信用额度
-        public string servicePirce { get; set; }//信用额度
+        public string servicePirce { get; set; }//服务费
         public string settleDate { get; set; }//结账日期
         public Manager manager { get; set; }//管理员
         public string other { get; set; }//备注

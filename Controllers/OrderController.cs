@@ -16,7 +16,7 @@ namespace ApiAirkxCompany.Controllers
 {
     public class OrderController : ApiController
     {
-        private Hashtable hash = new Hashtable();
+        private NoSortHashtable hash = new NoSortHashtable();
 
         #region 提交国际订单
         /// <summary>
@@ -125,7 +125,7 @@ namespace ApiAirkxCompany.Controllers
                     parameters[7].Value = order.airinfo.backCity;
                     parameters[8].Value = order.cid;
                     parameters[9].Value = order.cname;
-                    parameters[10].Value = m_company.dcLinkName;// 联系人
+                    parameters[10].Value = order.persons[0].PName;// 联系人
                     parameters[11].Value = m_company.dcPhone;// 联系电话
                     parameters[12].Value = m_price.TicketPrice;
                     parameters[13].Value = tax;
