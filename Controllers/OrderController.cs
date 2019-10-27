@@ -718,9 +718,72 @@ namespace ApiAirkxCompany.Controllers
             {
                 return Utils.pubResult(0);
             }
-        } 
+        }
         #endregion
+        
+        #region 改期或退票订单
+        /// <summary>
+        /// 改期或退票订单
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage changeOrder([FromBody] Model.T_Order order)
+        {
+            Model.T_Order m_order = new Model.T_Order();
+            BLL.T_Order b_order = new BLL.T_Order();
+            if (order != null)
+            {
+                Random rd = new Random();
+                string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000, 9999).ToString();
+                m_order.dcOrderID = orderid;
+                m_order.dcOrderCode = order.dcOrderCode;
+                m_order.dcTicketNO = order.dcTicketNO;
+                m_order.dnOrderType = order.dnOrderType;
+                m_order.dnAirType = order.dnAirType;
+                m_order.dcStartDate = order.dcStartDate;
+                m_order.dcBackDate = order.dcBackDate;
+                m_order.dcStartCity = order.dcStartCity;
+                m_order.dcBackCity = order.dcBackCity;
+                m_order.dcCompanyID = order.dcCompanyID;
+                m_order.dcCompanyName = order.dcCompanyName;
+                m_order.dcLinkName = order.dcLinkName;
+                m_order.dcPhone = order.dcPhone;
+                m_order.dnPrice = order.dnPrice;
+                m_order.dnTax = order.dnTax;
+                m_order.dnServicePrice = order.dnServicePrice;
+                m_order.dnSafePrice = order.dnSafePrice;
+                m_order.dnTotalPrice = order.dnTotalPrice;
+                if (order.dnOrderStatus == 2) //退票
+                {
+                    m_order.dnChangePrice = order.dnTotalPrice;
+                }
+                if (order.dnOrderStatus == 3) //改期
+                {
+                    m_order.dnChangePrice = order.dnTotalPrice;
+                    m_order.dnChangeDatePrice = order.dnChangeDatePrice;
+                    m_order.dnChaPrice = order.dnChaPrice;
+                }
+                m_order.dcContent = order.dcContent;
+                m_order.dcAdminID = order.dcAdminID;
+                m_order.dcAdminName = order.dcAdminName;
+                m_order.dnTicketID = order.dnTicketID;
+                m_order.dnDetailID = order.dnDetailID;
+                m_order.dnStatus = order.dnStatus;
+                m_order.dnOrderStatus = order.dnOrderStatus;
+                m_order.dnIsTicket = 0;
+                m_order.dtAddTime = DateTime.Now;
+                m_order.dtEditTime = m_order.dtAddTime;
 
+                b_order.Add(m_order);
+                return Utils.pubResult(1);
+            }
+            else
+            {
+                return Utils.pubResult(0);
+            }
+        }
+        #endregion
 
     }
 }
