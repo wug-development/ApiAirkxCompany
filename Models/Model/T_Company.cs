@@ -1,229 +1,258 @@
-﻿using System; 
-using System.Text;
-using System.Collections.Generic; 
-using System.Data;
-namespace ApiAirkxCompany.Model{
-	 	//T_Company
-		public class T_Company
+﻿/**  版本信息模板在安装目录下，可自行修改。
+* T_Company.cs
+*
+* 功 能： N/A
+* 类 名： T_Company
+*
+* Ver    变更日期             负责人  变更内容
+* ───────────────────────────────────
+* V0.01  2019/11/1 17:56:15   N/A    初版
+*
+* Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
+*/
+using System;
+namespace ApiAirkxCompany.Model
+{
+	/// <summary>
+	/// T_Company:实体类(属性说明自动提取数据库字段的描述信息)
+	/// </summary>
+	[Serializable]
+	public partial class T_Company
 	{
-   		     
-      	/// <summary>
-		/// 企业ID
-        /// </summary>		
+		public T_Company()
+		{}
+		#region Model
 		private string _dccompanyid;
-        public string dcCompanyID
-        {
-            get{ return _dccompanyid; }
-            set{ _dccompanyid = value; }
-        }        
+		private string _dcusername="";
+		private string _dcpassword="";
+		private string _dcfullname="";
+		private string _dcshortname="";
+		private string _dcregistrationnumber="";
+		private decimal _dnregisteredfunds=0M;
+		private string _dcbusinessaddress="";
+		private string _dcmainbusiness="";
+		private string _dcshareholder="";
+		private string _dclegalrepresentative="";
+		private string _dclicenseregistrationaddr="";
+		private string _dcbankaccount="";
+		private string _dcopeningbank="";
+		private string _dcparentcompanyid="";
+		private int _dncreditline=0;
+		private decimal _dnservicepirce=0M;
+		private string _dtcheckoutdate="";
+		private string _dclinkname="";
+		private string _dcphone="";
+		private string _dcadminid="";
+		private string _dcadminname="";
+		private string _dcother="";
+		private DateTime _dtadddatetime= DateTime.Now;
+		private int _dnischeck=1;
+		/// <summary>
+		/// 企业ID
+		/// </summary>
+		public string dcCompanyID
+		{
+			set{ _dccompanyid=value;}
+			get{return _dccompanyid;}
+		}
 		/// <summary>
 		/// 账号
-        /// </summary>		
-		private string _dcusername;
-        public string dcUserName
-        {
-            get{ return _dcusername; }
-            set{ _dcusername = value; }
-        }        
+		/// </summary>
+		public string dcUserName
+		{
+			set{ _dcusername=value;}
+			get{return _dcusername;}
+		}
 		/// <summary>
 		/// 密码
-        /// </summary>		
-		private string _dcpassword;
-        public string dcPassword
-        {
-            get{ return _dcpassword; }
-            set{ _dcpassword = value; }
-        }        
+		/// </summary>
+		public string dcPassword
+		{
+			set{ _dcpassword=value;}
+			get{return _dcpassword;}
+		}
 		/// <summary>
 		/// 公司全称
-        /// </summary>		
-		private string _dcfullname;
-        public string dcFullName
-        {
-            get{ return _dcfullname; }
-            set{ _dcfullname = value; }
-        }        
+		/// </summary>
+		public string dcFullName
+		{
+			set{ _dcfullname=value;}
+			get{return _dcfullname;}
+		}
 		/// <summary>
 		/// 简称
-        /// </summary>		
-		private string _dcshortname;
-        public string dcShortName
-        {
-            get{ return _dcshortname; }
-            set{ _dcshortname = value; }
-        }        
+		/// </summary>
+		public string dcShortName
+		{
+			set{ _dcshortname=value;}
+			get{return _dcshortname;}
+		}
 		/// <summary>
 		/// 注册号
-        /// </summary>		
-		private string _dcregistrationnumber;
-        public string dcRegistrationNumber
-        {
-            get{ return _dcregistrationnumber; }
-            set{ _dcregistrationnumber = value; }
-        }        
+		/// </summary>
+		public string dcRegistrationNumber
+		{
+			set{ _dcregistrationnumber=value;}
+			get{return _dcregistrationnumber;}
+		}
 		/// <summary>
 		/// 注册资金
-        /// </summary>		
-		private decimal _dnregisteredfunds;
-        public decimal dnRegisteredFunds
-        {
-            get{ return _dnregisteredfunds; }
-            set{ _dnregisteredfunds = value; }
-        }        
+		/// </summary>
+		public decimal dnRegisteredFunds
+		{
+			set{ _dnregisteredfunds=value;}
+			get{return _dnregisteredfunds;}
+		}
 		/// <summary>
 		/// 经营地址
-        /// </summary>		
-		private string _dcbusinessaddress;
-        public string dcBusinessAddress
-        {
-            get{ return _dcbusinessaddress; }
-            set{ _dcbusinessaddress = value; }
-        }        
+		/// </summary>
+		public string dcBusinessAddress
+		{
+			set{ _dcbusinessaddress=value;}
+			get{return _dcbusinessaddress;}
+		}
 		/// <summary>
 		/// 主营业务
-        /// </summary>		
-		private string _dcmainbusiness;
-        public string dcMainBusiness
-        {
-            get{ return _dcmainbusiness; }
-            set{ _dcmainbusiness = value; }
-        }        
+		/// </summary>
+		public string dcMainBusiness
+		{
+			set{ _dcmainbusiness=value;}
+			get{return _dcmainbusiness;}
+		}
 		/// <summary>
 		/// 股东明细
-        /// </summary>		
-		private string _dcshareholder;
-        public string dcShareholder
-        {
-            get{ return _dcshareholder; }
-            set{ _dcshareholder = value; }
-        }        
+		/// </summary>
+		public string dcShareholder
+		{
+			set{ _dcshareholder=value;}
+			get{return _dcshareholder;}
+		}
 		/// <summary>
 		/// 法人代表
-        /// </summary>		
-		private string _dclegalrepresentative;
-        public string dcLegalRepresentative
-        {
-            get{ return _dclegalrepresentative; }
-            set{ _dclegalrepresentative = value; }
-        }        
+		/// </summary>
+		public string dcLegalRepresentative
+		{
+			set{ _dclegalrepresentative=value;}
+			get{return _dclegalrepresentative;}
+		}
 		/// <summary>
 		/// 执照注册地址
-        /// </summary>		
-		private string _dclicenseregistrationaddr;
-        public string dcLicenseRegistrationAddr
-        {
-            get{ return _dclicenseregistrationaddr; }
-            set{ _dclicenseregistrationaddr = value; }
-        }        
+		/// </summary>
+		public string dcLicenseRegistrationAddr
+		{
+			set{ _dclicenseregistrationaddr=value;}
+			get{return _dclicenseregistrationaddr;}
+		}
 		/// <summary>
 		/// 银行账号
-        /// </summary>		
-		private string _dcbankaccount;
-        public string dcBankAccount
-        {
-            get{ return _dcbankaccount; }
-            set{ _dcbankaccount = value; }
-        }        
+		/// </summary>
+		public string dcBankAccount
+		{
+			set{ _dcbankaccount=value;}
+			get{return _dcbankaccount;}
+		}
 		/// <summary>
 		/// 开户行
-        /// </summary>		
-		private string _dcopeningbank;
-        public string dcOpeningBank
-        {
-            get{ return _dcopeningbank; }
-            set{ _dcopeningbank = value; }
-        }        
+		/// </summary>
+		public string dcOpeningBank
+		{
+			set{ _dcopeningbank=value;}
+			get{return _dcopeningbank;}
+		}
 		/// <summary>
 		/// 母公司ID
-        /// </summary>		
-		private string _dcparentcompanyid;
-        public string dcParentCompanyID
-        {
-            get{ return _dcparentcompanyid; }
-            set{ _dcparentcompanyid = value; }
-        }        
+		/// </summary>
+		public string dcParentCompanyID
+		{
+			set{ _dcparentcompanyid=value;}
+			get{return _dcparentcompanyid;}
+		}
 		/// <summary>
 		/// 信用额度
-        /// </summary>		
-		private int _dncreditline;
-        public int dnCreditLine
-        {
-            get{ return _dncreditline; }
-            set{ _dncreditline = value; }
-        }        
+		/// </summary>
+		public int dnCreditLine
+		{
+			set{ _dncreditline=value;}
+			get{return _dncreditline;}
+		}
+		/// <summary>
+		/// 服务费
+		/// </summary>
+		public decimal dnServicePirce
+		{
+			set{ _dnservicepirce=value;}
+			get{return _dnservicepirce;}
+		}
 		/// <summary>
 		/// 结账日期
-        /// </summary>		
-		private string _dtcheckoutdate;
-        public string dtCheckOutDate
-        {
-            get{ return _dtcheckoutdate; }
-            set{ _dtcheckoutdate = value; }
-        }        
+		/// </summary>
+		public string dtCheckOutDate
+		{
+			set{ _dtcheckoutdate=value;}
+			get{return _dtcheckoutdate;}
+		}
 		/// <summary>
 		/// 联系人
-        /// </summary>		
-		private string _dclinkname;
-        public string dcLinkName
-        {
-            get{ return _dclinkname; }
-            set{ _dclinkname = value; }
-        }        
+		/// </summary>
+		public string dcLinkName
+		{
+			set{ _dclinkname=value;}
+			get{return _dclinkname;}
+		}
 		/// <summary>
 		/// 联系电话
-        /// </summary>		
-		private string _dcphone;
-        public string dcPhone
-        {
-            get{ return _dcphone; }
-            set{ _dcphone = value; }
-        }        
+		/// </summary>
+		public string dcPhone
+		{
+			set{ _dcphone=value;}
+			get{return _dcphone;}
+		}
 		/// <summary>
 		/// 管理员ID
-        /// </summary>		
-		private string _dcadminid;
-        public string dcAdminID
-        {
-            get{ return _dcadminid; }
-            set{ _dcadminid = value; }
-        }        
+		/// </summary>
+		public string dcAdminID
+		{
+			set{ _dcadminid=value;}
+			get{return _dcadminid;}
+		}
 		/// <summary>
 		/// 管理员名称
-        /// </summary>		
-		private string _dcadminname;
-        public string dcAdminName
-        {
-            get{ return _dcadminname; }
-            set{ _dcadminname = value; }
-        }        
+		/// </summary>
+		public string dcAdminName
+		{
+			set{ _dcadminname=value;}
+			get{return _dcadminname;}
+		}
 		/// <summary>
 		/// 备注
-        /// </summary>		
-		private string _dcother;
-        public string dcOther
-        {
-            get{ return _dcother; }
-            set{ _dcother = value; }
-        }        
+		/// </summary>
+		public string dcOther
+		{
+			set{ _dcother=value;}
+			get{return _dcother;}
+		}
 		/// <summary>
 		/// 注册时间
-        /// </summary>		
-		private DateTime _dtadddatetime;
-        public DateTime dtAddDatetime
-        {
-            get{ return _dtadddatetime; }
-            set{ _dtadddatetime = value; }
-        }        
+		/// </summary>
+		public DateTime dtAddDatetime
+		{
+			set{ _dtadddatetime=value;}
+			get{return _dtadddatetime;}
+		}
 		/// <summary>
 		/// 用户状态(0停用1正常2删除)
-        /// </summary>		
-		private int _dnischeck;
-        public int dnIsCheck
-        {
-            get{ return _dnischeck; }
-            set{ _dnischeck = value; }
-        }        
-		   
+		/// </summary>
+		public int dnIsCheck
+		{
+			set{ _dnischeck=value;}
+			get{return _dnischeck;}
+		}
+		#endregion Model
+
 	}
 }
 

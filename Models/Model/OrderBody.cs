@@ -15,8 +15,21 @@ namespace ApiAirkxCompany
         public string cname { get; set; }
         // 乘机人
         public List<Person> persons { get; set; }
-        // 航班信息
+        // 乘机人
+        public List<PersonList> personlist { get; set; }
+        // 国际航班信息
         public AirInfo airinfo { get; set; }
+        // 出发日期
+        public string sdate { get; set; }
+        // 出发城市
+        public AirPort scity { get; set; }
+        // 到达城市
+        public AirPort ecity { get; set; }
+        // 国内航班信息
+        public getAvailableFlightWithPriceAndCommision.wsFlightWithPriceAndCommision airbody { get; set; }
+        // 国内航班舱位信息
+        public getAvailableFlightWithPriceAndCommision.wsSeatWithPriceAndComisionItem airseat { get; set; }        
+        
     }
 
     public class Person
@@ -67,6 +80,30 @@ namespace ApiAirkxCompany
         //紧急电话
         public string jingji { get; set; }
     }
+    public class PersonList
+    {
+        public PersonList() { }
+        //联系人
+        public string name { get; set; }
+        //性别
+        public string sex { get; set; }
+        //护照号码
+        public string hzh { get; set; }
+        //护照有效期
+        public string hzyxq { get; set; }
+        //出生日期
+        public string csrq { get; set; }
+        //身份证
+        public string idcard { get; set; }
+        //类型1成人 2儿童
+        public string type { get; set; }
+        //id
+        public string id { get; set; }
+        //电话
+        public string phone { get; set; }
+        //紧急电话
+        public string jjphone { get; set; }
+    }
 
     public class AirInfo
     {
@@ -85,6 +122,22 @@ namespace ApiAirkxCompany
         public FlightInfo flightInfo { get; set; }
         // 回程航班信息
         public FlightInfo backFlightInfo { get; set; }
+    }
+    public class AirBody
+    {
+        public AirBody() { }
+        // 航线类型 1往返 0直飞
+        public int airtype { get; set; }
+        // 出发日期
+        public string startDate { get; set; }
+        // 返回日期
+        public string backDate { get; set; }
+        // 出发城市
+        public string startCity { get; set; }
+        // 目的地城市
+        public string backCity { get; set; }
+        // 去程航班信息
+        public FlightInfo flightInfo { get; set; }
     }
 
     public class FlightInfo
@@ -106,5 +159,15 @@ namespace ApiAirkxCompany
         public string content { get; set; }
         //企业 ID
         public string cid { get; set; }
+    }
+
+    public class AirPort
+    {
+        public int id { get; set; }
+        public string airportname { get; set; }
+        public string code { get; set; }
+        public string country { get; set; }
+        public string enname { get; set; }
+        public string name { get; set; }
     }
 }

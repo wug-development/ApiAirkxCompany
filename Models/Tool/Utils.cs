@@ -281,5 +281,25 @@ namespace ApiAirkxCompany
             });
         }
         #endregion
+
+        #region 获取时间戳
+        public static string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalSeconds).ToString();
+        }
+        #endregion
+
+        #region MD5 加密
+        /// <summary>
+        /// MD5 加密
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string Md5(string str)
+        {
+            return BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(str))).Replace("-", "").ToLower();
+        }
+        #endregion
     }
 }

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ApiAirkxCompany.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApiAirkxCompany_getAvailableFlightWithPriceAndCommision_GetAvailableFlightWithPriceAndCommisionServiceImpl_1_0Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://ws.51book.com:8000/ltips/services/getAvailableFlightWithPriceAndCommisionService1.0</Value>
+    </Setting>
+    <Setting Name="ApiAirkxCompany_getChildPolicyAndFlightService_GetChildPolicyAndFlightServiceImpl_1_0Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://ws.51book.com:8000/ltips/services/getChildPolicyAndFlightService1.0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

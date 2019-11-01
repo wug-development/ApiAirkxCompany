@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://getPolicyAndFlight.b2b.service.version1_0.webservice.model.ltips.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="GetChildPolicyAndFlightServiceImpl_1_0Service" targetNamespace="http://getPolicyAndFlight.b2b.service.version1_0.webservice.model.ltips.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://getPolicyAndFlight.b2b.service.version1_0.webservice.model.ltips.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getChildPolicyAndFlight" type="tns:getChildPolicyAndFlight" />
+      <xs:element name="getChildPolicyAndFlightReply" type="tns:getChildPolicyAndFlightReply" />
+      <xs:element name="getChildPolicyAndFlightResponse" type="tns:getChildPolicyAndFlightResponse" />
+      <xs:element name="request" type="tns:getChildPolicyAndFlightRequest" />
+      <xs:complexType name="getChildPolicyAndFlight">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:getChildPolicyAndFlightRequest" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getChildPolicyAndFlightRequest">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoRequest">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="arrCode" type="xs:string" />
+              <xs:element minOccurs="0" name="depCode" type="xs:string" />
+              <xs:element minOccurs="0" name="depDate" type="xs:string" />
+              <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" name="param4" type="xs:string" />
+              <xs:element minOccurs="0" name="passengerType" type="xs:string" />
+              <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoRequest" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="agencyCode" type="xs:string" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getChildPolicyAndFlightResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getChildPolicyAndFlightReply" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getChildPolicyAndFlightReply">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoReply">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="flightDataList" nillable="true" type="tns:wsFlightPolicyData" />
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" name="param4" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoReply" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="returnCode" type="xs:string" />
+          <xs:element minOccurs="0" name="returnMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="returnStackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsFlightPolicyData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="childAirportTax" type="xs:double" />
+          <xs:element minOccurs="0" name="childFuelTax" type="xs:double" />
+          <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="param5" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="seatAndPolicyList" nillable="true" type="tns:wsSeatAndPolicy" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsSeatAndPolicy">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="policyList" nillable="true" type="tns:wsPolicyData" />
+          <xs:element minOccurs="0" name="seatCode" type="xs:string" />
+          <xs:element minOccurs="0" name="ticketPrice" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPolicyData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="airlineCode" type="xs:string" />
+          <xs:element minOccurs="0" name="comment" type="xs:string" />
+          <xs:element minOccurs="0" name="commisionPoint" type="xs:double" />
+          <xs:element minOccurs="0" name="expiredDate" type="xs:string" />
+          <xs:element minOccurs="0" name="flightCourse" type="xs:string" />
+          <xs:element minOccurs="0" name="needSwitchPNR" type="xs:int" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="policyId" type="xs:int" />
+          <xs:element minOccurs="0" name="policyType" type="xs:string" />
+          <xs:element minOccurs="0" name="printTicketExpiredDate" type="xs:string" />
+          <xs:element minOccurs="0" name="printTicketStartDate" type="xs:string" />
+          <xs:element minOccurs="0" name="routeType" type="xs:string" />
+          <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+          <xs:element minOccurs="0" name="setChildPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="startDate" type="xs:string" />
+          <xs:element minOccurs="0" name="supplyOfficeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="ticketSpeed" type="xs:string" />
+          <xs:element minOccurs="0" name="vtWorkTime" type="xs:string" />
+          <xs:element minOccurs="0" name="workTime" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getChildPolicyAndFlightResponse">
+    <wsdl:part name="parameters" element="tns:getChildPolicyAndFlightResponse" />
+  </wsdl:message>
+  <wsdl:message name="getChildPolicyAndFlight">
+    <wsdl:part name="parameters" element="tns:getChildPolicyAndFlight" />
+  </wsdl:message>
+  <wsdl:portType name="GetChildPolicyAndFlightService_1_0">
+    <wsdl:operation name="getChildPolicyAndFlight">
+      <wsdl:input name="getChildPolicyAndFlight" message="tns:getChildPolicyAndFlight" />
+      <wsdl:output name="getChildPolicyAndFlightResponse" message="tns:getChildPolicyAndFlightResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GetChildPolicyAndFlightServiceImpl_1_0ServiceSoapBinding" type="tns:GetChildPolicyAndFlightService_1_0">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getChildPolicyAndFlight">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getChildPolicyAndFlight">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getChildPolicyAndFlightResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GetChildPolicyAndFlightServiceImpl_1_0Service">
+    <wsdl:port name="GetChildPolicyAndFlightServiceImpl_1_0Port" binding="tns:GetChildPolicyAndFlightServiceImpl_1_0ServiceSoapBinding">
+      <soap:address location="http://ws.51book.com:8000/ltips/services/getChildPolicyAndFlightService1.0" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

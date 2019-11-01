@@ -150,8 +150,7 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "提交失败", "");
             }
         }
-
-
+        
         /// <summary>
         /// 添加常用乘机人
         /// </summary>
@@ -364,6 +363,7 @@ namespace ApiAirkxCompany.Controllers
                 hash.Add(strSql, parameters);
             }
         }
+
         /// <summary>
         /// 添加转机航线SQL
         /// </summary>

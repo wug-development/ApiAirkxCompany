@@ -241,9 +241,9 @@ namespace ApiAirkxCompany.Controllers
                     DbHelperSQL.ExecuteSqlTran(SQLStringList);
                     return Utils.pubResult(1);
                 }
-                catch(Exception e)
+                catch
                 {
-                    return Utils.pubResult(0, "error", "注册失败，请检查数据！");
+                    return Utils.pubResult(0, "error", "保存失败，请检查数据！");
                 }
             }
             else

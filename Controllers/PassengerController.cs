@@ -39,6 +39,28 @@ namespace ApiAirkxCompany.Controllers
         /// <summary>
         /// 获取企业乘机人
         /// </summary>
+        /// <param name="cid">企业ID</param>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetPersonList(string cid)
+        {
+            string n = PageValidate.SQL_KILL(cid);
+            string sql = "select dcPerID as id,dcPerName as name,dcBirthday as csrq,dcPassportNo as hzh,dcPassportDate as hzyxq,dcSex as sex,dcIDNumber as idcard,dcPhone as phone,dcUrgentPhone as jjphone,dcType as type";
+            sql += " from T_Passenger where dcCompanyID = '" + n + "' ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                return Utils.pubResult(1, "success", dt);
+            }
+            else
+            {
+                return Utils.pubResult(0, "获取失败", "");
+            }
+        }
+
+        /// <summary>
+        /// 获取企业乘机人
+        /// </summary>
         /// <param name="id">企业ID</param>
         /// <returns></returns>
         [HttpGet]
