@@ -26,9 +26,9 @@ namespace ApiAirkxCompany
         // 到达城市
         public AirPort ecity { get; set; }
         // 国内航班信息
-        public getAvailableFlightWithPriceAndCommision.wsFlightWithPriceAndCommision airbody { get; set; }
+        public AirFlightBody airbody { get; set; }
         // 国内航班舱位信息
-        public getAvailableFlightWithPriceAndCommision.wsSeatWithPriceAndComisionItem airseat { get; set; }        
+        public SeatItem airseat { get; set; }
         
     }
 
@@ -83,26 +83,38 @@ namespace ApiAirkxCompany
     public class PersonList
     {
         public PersonList() { }
+        
+        private string _name = "";
+        private string _sex = "";
+        private string _hzh = "";
+        private string _hzyxq = "";
+        private string _csrq = "";
+        private string _idcard = "";
+        private string _type = "";
+        private string _id = "";
+        private string _phone = "";
+        private string _jjphone = "";
+
         //联系人
-        public string name { get; set; }
+        public string name { get => _name; set => _name = value; }
         //性别
-        public string sex { get; set; }
+        public string sex { get => _sex; set => _sex = value; }
         //护照号码
-        public string hzh { get; set; }
+        public string hzh { get => _hzh; set => _hzh = value; }
         //护照有效期
-        public string hzyxq { get; set; }
+        public string hzyxq { get => _hzyxq; set => _hzyxq = value; }
         //出生日期
-        public string csrq { get; set; }
+        public string csrq { get => _csrq; set => _csrq = value; }
         //身份证
-        public string idcard { get; set; }
+        public string idcard { get => _idcard; set => _idcard = value; }
         //类型1成人 2儿童
-        public string type { get; set; }
+        public string type { get => _type; set => _type = value; }
         //id
-        public string id { get; set; }
+        public string id { get => _id; set => _id = value; }
         //电话
-        public string phone { get; set; }
+        public string phone { get => _phone; set => _phone = value; }
         //紧急电话
-        public string jjphone { get; set; }
+        public string jjphone { get => _jjphone; set => _jjphone = value; }
     }
 
     public class AirInfo
@@ -169,5 +181,145 @@ namespace ApiAirkxCompany
         public string country { get; set; }
         public string enname { get; set; }
         public string name { get; set; }
+    }
+
+    public class AirFlightBody
+    {
+        private double _airportTax = 0;
+
+        private bool _airportTaxSpecified = false;
+
+        private string _arriModifyTime = "";
+
+        private string _arriTime = "";
+
+        private bool _codeShare = false;
+
+        private bool _codeShareSpecified = false;
+
+        private string _depModifyTime = "";
+
+        private string _depTime = "";
+
+        private string _dstCity = "";
+
+        private string _dstJetquay = "";
+
+        private string _flightNo = "";
+
+        private double _fuelTax = 0;
+
+        private bool _fuelTaxSpecified = false;
+
+        private bool _isElectronicTicket = false;
+
+        private bool _isElectronicTicketSpecified = false;
+
+        private string _link = "";
+
+        private string _meal = "";
+
+        private string _orgCity = "";
+
+        private string _orgJetquay = "";
+
+        private string _param1 = "";
+
+        private string _param2 = "";
+
+        private string _param3 = "";
+
+        private string _param4 = "";
+
+        private string _planeType = "";
+
+        private SeatItem[] _seatItems;
+
+        private string _shareNum = "";
+
+        private int _stopnum = 0;
+
+        private bool _stopnumSpecified = false;
+
+        public double airportTax { get => _airportTax; set => _airportTax = value; }
+        public bool airportTaxSpecified { get => _airportTaxSpecified; set => _airportTaxSpecified = value; }
+        public string arriModifyTime { get => _arriModifyTime; set => _arriModifyTime = value; }
+        public string arriTime { get => _arriTime; set => _arriTime = value; }
+        public bool codeShare { get => _codeShare; set => _codeShare = value; }
+        public bool codeShareSpecified { get => _codeShareSpecified; set => _codeShareSpecified = value; }
+        public string depModifyTime { get => _depModifyTime; set => _depModifyTime = value; }
+        public string depTime { get => _depTime; set => _depTime = value; }
+        public string dstCity { get => _dstCity; set => _dstCity = value; }
+        public string dstJetquay { get => _dstJetquay; set => _dstJetquay = value; }
+        public string flightNo { get => _flightNo; set => _flightNo = value; }
+        public double fuelTax { get => _fuelTax; set => _fuelTax = value; }
+        public bool fuelTaxSpecified { get => _fuelTaxSpecified; set => _fuelTaxSpecified = value; }
+        public bool isElectronicTicket { get => _isElectronicTicket; set => _isElectronicTicket = value; }
+        public bool isElectronicTicketSpecified { get => _isElectronicTicketSpecified; set => _isElectronicTicketSpecified = value; }
+        public string link { get => _link; set => _link = value; }
+        public string meal { get => _meal; set => _meal = value; }
+        public string orgCity { get => _orgCity; set => _orgCity = value; }
+        public string orgJetquay { get => _orgJetquay; set => _orgJetquay = value; }
+        public string param1 { get => _param1; set => _param1 = value; }
+        public string param2 { get => _param2; set => _param2 = value; }
+        public string param3 { get => _param3; set => _param3 = value; }
+        public string param4 { get => _param4; set => _param4 = value; }
+        public string planeType { get => _planeType; set => _planeType = value; }
+        public SeatItem[] seatItems { get => _seatItems; set => _seatItems = value; }
+        public string shareNum { get => _shareNum; set => _shareNum = value; }
+        public int stopnum { get => _stopnum; set => _stopnum = value; }
+        public bool stopnumSpecified { get => _stopnumSpecified; set => _stopnumSpecified = value; }
+    }
+
+    public class SeatItem
+    {
+        private double _discount = 0;
+
+        private bool _discountSpecified = false;
+
+        private string _flightNo = "";
+
+        private int _parPrice = 0;
+
+        private bool _parPriceSpecified = false;
+
+        private string _param1 = "";
+
+        private string _param2 = "";
+
+        private string _param3 = "";
+
+        private string _param4 = "";
+
+        private string _seatCode = "";
+
+        private string _seatMsg = "";
+
+        private string _seatStatus = "";
+
+        private int _seatType = 0;
+
+        private bool _seatTypeSpecified = false;
+
+        private double _settlePrice = 0;
+
+        private bool _settlePriceSpecified = false;
+
+        public double discount { get => _discount; set => _discount = value; }
+        public bool discountSpecified { get => _discountSpecified; set => _discountSpecified = value; }
+        public string flightNo { get => _flightNo; set => _flightNo = value; }
+        public int parPrice { get => _parPrice; set => _parPrice = value; }
+        public bool parPriceSpecified { get => _parPriceSpecified; set => _parPriceSpecified = value; }
+        public string param1 { get => _param1; set => _param1 = value; }
+        public string param2 { get => _param2; set => _param2 = value; }
+        public string param3 { get => _param3; set => _param3 = value; }
+        public string param4 { get => _param4; set => _param4 = value; }
+        public string seatCode { get => _seatCode; set => _seatCode = value; }
+        public string seatMsg { get => _seatMsg; set => _seatMsg = value; }
+        public string seatStatus { get => _seatStatus; set => _seatStatus = value; }
+        public int seatType { get => _seatType; set => _seatType = value; }
+        public bool seatTypeSpecified { get => _seatTypeSpecified; set => _seatTypeSpecified = value; }
+        public double settlePrice { get => _settlePrice; set => _settlePrice = value; }
+        public bool settlePriceSpecified { get => _settlePriceSpecified; set => _settlePriceSpecified = value; }
     }
 }

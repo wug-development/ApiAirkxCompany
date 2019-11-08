@@ -56,14 +56,15 @@ namespace ApiAirkxCompany.Controllers
                 {
                     StringBuilder strSql = new StringBuilder();
                     strSql.Append("insert into T_Order(");
-                    strSql.Append("dcOrderID,dcOrderCode,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dcContent,dcAdminID,dcAdminName,dtAddTime,dnTicketID,dnDetailID");
-                    strSql.Append(") values (");
-                    strSql.Append("@dcOrderID,@dcOrderCode,@dnOrderType,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnServicePrice,@dnSafePrice,@dnTotalPrice,@dcContent,@dcAdminID,@dcAdminName,@dtAddTime,@dnTicketID,@dnDetailID");
+                    strSql.Append("dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dtAddTime,dtEditTime)");
+                    strSql.Append(" values (");
+                    strSql.Append("@dcOrderID,@dcOrderCode,@dcTicketNO,@dnOrderType,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnServicePrice,@dnSafePrice,@dnTotalPrice,@dnDiscount,@dnChangePrice,@dnChangeDatePrice,@dnChaPrice,@dcContent,@dcAdminID,@dcAdminName,@dnTicketID,@dnDetailID,@dcCTCT,@dnStatus,@dnOrderStatus,@dnIsTicket,@dtAddTime,@dtEditTime");
                     strSql.Append(") ");
 
                     SqlParameter[] parameters = {
                         new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,
                         new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40) ,
+                        new SqlParameter("@dcTicketNO", SqlDbType.VarChar, 40),
                         new SqlParameter("@dnOrderType", SqlDbType.Int,4) ,
                         new SqlParameter("@dnAirType", SqlDbType.Int,4) ,
                         new SqlParameter("@dcStartDate", SqlDbType.VarChar,20) ,
@@ -79,41 +80,60 @@ namespace ApiAirkxCompany.Controllers
                         new SqlParameter("@dnServicePrice", SqlDbType.Decimal,9) ,
                         new SqlParameter("@dnSafePrice", SqlDbType.Decimal,9) ,
                         new SqlParameter("@dnTotalPrice", SqlDbType.Decimal,9) ,
+                        new SqlParameter("@dnDiscount", SqlDbType.Decimal, 9),
+                        new SqlParameter("@dnChangePrice", SqlDbType.Decimal, 9),
+                        new SqlParameter("@dnChangeDatePrice", SqlDbType.Decimal, 9),
+                        new SqlParameter("@dnChaPrice", SqlDbType.Decimal, 9),
                         new SqlParameter("@dcContent", SqlDbType.Text) ,
                         new SqlParameter("@dcAdminID", SqlDbType.VarChar,40) ,
                         new SqlParameter("@dcAdminName", SqlDbType.NVarChar,20) ,
-                        new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime) ,
                         new SqlParameter("@dnTicketID", SqlDbType.Int,4) ,
-                        new SqlParameter("@dnDetailID", SqlDbType.Int,4)
+                        new SqlParameter("@dnDetailID", SqlDbType.Int,4),
+                        new SqlParameter("@dcCTCT", SqlDbType.VarChar, 20),
+                        new SqlParameter("@dnStatus", SqlDbType.Int, 4),
+                        new SqlParameter("@dnOrderStatus", SqlDbType.Int, 4),
+                        new SqlParameter("@dnIsTicket", SqlDbType.Int, 4),
+                        new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime),
+                        new SqlParameter("@dtEditTime", SqlDbType.SmallDateTime)
                     };
 
                     int tax = 0;
                     double price = order.airseat.parPrice + order.airbody.airportTax + order.airbody.fuelTax;
-                    double total = price * order.personlist.Count;
+                    double total = (price + Convert.ToDouble(m_company.dnServicePirce) + 20) * order.personlist.Count;
 
                     parameters[0].Value = orderid;
                     parameters[1].Value = "";// 订单编码
-                    parameters[2].Value = 0;// 订单类型（0国内航班订单1国际航班订单）
-                    parameters[3].Value = 0;
-                    parameters[4].Value = order.sdate;
-                    parameters[5].Value = "";
-                    parameters[6].Value = order.scity.name;
-                    parameters[7].Value = order.ecity.name;
-                    parameters[8].Value = order.cid;
-                    parameters[9].Value = order.cname;
-                    parameters[10].Value = order.personlist[0].name;// 联系人
-                    parameters[11].Value = order.personlist[0].phone;// 联系电话
-                    parameters[12].Value = price;
-                    parameters[13].Value = tax;
-                    parameters[14].Value = m_company.dnServicePirce;
-                    parameters[15].Value = 20;
-                    parameters[16].Value = total;
-                    parameters[17].Value = "";// 备注
-                    parameters[18].Value = m_company.dcAdminID;
-                    parameters[19].Value = m_company.dcAdminName;
-                    parameters[20].Value = DateTime.Now;
+                    parameters[2].Value = "";// 票号
+                    parameters[3].Value = 0;// 订单类型（0国内航班订单1国际航班订单）
+                    parameters[4].Value = 0;
+                    parameters[5].Value = order.sdate;
+                    parameters[6].Value = "";
+                    parameters[7].Value = order.scity.name;
+                    parameters[8].Value = order.ecity.name;
+                    parameters[9].Value = order.cid;
+                    parameters[10].Value = order.cname;
+                    parameters[11].Value = order.personlist[0].name;// 联系人
+                    parameters[12].Value = order.personlist[0].phone;// 联系电话
+                    parameters[13].Value = price;
+                    parameters[14].Value = tax;
+                    parameters[15].Value = m_company.dnServicePirce;
+                    parameters[16].Value = 20;
+                    parameters[17].Value = total;
+                    parameters[18].Value = order.airseat.discount;
+                    parameters[19].Value = 0;
+                    parameters[20].Value = 0;
                     parameters[21].Value = 0;
-                    parameters[22].Value = 0;
+                    parameters[22].Value = "";// 备注
+                    parameters[23].Value = m_company.dcAdminID;
+                    parameters[24].Value = m_company.dcAdminName;
+                    parameters[25].Value = 0;
+                    parameters[26].Value = 0;
+                    parameters[27].Value = "";
+                    parameters[28].Value = 0;
+                    parameters[29].Value = 1;
+                    parameters[30].Value = 0;
+                    parameters[31].Value = DateTime.Now;
+                    parameters[32].Value = DateTime.Now;
 
                     hash.Add(strSql, parameters);
 
@@ -243,9 +263,9 @@ namespace ApiAirkxCompany.Controllers
                 {
                     StringBuilder strSql = new StringBuilder();
                     strSql.Append("insert into T_OrderFlightInfo(");
-                    strSql.Append("dcOrderFlightID,dcOrderID,dnAirType,dnFlightType,dnAirID,dcAirCode,dcSPortName,dcEPortName,dcSCode,dcECode,dcSTime,dcETime,dcJixing,dcAirCompanyID,dcCompanyName,dcEnCompanyName,dcCompanyLogo,dcCompanyCode,dcContent");
-                    strSql.Append(") values (");
-                    strSql.Append("@dcOrderFlightID,@dcOrderID,@dnAirType,@dnFlightType,@dnAirID,@dcAirCode,@dcSPortName,@dcEPortName,@dcSCode,@dcECode,@dcSTime,@dcETime,@dcJixing,@dcAirCompanyID,@dcCompanyName,@dcEnCompanyName,@dcCompanyLogo,@dcCompanyCode,@dcContent");
+                    strSql.Append("dcOrderFlightID,dcOrderID,dnAirType,dnFlightType,dnAirID,dcAirCode,dcSPortName,dcEPortName,dcSJetquay,dcEJetquay,dcSCode,dcECode,dcSTime,dcETime,dcJixing,dcAirCompanyID,dcCompanyName,dcEnCompanyName,dcCompanyLogo,dcCompanyCode,dcSeatMsg,dcContent)");
+                    strSql.Append(" values (");
+                    strSql.Append("@dcOrderFlightID,@dcOrderID,@dnAirType,@dnFlightType,@dnAirID,@dcAirCode,@dcSPortName,@dcEPortName,@dcSJetquay,@dcEJetquay,@dcSCode,@dcECode,@dcSTime,@dcETime,@dcJixing,@dcAirCompanyID,@dcCompanyName,@dcEnCompanyName,@dcCompanyLogo,@dcCompanyCode,@dcSeatMsg,@dcContent");
                     strSql.Append(") ");
 
                     SqlParameter[] parameters = {
@@ -257,6 +277,8 @@ namespace ApiAirkxCompany.Controllers
                         new SqlParameter("@dcAirCode", SqlDbType.VarChar,20) ,
                         new SqlParameter("@dcSPortName", SqlDbType.NVarChar,50) ,
                         new SqlParameter("@dcEPortName", SqlDbType.NVarChar,50) ,
+                        new SqlParameter("@dcSJetquay", SqlDbType.VarChar, 10),
+                        new SqlParameter("@dcEJetquay", SqlDbType.VarChar, 10),
                         new SqlParameter("@dcSCode", SqlDbType.VarChar,10) ,
                         new SqlParameter("@dcECode", SqlDbType.VarChar,10) ,
                         new SqlParameter("@dcSTime", SqlDbType.VarChar,20) ,
@@ -267,6 +289,7 @@ namespace ApiAirkxCompany.Controllers
                         new SqlParameter("@dcEnCompanyName", SqlDbType.VarChar,50) ,
                         new SqlParameter("@dcCompanyLogo", SqlDbType.Text) ,
                         new SqlParameter("@dcCompanyCode", SqlDbType.VarChar,10) ,
+                        new SqlParameter("@dcSeatMsg", SqlDbType.NVarChar, 20),
                         new SqlParameter("@dcContent", SqlDbType.NVarChar,200)
                     };
 
@@ -278,23 +301,92 @@ namespace ApiAirkxCompany.Controllers
                     parameters[5].Value = order.airbody.flightNo;
                     parameters[6].Value = order.scity.airportname;
                     parameters[7].Value = order.ecity.airportname;
-                    parameters[8].Value = order.scity.code;
-                    parameters[9].Value = order.ecity.code;
-                    parameters[10].Value = order.sdate;
-                    parameters[11].Value = "";
-                    parameters[12].Value = order.airbody.planeType;
-                    parameters[13].Value = m_aircompany.dcAirCompanyID;
-                    parameters[14].Value = m_aircompany.dcCompanyName;
-                    parameters[15].Value = m_aircompany.dcEnCompanyName;
-                    parameters[16].Value = m_aircompany.dcCompanyLogo;
-                    parameters[17].Value = m_aircompany.dcCompanyCode;
-                    parameters[18].Value = "";
+                    parameters[8].Value = order.airbody.orgJetquay;
+                    parameters[9].Value = order.airbody.dstJetquay;
+                    parameters[10].Value = order.scity.code;
+                    parameters[11].Value = order.ecity.code;
+                    parameters[12].Value = order.airbody.depTime.Substring(0, 2) + ":" + order.airbody.depTime.Substring(2, 2);
+                    parameters[13].Value = order.airbody.arriTime.Substring(0, 2) + ":" + order.airbody.arriTime.Substring(2, 2);
+                    parameters[14].Value = order.airbody.planeType;
+                    parameters[15].Value = m_aircompany.dcAirCompanyID;
+                    parameters[16].Value = m_aircompany.dcCompanyName;
+                    parameters[17].Value = m_aircompany.dcEnCompanyName;
+                    parameters[18].Value = m_aircompany.dcCompanyLogo;
+                    parameters[19].Value = m_aircompany.dcCompanyCode;
+                    parameters[20].Value = order.airseat.seatMsg;
+                    parameters[21].Value = "";
                     hash.Add(strSql, parameters);
                 }
             }
         }
 
         #endregion
+        
+        #region 修改订单
+        /// <summary>
+        /// 修改订单
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage editOrder([FromBody] Model.T_Order order)
+        {
+            BLL.T_Order b_order = new BLL.T_Order();
+            Model.T_Order m_order = b_order.GetModel(order.dcOrderID);
+            if (m_order != null)
+            {
+                m_order.dnStatus = order.dnStatus;
+                m_order.dcStartDate = order.dcStartDate;
+                m_order.dcOrderCode = order.dcOrderCode;
+                m_order.dcLinkName = order.dcLinkName;
+                m_order.dcTicketNO = order.dcTicketNO;
+                m_order.dnTotalPrice = order.dnTotalPrice;
+                m_order.dnPrice = order.dnPrice;
+                m_order.dnTax = order.dnTax;
+                m_order.dnServicePrice = order.dnServicePrice;
+                m_order.dnSafePrice = order.dnSafePrice;
+                m_order.dcContent = order.dcContent;
+                m_order.dnOrderStatus = order.dnOrderStatus;
+                m_order.dtEditTime = DateTime.Now;
+                m_order.dcPhone = order.dcPhone;
+                m_order.dnDiscount = order.dnDiscount;
 
+                if (order.dnOrderStatus == 2)
+                {
+                    m_order.dnChangePrice = order.dnChangePrice;
+                }
+                if (order.dnOrderStatus == 3)
+                {
+                    m_order.dnChangePrice = order.dnChangePrice;
+                    m_order.dnChangeDatePrice = order.dnChangeDatePrice;
+                    m_order.dnChaPrice = order.dnChaPrice;
+                }
+
+                if (b_order.Update(m_order))
+                {
+                    return Utils.pubResult(1);
+                }
+                else
+                {
+                    return Utils.pubResult(0);
+                }
+            }
+            else
+            {
+                return Utils.pubResult(0);
+            }
+        }
+        #endregion
+
+        #region 获取送票员
+        [HttpGet]
+        public HttpResponseMessage GetSendTicketer()
+        {
+            string sql = "select JCName as name from BaseInfo where JCType='送票员'";
+            SqlHelperTool dbhelper = new SqlHelperTool("gjcw");
+            DataTable dt = dbhelper.Query(sql).Tables[0];
+            return Utils.pubResult(1, "", dt);
+        }
+        #endregion
     }
 }

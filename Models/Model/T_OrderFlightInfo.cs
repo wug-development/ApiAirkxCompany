@@ -1,184 +1,231 @@
-﻿using System; 
-using System.Text;
-using System.Collections.Generic; 
-using System.Data;
-namespace ApiAirkxCompany.Model{
-	 	//T_OrderFlightInfo
-		public class T_OrderFlightInfo
+﻿/**  版本信息模板在安装目录下，可自行修改。
+* T_OrderFlightInfo.cs
+*
+* 功 能： N/A
+* 类 名： T_OrderFlightInfo
+*
+* Ver    变更日期             负责人  变更内容
+* ───────────────────────────────────
+* V0.01  2019/11/4 11:37:28   N/A    初版
+*
+* Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
+*/
+using System;
+namespace ApiAirkxCompany.Model
+{
+	/// <summary>
+	/// T_OrderFlightInfo:实体类(属性说明自动提取数据库字段的描述信息)
+	/// </summary>
+	[Serializable]
+	public partial class T_OrderFlightInfo
 	{
-   		     
-      	/// <summary>
+		public T_OrderFlightInfo()
+		{}
+		#region Model
+		private string _dcorderflightid="";
+		private string _dcorderid="";
+		private int _dnairtype=0;
+		private int _dnflighttype=0;
+		private int _dnairid;
+		private string _dcaircode="";
+		private string _dcsportname="";
+		private string _dceportname="";
+		private string _dcsjetquay="";
+		private string _dcejetquay="";
+		private string _dcscode="";
+		private string _dcecode="";
+		private string _dcstime="";
+		private string _dcetime="";
+		private string _dcjixing="";
+		private int _dcaircompanyid;
+		private string _dccompanyname="";
+		private string _dcencompanyname="";
+		private string _dccompanylogo="";
+		private string _dccompanycode="";
+		private string _dcseatmsg="";
+		private string _dccontent="";
+		/// <summary>
 		/// 订单航班ID
-        /// </summary>		
-		private string _dcorderflightid;
-        public string dcOrderFlightID
-        {
-            get{ return _dcorderflightid; }
-            set{ _dcorderflightid = value; }
-        }        
+		/// </summary>
+		public string dcOrderFlightID
+		{
+			set{ _dcorderflightid=value;}
+			get{return _dcorderflightid;}
+		}
 		/// <summary>
 		/// 订单ID
-        /// </summary>		
-		private string _dcorderid;
-        public string dcOrderID
-        {
-            get{ return _dcorderid; }
-            set{ _dcorderid = value; }
-        }        
+		/// </summary>
+		public string dcOrderID
+		{
+			set{ _dcorderid=value;}
+			get{return _dcorderid;}
+		}
 		/// <summary>
 		/// 航班类型(1往返0单程)
-        /// </summary>		
-		private int _dnairtype;
-        public int dnAirType
-        {
-            get{ return _dnairtype; }
-            set{ _dnairtype = value; }
-        }        
+		/// </summary>
+		public int dnAirType
+		{
+			set{ _dnairtype=value;}
+			get{return _dnairtype;}
+		}
 		/// <summary>
 		/// 航线类型(0去程1回程)
-        /// </summary>		
-		private int _dnflighttype;
-        public int dnFlightType
-        {
-            get{ return _dnflighttype; }
-            set{ _dnflighttype = value; }
-        }        
+		/// </summary>
+		public int dnFlightType
+		{
+			set{ _dnflighttype=value;}
+			get{return _dnflighttype;}
+		}
 		/// <summary>
 		/// 航班ID
-        /// </summary>		
-		private int _dnairid;
-        public int dnAirID
-        {
-            get{ return _dnairid; }
-            set{ _dnairid = value; }
-        }        
+		/// </summary>
+		public int dnAirID
+		{
+			set{ _dnairid=value;}
+			get{return _dnairid;}
+		}
 		/// <summary>
 		/// 航班Code
-        /// </summary>		
-		private string _dcaircode;
-        public string dcAirCode
-        {
-            get{ return _dcaircode; }
-            set{ _dcaircode = value; }
-        }        
+		/// </summary>
+		public string dcAirCode
+		{
+			set{ _dcaircode=value;}
+			get{return _dcaircode;}
+		}
 		/// <summary>
 		/// 起飞机场
-        /// </summary>		
-		private string _dcsportname;
-        public string dcSPortName
-        {
-            get{ return _dcsportname; }
-            set{ _dcsportname = value; }
-        }        
+		/// </summary>
+		public string dcSPortName
+		{
+			set{ _dcsportname=value;}
+			get{return _dcsportname;}
+		}
 		/// <summary>
 		/// 降落机场
-        /// </summary>		
-		private string _dceportname;
-        public string dcEPortName
-        {
-            get{ return _dceportname; }
-            set{ _dceportname = value; }
-        }        
+		/// </summary>
+		public string dcEPortName
+		{
+			set{ _dceportname=value;}
+			get{return _dceportname;}
+		}
+		/// <summary>
+		/// 始发航站楼
+		/// </summary>
+		public string dcSJetquay
+		{
+			set{ _dcsjetquay=value;}
+			get{return _dcsjetquay;}
+		}
+		/// <summary>
+		/// 到达航站楼
+		/// </summary>
+		public string dcEJetquay
+		{
+			set{ _dcejetquay=value;}
+			get{return _dcejetquay;}
+		}
 		/// <summary>
 		/// 起飞机场Code
-        /// </summary>		
-		private string _dcscode;
-        public string dcSCode
-        {
-            get{ return _dcscode; }
-            set{ _dcscode = value; }
-        }        
+		/// </summary>
+		public string dcSCode
+		{
+			set{ _dcscode=value;}
+			get{return _dcscode;}
+		}
 		/// <summary>
 		/// 降落机场Code
-        /// </summary>		
-		private string _dcecode;
-        public string dcECode
-        {
-            get{ return _dcecode; }
-            set{ _dcecode = value; }
-        }        
+		/// </summary>
+		public string dcECode
+		{
+			set{ _dcecode=value;}
+			get{return _dcecode;}
+		}
 		/// <summary>
 		/// 起飞时间
-        /// </summary>		
-		private string _dcstime;
-        public string dcSTime
-        {
-            get{ return _dcstime; }
-            set{ _dcstime = value; }
-        }        
+		/// </summary>
+		public string dcSTime
+		{
+			set{ _dcstime=value;}
+			get{return _dcstime;}
+		}
 		/// <summary>
 		/// 降落时间
-        /// </summary>		
-		private string _dcetime;
-        public string dcETime
-        {
-            get{ return _dcetime; }
-            set{ _dcetime = value; }
-        }        
+		/// </summary>
+		public string dcETime
+		{
+			set{ _dcetime=value;}
+			get{return _dcetime;}
+		}
 		/// <summary>
 		/// 机型
-        /// </summary>		
-		private string _dcjixing;
-        public string dcJixing
-        {
-            get{ return _dcjixing; }
-            set{ _dcjixing = value; }
-        }        
+		/// </summary>
+		public string dcJixing
+		{
+			set{ _dcjixing=value;}
+			get{return _dcjixing;}
+		}
 		/// <summary>
 		/// 航空公司ID
-        /// </summary>		
-		private int _dcaircompanyid;
-        public int dcAirCompanyID
-        {
-            get{ return _dcaircompanyid; }
-            set{ _dcaircompanyid = value; }
-        }        
+		/// </summary>
+		public int dcAirCompanyID
+		{
+			set{ _dcaircompanyid=value;}
+			get{return _dcaircompanyid;}
+		}
 		/// <summary>
 		/// 航空公司中文名称
-        /// </summary>		
-		private string _dccompanyname;
-        public string dcCompanyName
-        {
-            get{ return _dccompanyname; }
-            set{ _dccompanyname = value; }
-        }        
+		/// </summary>
+		public string dcCompanyName
+		{
+			set{ _dccompanyname=value;}
+			get{return _dccompanyname;}
+		}
 		/// <summary>
 		/// 航空公司英文名称
-        /// </summary>		
-		private string _dcencompanyname;
-        public string dcEnCompanyName
-        {
-            get{ return _dcencompanyname; }
-            set{ _dcencompanyname = value; }
-        }        
+		/// </summary>
+		public string dcEnCompanyName
+		{
+			set{ _dcencompanyname=value;}
+			get{return _dcencompanyname;}
+		}
 		/// <summary>
 		/// 航空公司LOGO
-        /// </summary>		
-		private string _dccompanylogo;
-        public string dcCompanyLogo
-        {
-            get{ return _dccompanylogo; }
-            set{ _dccompanylogo = value; }
-        }        
+		/// </summary>
+		public string dcCompanyLogo
+		{
+			set{ _dccompanylogo=value;}
+			get{return _dccompanylogo;}
+		}
 		/// <summary>
 		/// 航空公司code
-        /// </summary>		
-		private string _dccompanycode;
-        public string dcCompanyCode
-        {
-            get{ return _dccompanycode; }
-            set{ _dccompanycode = value; }
-        }        
+		/// </summary>
+		public string dcCompanyCode
+		{
+			set{ _dccompanycode=value;}
+			get{return _dccompanycode;}
+		}
+		/// <summary>
+		/// 舱位
+		/// </summary>
+		public string dcSeatMsg
+		{
+			set{ _dcseatmsg=value;}
+			get{return _dcseatmsg;}
+		}
 		/// <summary>
 		/// 备注
-        /// </summary>		
-		private string _dccontent;
-        public string dcContent
-        {
-            get{ return _dccontent; }
-            set{ _dccontent = value; }
-        }        
-		   
+		/// </summary>
+		public string dcContent
+		{
+			set{ _dccontent=value;}
+			get{return _dccontent;}
+		}
+		#endregion Model
+
 	}
 }
 

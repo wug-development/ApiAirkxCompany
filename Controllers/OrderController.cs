@@ -675,9 +675,8 @@ namespace ApiAirkxCompany.Controllers
         [HttpPost]
         public HttpResponseMessage editOrder([FromBody] Model.T_Order order)
         {
-            Model.T_Order m_order = new Model.T_Order();
             BLL.T_Order b_order = new BLL.T_Order();
-            m_order = b_order.GetModel(order.dcOrderID);
+            Model.T_Order m_order = b_order.GetModel(order.dcOrderID);
             if (m_order != null)
             {
                 m_order.dnStatus = order.dnStatus;
@@ -693,6 +692,8 @@ namespace ApiAirkxCompany.Controllers
                 m_order.dcContent = order.dcContent;
                 m_order.dnOrderStatus = order.dnOrderStatus;
                 m_order.dtEditTime = DateTime.Now;
+                m_order.dcPhone = order.dcPhone;
+                m_order.dnDiscount = order.dnDiscount;
 
                 if (order.dnOrderStatus == 2)
                 {
@@ -785,5 +786,29 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 删除订单乘机人
+        [HttpGet]
+        public HttpResponseMessage DelPerson(string id)
+        {
+            string _id = PageValidate.SQL_KILL(id);
+            if (!string.IsNullOrWhiteSpace(_id))
+            {
+                string sql = " delete from T_OrderPerson where charindex(dcOPID, '" + _id + "')>0  ";
+                int count = DbHelperSQL.ExecuteSql(sql);
+                if (count > 0)
+                {
+                    return Utils.pubResult(1);
+                }
+                else
+                {
+                    return Utils.pubResult(0);
+                }
+            }
+            else
+            {
+                return Utils.pubResult(0);
+            }
+        }
+        #endregion
     }
 }

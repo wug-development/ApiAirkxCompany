@@ -113,6 +113,20 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 获取企业账单字段
+        /// <summary>
+        /// 获取企业账单字段
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage GetField(string cid)
+        {
+            string sql = " select dcBillFieldName as name from T_CompanyBillField where 1=1 and dcCompanyID = '" + cid + "' ";// dcCBFID as id,
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            return Utils.pubResult(1, "success", dt);
+        }
+        #endregion
+
         #region 注册企业用户
         /// <summary>
         /// 注册企业用户
@@ -252,8 +266,7 @@ namespace ApiAirkxCompany.Controllers
             }
         }
         #endregion
-
-        
+                
         #region 获取子公司
         /// <summary>
         /// 获取子公司

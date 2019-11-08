@@ -106,7 +106,7 @@ namespace ApiAirkxCompany.Controllers
             {
                 sqlwhere += " and a.dcTicketNO = '" + PageValidate.SQL_KILL(ftno) + "' ";
             }
-            string sqlfeild = " dcOrderID as orderid,a.dcCompanyID as cid,dcUserName as cname,dcOrderCode as ordercode,a.dcLinkName as pername,dcStartCity as scity,dcBackCity as ecity,dcStartDate as sdate,dnTotalPrice as totalprice,a.dtAddTime as addtime,dnStatus as status,a.dcAdminName as adminname ";
+            string sqlfeild = " dcOrderID as orderid,a.dnOrderType as ordertype,a.dcCompanyID as cid,dcUserName as cname,dcOrderCode as ordercode,a.dcLinkName as pername,dcStartCity as scity,dcBackCity as ecity,dcStartDate as sdate,dnTotalPrice as totalprice,a.dtAddTime as addtime,dnStatus as status,a.dcAdminName as adminname ";
             string sql = "select top " + (page * pagenum) + sqlfeild + " from T_Order a,T_Company b where 1=1 " + sqlwhere + " and a.dcOrderID not in (";
             sql += " select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order a,T_Company b where 1=1 " + sqlwhere + " order by dtAddTime desc) order by dtAddTime desc";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
@@ -142,7 +142,7 @@ namespace ApiAirkxCompany.Controllers
                 flight = ds.Tables[1],
                 person = ds.Tables[2]
             };
-            return Utils.pubResult(1, "登录成功", obj);
+            return Utils.pubResult(1, "获取成功", obj);
         }
 
     }

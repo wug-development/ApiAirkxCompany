@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -23,10 +24,10 @@ namespace ApiAirkxCompany.Controllers
                 BLL.T_TicketSheet b_ticketsheet = new BLL.T_TicketSheet();
                 Model.T_TicketSheet m_ticketsheet = new Model.T_TicketSheet();
                 string[] xingcheng = ticket.dcStartCity.Split('-');
-                if (!string.IsNullOrWhiteSpace(ticket.dcTSID))
-                {
-                    m_ticketsheet = b_ticketsheet.GetModel(ticket.dcTSID);
-                }
+                //if (!string.IsNullOrWhiteSpace(ticket.dcTSID))
+                //{
+                //    m_ticketsheet = b_ticketsheet.GetModel(ticket.dcTSID);
+                //}
 
                 m_ticketsheet = ticket;
                 m_ticketsheet.dcStartCity = xingcheng[0];
@@ -52,6 +53,9 @@ namespace ApiAirkxCompany.Controllers
                     m_order.dnIsTicket = 1;
                     m_order.dcTicketNO = m_ticketsheet.dcTSID;
                     b_order.Update(m_order);
+
+                    string sql = " update T_CompanyAccount set dcLastOrderDate = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' where dcCompanyID='" + m_order.dcCompanyID + "' ";
+                    DbHelperSQL.ExecuteSql(sql);
                 }
 
                 return Utils.pubResult(1, "提交成功", "");
@@ -136,5 +140,23 @@ namespace ApiAirkxCompany.Controllers
             DataTable dt = dbsql.Query(sql).Tables[0];
             return Utils.pubResult(1, "获取成功", dt);
         }
+
+
+        [HttpGet]
+        public HttpResponseMessage ExportTicket(string cid, string filterdate)
+        {
+            string sqlwhere = " and dcCompanyID = '" + cid + "' ";
+            if (!string.IsNullOrWhiteSpace(filterdate))
+            {
+                string[] arr = filterdate.Split(',');
+                sqlwhere += " and dtAddTime > '" + arr[0] + "' ";
+                sqlwhere += " and dtAddTime < '" + arr[1] + "' ";
+            }
+            string sql = "select  * from T_TicketSheet where 1=1 " + sqlwhere + " ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+
+            return Utils.pubResult(1, "获取成功", dt);
+        }
+
     }
 }
