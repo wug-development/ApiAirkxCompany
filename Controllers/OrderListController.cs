@@ -32,7 +32,7 @@ namespace ApiAirkxCompany.Controllers
                 pagecount = count,
                 data = dt
             };
-            return Utils.pubResult(1, "获取成功", "");
+            return Utils.pubResult(1, "获取成功", obj);
         }
 
         public HttpResponseMessage delOrders(string oids)

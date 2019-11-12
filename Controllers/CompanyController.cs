@@ -435,9 +435,9 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
-        #region 需要催款的客户
+        #region 连续30天未出票的客户
         /// <summary>
-        /// 需要催款的客户
+        /// 连续30天未出票的客户
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -466,7 +466,7 @@ namespace ApiAirkxCompany.Controllers
 
         #region 需要催款的客户
         /// <summary>
-        /// 连续30天未出票的客户
+        /// 需要催款的客户
         /// </summary>
         /// <returns></returns>
         [HttpGet]

@@ -31,9 +31,9 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_TicketSheet(");			
-            strSql.Append("dcTSID,dnFlightClass,dcAirCompanyName,dcOrderCode,dcStartCity,dcBackCity,dnSellPrice,dnReturnPoint1,dnReturnPoint2,dnReturnPoint3,dnTax,dnPersonNumber,dnYaoWeiPrice,dnHKYWID,dcLXR,dnShiShouPrice,dnReturnPrice,dnShiJiDaoZhang,dnJieSuanPrice,dnLiRun,dnDiJia,dnFandianPrice,dnHangXiePrice,dcOutTicketID,dcOutTicketName,dnTotalPrice,dcCompanyID,dcCompanyName,dcLinkName,dnFlightPrice,dcTicketNO,dcOrderID,dnServicePrice,dcStartDate,dnTicketPrice,dcRakedClass,dcPersonName,dcFlightNumber,dcFlightTime,dcOther,dcPaymentMethod1,dnPaymentPrice1,dcPaymentMethod2,dnPaymentPrice2,dcPaymentMethod3,dnPaymentPrice3,dcPaymentMethod4,dnPaymentPrice4,dtAddTime,dnStatus,dcAddUser");
+            strSql.Append("dcTSID,dnFlightClass,dcAirCompanyName,dcOrderCode,dcStartCity,dcBackCity,dnSellPrice,dnReturnPoint1,dnReturnPoint2,dnReturnPoint3,dnTax,dnPersonNumber,dnYaoWeiPrice,dnHKYWID,dcLXR,dnShiShouPrice,dnReturnPrice,dnShiJiDaoZhang,dnJieSuanPrice,dnLiRun,dnDiJia,dnFandianPrice,dnHangXiePrice,dnCountPrice,dnYingShouPrice,dcOutTicketID,dcOutTicketName,dcCPDXX,dnTotalPrice,dcCompanyID,dcCompanyName,dcLinkName,dnFlightPrice,dcTicketNO,dcOrderID,dnServicePrice,dnSafePrice,dcStartDate,dnTicketPrice,dcRakedClass,dcPersonName,dcFlightNumber,dcFlightTime,dcOther,dcPaymentMethod1,dnPaymentPrice1,dcPaymentMethod2,dnPaymentPrice2,dcPaymentMethod3,dnPaymentPrice3,dcPaymentMethod4,dnPaymentPrice4,dnStatus,dnBonus,dnDiscount,dcSendTicketType,dcSendTicketerName,dcAddUser,dtAddTime");
 			strSql.Append(") values (");
-            strSql.Append("@dcTSID,@dnFlightClass,@dcAirCompanyName,@dcOrderCode,@dcStartCity,@dcBackCity,@dnSellPrice,@dnReturnPoint1,@dnReturnPoint2,@dnReturnPoint3,@dnTax,@dnPersonNumber,@dnYaoWeiPrice,@dnHKYWID,@dcLXR,@dnShiShouPrice,@dnReturnPrice,@dnShiJiDaoZhang,@dnJieSuanPrice,@dnLiRun,@dnDiJia,@dnFandianPrice,@dnHangXiePrice,@dcOutTicketID,@dcOutTicketName,@dnTotalPrice,@dcCompanyID,@dcCompanyName,@dcLinkName,@dnFlightPrice,@dcTicketNO,@dcOrderID,@dnServicePrice,@dcStartDate,@dnTicketPrice,@dcRakedClass,@dcPersonName,@dcFlightNumber,@dcFlightTime,@dcOther,@dcPaymentMethod1,@dnPaymentPrice1,@dcPaymentMethod2,@dnPaymentPrice2,@dcPaymentMethod3,@dnPaymentPrice3,@dcPaymentMethod4,@dnPaymentPrice4,@dtAddTime,@dnStatus,@dcAddUser");            
+            strSql.Append("@dcTSID,@dnFlightClass,@dcAirCompanyName,@dcOrderCode,@dcStartCity,@dcBackCity,@dnSellPrice,@dnReturnPoint1,@dnReturnPoint2,@dnReturnPoint3,@dnTax,@dnPersonNumber,@dnYaoWeiPrice,@dnHKYWID,@dcLXR,@dnShiShouPrice,@dnReturnPrice,@dnShiJiDaoZhang,@dnJieSuanPrice,@dnLiRun,@dnDiJia,@dnFandianPrice,@dnHangXiePrice,@dnCountPrice,@dnYingShouPrice,@dcOutTicketID,@dcOutTicketName,@dcCPDXX,@dnTotalPrice,@dcCompanyID,@dcCompanyName,@dcLinkName,@dnFlightPrice,@dcTicketNO,@dcOrderID,@dnServicePrice,@dnSafePrice,@dcStartDate,@dnTicketPrice,@dcRakedClass,@dcPersonName,@dcFlightNumber,@dcFlightTime,@dcOther,@dcPaymentMethod1,@dnPaymentPrice1,@dcPaymentMethod2,@dnPaymentPrice2,@dcPaymentMethod3,@dnPaymentPrice3,@dcPaymentMethod4,@dnPaymentPrice4,@dnStatus,@dnBonus,@dnDiscount,@dcSendTicketType,@dcSendTicketerName,@dcAddUser,@dtAddTime");            
             strSql.Append(") ");            
             		
 			SqlParameter[] parameters = {
@@ -60,8 +60,11 @@ namespace ApiAirkxCompany.SQLServerDAL
                         new SqlParameter("@dnDiJia", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnFandianPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnHangXiePrice", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dnCountPrice", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dnYingShouPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcOutTicketID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcOutTicketName", SqlDbType.NVarChar,40) ,            
+                        new SqlParameter("@dcCPDXX", SqlDbType.NVarChar,50) ,            
                         new SqlParameter("@dnTotalPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcCompanyName", SqlDbType.NVarChar,40) ,            
@@ -70,6 +73,7 @@ namespace ApiAirkxCompany.SQLServerDAL
                         new SqlParameter("@dcTicketNO", SqlDbType.VarChar,30) ,            
                         new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnServicePrice", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dnSafePrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcStartDate", SqlDbType.VarChar,20) ,            
                         new SqlParameter("@dnTicketPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcRakedClass", SqlDbType.NVarChar,20) ,            
@@ -85,9 +89,13 @@ namespace ApiAirkxCompany.SQLServerDAL
                         new SqlParameter("@dnPaymentPrice3", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcPaymentMethod4", SqlDbType.NVarChar,20) ,            
                         new SqlParameter("@dnPaymentPrice4", SqlDbType.Decimal,9) ,            
-                        new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime) ,            
                         new SqlParameter("@dnStatus", SqlDbType.Int,4) ,            
-                        new SqlParameter("@dcAddUser", SqlDbType.NVarChar,20)             
+                        new SqlParameter("@dnBonus", SqlDbType.Int,4) ,            
+                        new SqlParameter("@dnDiscount", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dcSendTicketType", SqlDbType.NVarChar,10) ,            
+                        new SqlParameter("@dcSendTicketerName", SqlDbType.NVarChar,10) ,            
+                        new SqlParameter("@dcAddUser", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime)             
               
             };
 			            
@@ -114,34 +122,42 @@ namespace ApiAirkxCompany.SQLServerDAL
             parameters[20].Value = model.dnDiJia;                        
             parameters[21].Value = model.dnFandianPrice;                        
             parameters[22].Value = model.dnHangXiePrice;                        
-            parameters[23].Value = model.dcOutTicketID;                        
-            parameters[24].Value = model.dcOutTicketName;                        
-            parameters[25].Value = model.dnTotalPrice;                        
-            parameters[26].Value = model.dcCompanyID;                        
-            parameters[27].Value = model.dcCompanyName;                        
-            parameters[28].Value = model.dcLinkName;                        
-            parameters[29].Value = model.dnFlightPrice;                        
-            parameters[30].Value = model.dcTicketNO;                        
-            parameters[31].Value = model.dcOrderID;                        
-            parameters[32].Value = model.dnServicePrice;                        
-            parameters[33].Value = model.dcStartDate;                        
-            parameters[34].Value = model.dnTicketPrice;                        
-            parameters[35].Value = model.dcRakedClass;                        
-            parameters[36].Value = model.dcPersonName;                        
-            parameters[37].Value = model.dcFlightNumber;                        
-            parameters[38].Value = model.dcFlightTime;                        
-            parameters[39].Value = model.dcOther;                        
-            parameters[40].Value = model.dcPaymentMethod1;                        
-            parameters[41].Value = model.dnPaymentPrice1;                        
-            parameters[42].Value = model.dcPaymentMethod2;                        
-            parameters[43].Value = model.dnPaymentPrice2;                        
-            parameters[44].Value = model.dcPaymentMethod3;                        
-            parameters[45].Value = model.dnPaymentPrice3;                        
-            parameters[46].Value = model.dcPaymentMethod4;                        
-            parameters[47].Value = model.dnPaymentPrice4;                        
-            parameters[48].Value = model.dtAddTime;                        
-            parameters[49].Value = model.dnStatus;                        
-            parameters[50].Value = model.dcAddUser;                        
+            parameters[23].Value = model.dnCountPrice;                        
+            parameters[24].Value = model.dnYingShouPrice;                        
+            parameters[25].Value = model.dcOutTicketID;                        
+            parameters[26].Value = model.dcOutTicketName;                        
+            parameters[27].Value = model.dcCPDXX;                        
+            parameters[28].Value = model.dnTotalPrice;                        
+            parameters[29].Value = model.dcCompanyID;                        
+            parameters[30].Value = model.dcCompanyName;                        
+            parameters[31].Value = model.dcLinkName;                        
+            parameters[32].Value = model.dnFlightPrice;                        
+            parameters[33].Value = model.dcTicketNO;                        
+            parameters[34].Value = model.dcOrderID;                        
+            parameters[35].Value = model.dnServicePrice;                        
+            parameters[36].Value = model.dnSafePrice;                        
+            parameters[37].Value = model.dcStartDate;                        
+            parameters[38].Value = model.dnTicketPrice;                        
+            parameters[39].Value = model.dcRakedClass;                        
+            parameters[40].Value = model.dcPersonName;                        
+            parameters[41].Value = model.dcFlightNumber;                        
+            parameters[42].Value = model.dcFlightTime;                        
+            parameters[43].Value = model.dcOther;                        
+            parameters[44].Value = model.dcPaymentMethod1;                        
+            parameters[45].Value = model.dnPaymentPrice1;                        
+            parameters[46].Value = model.dcPaymentMethod2;                        
+            parameters[47].Value = model.dnPaymentPrice2;                        
+            parameters[48].Value = model.dcPaymentMethod3;                        
+            parameters[49].Value = model.dnPaymentPrice3;                        
+            parameters[50].Value = model.dcPaymentMethod4;                        
+            parameters[51].Value = model.dnPaymentPrice4;                        
+            parameters[52].Value = model.dnStatus;                        
+            parameters[53].Value = model.dnBonus;                        
+            parameters[54].Value = model.dnDiscount;                        
+            parameters[55].Value = model.dcSendTicketType;                        
+            parameters[56].Value = model.dcSendTicketerName;                        
+            parameters[57].Value = model.dcAddUser;                        
+            parameters[58].Value = model.dtAddTime;                        
 			            DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
             			
 		}
@@ -178,8 +194,11 @@ namespace ApiAirkxCompany.SQLServerDAL
             strSql.Append(" dnDiJia = @dnDiJia , ");                                    
             strSql.Append(" dnFandianPrice = @dnFandianPrice , ");                                    
             strSql.Append(" dnHangXiePrice = @dnHangXiePrice , ");                                    
+            strSql.Append(" dnCountPrice = @dnCountPrice , ");                                    
+            strSql.Append(" dnYingShouPrice = @dnYingShouPrice , ");                                    
             strSql.Append(" dcOutTicketID = @dcOutTicketID , ");                                    
             strSql.Append(" dcOutTicketName = @dcOutTicketName , ");                                    
+            strSql.Append(" dcCPDXX = @dcCPDXX , ");                                    
             strSql.Append(" dnTotalPrice = @dnTotalPrice , ");                                    
             strSql.Append(" dcCompanyID = @dcCompanyID , ");                                    
             strSql.Append(" dcCompanyName = @dcCompanyName , ");                                    
@@ -188,6 +207,7 @@ namespace ApiAirkxCompany.SQLServerDAL
             strSql.Append(" dcTicketNO = @dcTicketNO , ");                                    
             strSql.Append(" dcOrderID = @dcOrderID , ");                                    
             strSql.Append(" dnServicePrice = @dnServicePrice , ");                                    
+            strSql.Append(" dnSafePrice = @dnSafePrice , ");                                    
             strSql.Append(" dcStartDate = @dcStartDate , ");                                    
             strSql.Append(" dnTicketPrice = @dnTicketPrice , ");                                    
             strSql.Append(" dcRakedClass = @dcRakedClass , ");                                    
@@ -203,9 +223,13 @@ namespace ApiAirkxCompany.SQLServerDAL
             strSql.Append(" dnPaymentPrice3 = @dnPaymentPrice3 , ");                                    
             strSql.Append(" dcPaymentMethod4 = @dcPaymentMethod4 , ");                                    
             strSql.Append(" dnPaymentPrice4 = @dnPaymentPrice4 , ");                                    
-            strSql.Append(" dtAddTime = @dtAddTime , ");                                    
             strSql.Append(" dnStatus = @dnStatus , ");                                    
-            strSql.Append(" dcAddUser = @dcAddUser  ");            			
+            strSql.Append(" dnBonus = @dnBonus , ");                                    
+            strSql.Append(" dnDiscount = @dnDiscount , ");                                    
+            strSql.Append(" dcSendTicketType = @dcSendTicketType , ");                                    
+            strSql.Append(" dcSendTicketerName = @dcSendTicketerName , ");                                    
+            strSql.Append(" dcAddUser = @dcAddUser , ");                                    
+            strSql.Append(" dtAddTime = @dtAddTime  ");            			
 			strSql.Append(" where dcTSID=@dcTSID  ");
 						
 SqlParameter[] parameters = {
@@ -232,8 +256,11 @@ SqlParameter[] parameters = {
                         new SqlParameter("@dnDiJia", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnFandianPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dnHangXiePrice", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dnCountPrice", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dnYingShouPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcOutTicketID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcOutTicketName", SqlDbType.NVarChar,40) ,            
+                        new SqlParameter("@dcCPDXX", SqlDbType.NVarChar,50) ,            
                         new SqlParameter("@dnTotalPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dcCompanyName", SqlDbType.NVarChar,40) ,            
@@ -242,6 +269,7 @@ SqlParameter[] parameters = {
                         new SqlParameter("@dcTicketNO", SqlDbType.VarChar,30) ,            
                         new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,            
                         new SqlParameter("@dnServicePrice", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dnSafePrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcStartDate", SqlDbType.VarChar,20) ,            
                         new SqlParameter("@dnTicketPrice", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcRakedClass", SqlDbType.NVarChar,20) ,            
@@ -257,9 +285,13 @@ SqlParameter[] parameters = {
                         new SqlParameter("@dnPaymentPrice3", SqlDbType.Decimal,9) ,            
                         new SqlParameter("@dcPaymentMethod4", SqlDbType.NVarChar,20) ,            
                         new SqlParameter("@dnPaymentPrice4", SqlDbType.Decimal,9) ,            
-                        new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime) ,            
                         new SqlParameter("@dnStatus", SqlDbType.Int,4) ,            
-                        new SqlParameter("@dcAddUser", SqlDbType.NVarChar,20)             
+                        new SqlParameter("@dnBonus", SqlDbType.Int,4) ,            
+                        new SqlParameter("@dnDiscount", SqlDbType.Decimal,9) ,            
+                        new SqlParameter("@dcSendTicketType", SqlDbType.NVarChar,10) ,            
+                        new SqlParameter("@dcSendTicketerName", SqlDbType.NVarChar,10) ,            
+                        new SqlParameter("@dcAddUser", SqlDbType.NVarChar,20) ,            
+                        new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime)             
               
             };
 						            
@@ -286,34 +318,42 @@ SqlParameter[] parameters = {
             parameters[20].Value = model.dnDiJia;                        
             parameters[21].Value = model.dnFandianPrice;                        
             parameters[22].Value = model.dnHangXiePrice;                        
-            parameters[23].Value = model.dcOutTicketID;                        
-            parameters[24].Value = model.dcOutTicketName;                        
-            parameters[25].Value = model.dnTotalPrice;                        
-            parameters[26].Value = model.dcCompanyID;                        
-            parameters[27].Value = model.dcCompanyName;                        
-            parameters[28].Value = model.dcLinkName;                        
-            parameters[29].Value = model.dnFlightPrice;                        
-            parameters[30].Value = model.dcTicketNO;                        
-            parameters[31].Value = model.dcOrderID;                        
-            parameters[32].Value = model.dnServicePrice;                        
-            parameters[33].Value = model.dcStartDate;                        
-            parameters[34].Value = model.dnTicketPrice;                        
-            parameters[35].Value = model.dcRakedClass;                        
-            parameters[36].Value = model.dcPersonName;                        
-            parameters[37].Value = model.dcFlightNumber;                        
-            parameters[38].Value = model.dcFlightTime;                        
-            parameters[39].Value = model.dcOther;                        
-            parameters[40].Value = model.dcPaymentMethod1;                        
-            parameters[41].Value = model.dnPaymentPrice1;                        
-            parameters[42].Value = model.dcPaymentMethod2;                        
-            parameters[43].Value = model.dnPaymentPrice2;                        
-            parameters[44].Value = model.dcPaymentMethod3;                        
-            parameters[45].Value = model.dnPaymentPrice3;                        
-            parameters[46].Value = model.dcPaymentMethod4;                        
-            parameters[47].Value = model.dnPaymentPrice4;                        
-            parameters[48].Value = model.dtAddTime;                        
-            parameters[49].Value = model.dnStatus;                        
-            parameters[50].Value = model.dcAddUser;                        
+            parameters[23].Value = model.dnCountPrice;                        
+            parameters[24].Value = model.dnYingShouPrice;                        
+            parameters[25].Value = model.dcOutTicketID;                        
+            parameters[26].Value = model.dcOutTicketName;                        
+            parameters[27].Value = model.dcCPDXX;                        
+            parameters[28].Value = model.dnTotalPrice;                        
+            parameters[29].Value = model.dcCompanyID;                        
+            parameters[30].Value = model.dcCompanyName;                        
+            parameters[31].Value = model.dcLinkName;                        
+            parameters[32].Value = model.dnFlightPrice;                        
+            parameters[33].Value = model.dcTicketNO;                        
+            parameters[34].Value = model.dcOrderID;                        
+            parameters[35].Value = model.dnServicePrice;                        
+            parameters[36].Value = model.dnSafePrice;                        
+            parameters[37].Value = model.dcStartDate;                        
+            parameters[38].Value = model.dnTicketPrice;                        
+            parameters[39].Value = model.dcRakedClass;                        
+            parameters[40].Value = model.dcPersonName;                        
+            parameters[41].Value = model.dcFlightNumber;                        
+            parameters[42].Value = model.dcFlightTime;                        
+            parameters[43].Value = model.dcOther;                        
+            parameters[44].Value = model.dcPaymentMethod1;                        
+            parameters[45].Value = model.dnPaymentPrice1;                        
+            parameters[46].Value = model.dcPaymentMethod2;                        
+            parameters[47].Value = model.dnPaymentPrice2;                        
+            parameters[48].Value = model.dcPaymentMethod3;                        
+            parameters[49].Value = model.dnPaymentPrice3;                        
+            parameters[50].Value = model.dcPaymentMethod4;                        
+            parameters[51].Value = model.dnPaymentPrice4;                        
+            parameters[52].Value = model.dnStatus;                        
+            parameters[53].Value = model.dnBonus;                        
+            parameters[54].Value = model.dnDiscount;                        
+            parameters[55].Value = model.dcSendTicketType;                        
+            parameters[56].Value = model.dcSendTicketerName;                        
+            parameters[57].Value = model.dcAddUser;                        
+            parameters[58].Value = model.dtAddTime;                        
             int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
@@ -360,7 +400,7 @@ SqlParameter[] parameters = {
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select dcTSID, dnFlightClass, dcAirCompanyName, dcOrderCode, dcStartCity, dcBackCity, dnSellPrice, dnReturnPoint1, dnReturnPoint2, dnReturnPoint3, dnTax, dnPersonNumber, dnYaoWeiPrice, dnHKYWID, dcLXR, dnShiShouPrice, dnReturnPrice, dnShiJiDaoZhang, dnJieSuanPrice, dnLiRun, dnDiJia, dnFandianPrice, dnHangXiePrice, dcOutTicketID, dcOutTicketName, dnTotalPrice, dcCompanyID, dcCompanyName, dcLinkName, dnFlightPrice, dcTicketNO, dcOrderID, dnServicePrice, dcStartDate, dnTicketPrice, dcRakedClass, dcPersonName, dcFlightNumber, dcFlightTime, dcOther, dcPaymentMethod1, dnPaymentPrice1, dcPaymentMethod2, dnPaymentPrice2, dcPaymentMethod3, dnPaymentPrice3, dcPaymentMethod4, dnPaymentPrice4, dtAddTime, dnStatus, dcAddUser  ");			
+			strSql.Append("select dcTSID, dnFlightClass, dcAirCompanyName, dcOrderCode, dcStartCity, dcBackCity, dnSellPrice, dnReturnPoint1, dnReturnPoint2, dnReturnPoint3, dnTax, dnPersonNumber, dnYaoWeiPrice, dnHKYWID, dcLXR, dnShiShouPrice, dnReturnPrice, dnShiJiDaoZhang, dnJieSuanPrice, dnLiRun, dnDiJia, dnFandianPrice, dnHangXiePrice, dnCountPrice, dnYingShouPrice, dcOutTicketID, dcOutTicketName, dcCPDXX, dnTotalPrice, dcCompanyID, dcCompanyName, dcLinkName, dnFlightPrice, dcTicketNO, dcOrderID, dnServicePrice, dnSafePrice, dcStartDate, dnTicketPrice, dcRakedClass, dcPersonName, dcFlightNumber, dcFlightTime, dcOther, dcPaymentMethod1, dnPaymentPrice1, dcPaymentMethod2, dnPaymentPrice2, dcPaymentMethod3, dnPaymentPrice3, dcPaymentMethod4, dnPaymentPrice4, dnStatus, dnBonus, dnDiscount, dcSendTicketType, dcSendTicketerName, dcAddUser, dtAddTime  ");			
 			strSql.Append("  from T_TicketSheet ");
 			strSql.Append(" where dcTSID=@dcTSID ");
 						SqlParameter[] parameters = {
@@ -447,8 +487,17 @@ SqlParameter[] parameters = {
 				{
 					model.dnHangXiePrice=decimal.Parse(ds.Tables[0].Rows[0]["dnHangXiePrice"].ToString());
 				}
+																																if(ds.Tables[0].Rows[0]["dnCountPrice"].ToString()!="")
+				{
+					model.dnCountPrice=decimal.Parse(ds.Tables[0].Rows[0]["dnCountPrice"].ToString());
+				}
+																																if(ds.Tables[0].Rows[0]["dnYingShouPrice"].ToString()!="")
+				{
+					model.dnYingShouPrice=decimal.Parse(ds.Tables[0].Rows[0]["dnYingShouPrice"].ToString());
+				}
 																																				model.dcOutTicketID= ds.Tables[0].Rows[0]["dcOutTicketID"].ToString();
 																																model.dcOutTicketName= ds.Tables[0].Rows[0]["dcOutTicketName"].ToString();
+																																model.dcCPDXX= ds.Tables[0].Rows[0]["dcCPDXX"].ToString();
 																												if(ds.Tables[0].Rows[0]["dnTotalPrice"].ToString()!="")
 				{
 					model.dnTotalPrice=decimal.Parse(ds.Tables[0].Rows[0]["dnTotalPrice"].ToString());
@@ -465,6 +514,10 @@ SqlParameter[] parameters = {
 																												if(ds.Tables[0].Rows[0]["dnServicePrice"].ToString()!="")
 				{
 					model.dnServicePrice=decimal.Parse(ds.Tables[0].Rows[0]["dnServicePrice"].ToString());
+				}
+																																if(ds.Tables[0].Rows[0]["dnSafePrice"].ToString()!="")
+				{
+					model.dnSafePrice=decimal.Parse(ds.Tables[0].Rows[0]["dnSafePrice"].ToString());
 				}
 																																				model.dcStartDate= ds.Tables[0].Rows[0]["dcStartDate"].ToString();
 																												if(ds.Tables[0].Rows[0]["dnTicketPrice"].ToString()!="")
@@ -496,16 +549,26 @@ SqlParameter[] parameters = {
 				{
 					model.dnPaymentPrice4=decimal.Parse(ds.Tables[0].Rows[0]["dnPaymentPrice4"].ToString());
 				}
-																																if(ds.Tables[0].Rows[0]["dtAddTime"].ToString()!="")
-				{
-					model.dtAddTime=DateTime.Parse(ds.Tables[0].Rows[0]["dtAddTime"].ToString());
-				}
 																																if(ds.Tables[0].Rows[0]["dnStatus"].ToString()!="")
 				{
 					model.dnStatus=int.Parse(ds.Tables[0].Rows[0]["dnStatus"].ToString());
 				}
-																																				model.dcAddUser= ds.Tables[0].Rows[0]["dcAddUser"].ToString();
-																										
+																																if(ds.Tables[0].Rows[0]["dnBonus"].ToString()!="")
+				{
+					model.dnBonus=int.Parse(ds.Tables[0].Rows[0]["dnBonus"].ToString());
+				}
+																																if(ds.Tables[0].Rows[0]["dnDiscount"].ToString()!="")
+				{
+					model.dnDiscount=decimal.Parse(ds.Tables[0].Rows[0]["dnDiscount"].ToString());
+				}
+																																				model.dcSendTicketType= ds.Tables[0].Rows[0]["dcSendTicketType"].ToString();
+																																model.dcSendTicketerName= ds.Tables[0].Rows[0]["dcSendTicketerName"].ToString();
+																																model.dcAddUser= ds.Tables[0].Rows[0]["dcAddUser"].ToString();
+																												if(ds.Tables[0].Rows[0]["dtAddTime"].ToString()!="")
+				{
+					model.dtAddTime=DateTime.Parse(ds.Tables[0].Rows[0]["dtAddTime"].ToString());
+				}
+																														
 				return model;
 			}
 			else

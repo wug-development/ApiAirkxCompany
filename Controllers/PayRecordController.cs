@@ -133,5 +133,72 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "提交失败", "请检查数据！");
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage comfirmPay(string id, string mid)
+        {
+            BLL.T_Admin b_admin = new BLL.T_Admin();
+            Model.T_Admin m_admin = b_admin.GetModel(mid);
+            string _id = PageValidate.SQL_KILL(id);
+            if (m_admin != null)
+            {
+                if (m_admin.dnIsCheck == 1)
+                {
+                    BLL.T_PayRecord b_pay = new BLL.T_PayRecord();
+                    Model.T_PayRecord m_pay = b_pay.GetModel(id);
+                    if (m_pay != null)
+                    {
+                        m_pay.dnStatus = 1;
+                        m_pay.dcComfirmAdminID = mid;
+                        m_pay.dcComfirmDate = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+                        b_pay.Update(m_pay);
+
+
+                        BLL.T_Company b_com = new BLL.T_Company();
+                        Model.T_Company m_com = new Model.T_Company();
+                        m_com = b_com.GetModel(m_pay.dcCompanyID);
+
+                        BLL.T_CompanyAccount b_caccount = new BLL.T_CompanyAccount();
+                        Model.T_CompanyAccount m_caccount = b_caccount.GetCModel(m_pay.dcCompanyID);
+                        m_caccount.dnPayCount += m_pay.dnMoney;
+                        decimal qk = m_caccount.dnTotalTicketPrice - m_caccount.dnPayCount;
+                        if (qk < 0)
+                        {
+                            m_caccount.dnDebt = 0;
+                        }
+                        else
+                        {
+                            m_caccount.dnDebt = qk;
+                        }
+                        decimal cl = m_com.dnCreditLine - Math.Abs(m_caccount.dnDebt);
+                        if (cl > 0)
+                        {
+                            m_caccount.dnCreditLine = cl;// 可用信用额度
+                            m_caccount.dnUrgentMoney = 0;// 急需结算金额
+                        }
+                        else
+                        {
+                            m_caccount.dnCreditLine = 0;
+                            m_caccount.dnUrgentMoney = cl;
+                        }
+                        b_caccount.Update(m_caccount);
+
+                        return Utils.pubResult(1, "保存成功", "");
+                    }
+                    else
+                    {
+                        return Utils.pubResult(0);
+                    }
+                }
+                else
+                {
+                    return Utils.pubResult(0);
+                }
+            }
+            else
+            {
+                return Utils.pubResult(0);
+            }
+        }
     }
 }

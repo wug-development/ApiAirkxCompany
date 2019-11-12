@@ -38,7 +38,7 @@ namespace ApiAirkxCompany.Controllers
 
                     if (obj.muser != null)
                     {
-                        string id = Utils.getDataID("lm");
+                        string id = Utils.getDataID("al");
                         if (obj.muser.muser.Value == true)
                         {
                             sqls.Add(getSql(dt, "用户管理", id + 0, aid));
@@ -74,6 +74,15 @@ namespace ApiAirkxCompany.Controllers
             }
             // string s = obj.id + (Convert.ToBoolean(obj.muser.muser) ? 1 : 0) + (Convert.ToBoolean(obj.muser.mregister) ? 1 : 0);
 
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetLimit(string id)
+        {
+            string _id = PageValidate.SQL_KILL(id);
+            string sql = "select b.dcLimitName as name from T_AdminLimit a, T_Limits b where a.dcLimitID=b.dcLimitID and a.dcAdminID = '" + _id + "'";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            return Utils.pubResult(1, "", dt);
         }
 
         private string getSql(DataTable dt, string v, string id, string aid)

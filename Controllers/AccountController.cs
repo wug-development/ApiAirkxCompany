@@ -22,12 +22,18 @@ namespace ApiAirkxCompany.Controllers
             {
                 sql = " select b.dcMenuID as id,b.dcMenuName as name,b.dcKey as keys from T_AdminMenu a,T_Menus b where dcAdminID = '" + dt.Rows[0]["dcAdminID"] + "' and a.dcMenuID=b.dcMenuID and b.dnIsShow=1 ";
                 DataTable dt_menu = DbHelperSQL.Query(sql).Tables[0];
+
+
+                sql = " select dcLimitName as name from T_AdminLimit a,T_Limits b where a.dcAdminID = '" + dt.Rows[0]["dcAdminID"] + "' and a.dcLimitID=b.dcLimitID ";
+                DataTable dt_limit = DbHelperSQL.Query(sql).Tables[0];
+
                 var obj = new
                 {
                     id = dt.Rows[0]["dcAdminID"],
                     uname = dt.Rows[0]["dcAdminName"],
                     realname = dt.Rows[0]["dcRealName"],
-                    limits = dt_menu
+                    menus = dt_menu,
+                    limits = dt_limit
                 };
                 return Utils.pubResult(1, "登录成功", obj);
             }

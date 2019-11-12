@@ -183,5 +183,68 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "保存失败", "");
             }
         }
+
+        /// <summary>
+        /// 修改联系人
+        /// </summary>
+        /// <param name="cid">企业ID</param>
+        /// <param name="id">乘机人ID</param>
+        /// <returns></returns>
+        [HttpPost]
+        public HttpResponseMessage addPerson([FromBody] Persons p)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append(" INSERT INTO T_Passenger ([dcPerID] ,[dcCompanyID] ,[dcPerName] ,[dcBirthday] ,[dcPassportNo] ,[dcPassportDate] ,[dcSex] ,[dcIDNumber] ,[dcPhone] ,[dcUrgentPhone] ,[dcType] ,[dtAddTime]) values (");
+            strSql.Append(" @dcPerID , ");
+            strSql.Append(" @dcCompanyID , ");
+            strSql.Append(" @dcPerName , ");
+            strSql.Append(" @dcBirthday , ");
+            strSql.Append(" @dcPassportNo , ");
+            strSql.Append(" @dcPassportDate , ");
+            strSql.Append(" @dcSex , ");
+            strSql.Append(" @dcIDNumber , ");
+            strSql.Append(" @dcPhone , ");
+            strSql.Append(" @dcUrgentPhone , ");
+            strSql.Append(" @dcType , ");
+            strSql.Append(" @dtAddTime ");
+            strSql.Append(" ) ");
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@dcPerID", SqlDbType.VarChar,40) ,
+                new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,
+                new SqlParameter("@dcPerName", SqlDbType.NVarChar,20) ,
+                new SqlParameter("@dcBirthday", SqlDbType.VarChar,20) ,
+                new SqlParameter("@dcPassportNo", SqlDbType.NVarChar,25) ,
+                new SqlParameter("@dcPassportDate", SqlDbType.VarChar,20) ,
+                new SqlParameter("@dcSex", SqlDbType.NVarChar,10) ,
+                new SqlParameter("@dcIDNumber", SqlDbType.VarChar,20) ,
+                new SqlParameter("@dcPhone", SqlDbType.VarChar,20) ,
+                new SqlParameter("@dcUrgentPhone", SqlDbType.VarChar,20) ,
+                new SqlParameter("@dcType", SqlDbType.Int, 4) ,
+                new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime) ,
+            };
+
+            parameters[0].Value = Utils.getDataID("per");
+            parameters[1].Value = p.id;
+            parameters[2].Value = p.CjrName;
+            parameters[3].Value = p.CSRQ;
+            parameters[4].Value = p.HZH;
+            parameters[5].Value = p.HZYXQ;
+            parameters[6].Value = p.Sex;
+            parameters[7].Value = p.idcard;
+            parameters[8].Value = p.phone;
+            parameters[9].Value = p.jingji;
+            parameters[10].Value = p.type;
+            parameters[11].Value = DateTime.Now;
+            int count = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (count > 0)
+            {
+                return Utils.pubResult(1, "保存成功", "");
+            }
+            else
+            {
+                return Utils.pubResult(0, "保存失败", "");
+            }
+        }
     }
 }
