@@ -476,19 +476,19 @@ namespace ApiAirkxCompany.Model{
         {
             get{ return _newfxprice; }
             set{ _newfxprice = value; }
-        }        
-			
-		private DateTime _skdata;
-		/// <summary>
-		/// SKData
+        }
+
+        private DateTime? _skdata;
+        /// <summary>
+        /// SKData
         /// </summary>	
-        public DateTime SKData
+        public DateTime? SKData
         {
-            get{ return _skdata; }
-            set{ _skdata = value; }
-        }        
-			
-		private string _cpdxx;
+            get { return _skdata; }
+            set { _skdata = value; }
+        }
+
+        private string _cpdxx;
 		/// <summary>
 		/// CPDXX
         /// </summary>	

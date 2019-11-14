@@ -18,7 +18,7 @@ namespace ApiAirkxCompany.Model{
             set{ _financeid = value; }
         }        
 			
-		private string _company;
+		private string _company = "";
 		/// <summary>
 		/// Company
         /// </summary>	
@@ -28,7 +28,7 @@ namespace ApiAirkxCompany.Model{
             set{ _company = value; }
         }        
 			
-		private string _jlcode;
+		private string _jlcode = "";
 		/// <summary>
 		/// JLCode
         /// </summary>	
@@ -38,7 +38,7 @@ namespace ApiAirkxCompany.Model{
             set{ _jlcode = value; }
         }        
 			
-		private decimal _dprice;
+		private decimal _dprice = 0M;
 		/// <summary>
 		/// DPrice
         /// </summary>	
@@ -48,7 +48,7 @@ namespace ApiAirkxCompany.Model{
             set{ _dprice = value; }
         }        
 			
-		private decimal _sjprice;
+		private decimal _sjprice = 0M;
 		/// <summary>
 		/// SJPrice
         /// </summary>	
@@ -58,7 +58,7 @@ namespace ApiAirkxCompany.Model{
             set{ _sjprice = value; }
         }        
 			
-		private decimal _shprice;
+		private decimal _shprice = 0M;
 		/// <summary>
 		/// SHPrice
         /// </summary>	
@@ -68,7 +68,7 @@ namespace ApiAirkxCompany.Model{
             set{ _shprice = value; }
         }        
 			
-		private decimal _ssprice;
+		private decimal _ssprice = 0M;
 		/// <summary>
 		/// SSPrice
         /// </summary>	
@@ -78,7 +78,7 @@ namespace ApiAirkxCompany.Model{
             set{ _ssprice = value; }
         }        
 			
-		private decimal _lrprice;
+		private decimal _lrprice = 0M;
 		/// <summary>
 		/// LRPrice
         /// </summary>	
@@ -88,7 +88,7 @@ namespace ApiAirkxCompany.Model{
             set{ _lrprice = value; }
         }        
 			
-		private decimal _xsprice;
+		private decimal _xsprice = 0M;
 		/// <summary>
 		/// XSPrice
         /// </summary>	
@@ -98,7 +98,7 @@ namespace ApiAirkxCompany.Model{
             set{ _xsprice = value; }
         }        
 			
-		private decimal _hxprice;
+		private decimal _hxprice = 0M;
 		/// <summary>
 		/// HXPrice
         /// </summary>	
@@ -108,7 +108,7 @@ namespace ApiAirkxCompany.Model{
             set{ _hxprice = value; }
         }        
 			
-		private string _fdprice;
+		private string _fdprice = "";
 		/// <summary>
 		/// FDPrice
         /// </summary>	
@@ -118,9 +118,9 @@ namespace ApiAirkxCompany.Model{
             set{ _fdprice = value; }
         }        
 			
-		private string _dpricestr;
-		/// <summary>
-		/// DPriceStr
+		private string _dpricestr = "";
+        /// <summary>
+        /// DPriceStr
         /// </summary>	
         public string DPriceStr
         {
@@ -128,7 +128,7 @@ namespace ApiAirkxCompany.Model{
             set{ _dpricestr = value; }
         }        
 			
-		private string _sjpricestr;
+		private string _sjpricestr = "";
 		/// <summary>
 		/// SJPriceStr
         /// </summary>	
@@ -138,7 +138,7 @@ namespace ApiAirkxCompany.Model{
             set{ _sjpricestr = value; }
         }        
 			
-		private string _shpricestr;
+		private string _shpricestr = "";
 		/// <summary>
 		/// SHPriceStr
         /// </summary>	
@@ -148,7 +148,7 @@ namespace ApiAirkxCompany.Model{
             set{ _shpricestr = value; }
         }        
 			
-		private string _sspricestr;
+		private string _sspricestr = "";
 		/// <summary>
 		/// SSPriceStr
         /// </summary>	
@@ -158,7 +158,7 @@ namespace ApiAirkxCompany.Model{
             set{ _sspricestr = value; }
         }        
 			
-		private string _lrpricestr;
+		private string _lrpricestr = "";
 		/// <summary>
 		/// LRPriceStr
         /// </summary>	
@@ -168,7 +168,7 @@ namespace ApiAirkxCompany.Model{
             set{ _lrpricestr = value; }
         }        
 			
-		private string _xspricestr;
+		private string _xspricestr = "";
 		/// <summary>
 		/// XSPriceStr
         /// </summary>	
@@ -178,7 +178,7 @@ namespace ApiAirkxCompany.Model{
             set{ _xspricestr = value; }
         }        
 			
-		private string _cpd;
+		private string _cpd = "";
 		/// <summary>
 		/// CPD
         /// </summary>	
@@ -198,7 +198,7 @@ namespace ApiAirkxCompany.Model{
             set{ _addtime = value; }
         }        
 			
-		private string _adduser;
+		private string _adduser = "";
 		/// <summary>
 		/// AddUser
         /// </summary>	
@@ -208,7 +208,7 @@ namespace ApiAirkxCompany.Model{
             set{ _adduser = value; }
         }        
 			
-		private string _skstate;
+		private string _skstate = "";
 		/// <summary>
 		/// SKState
         /// </summary>	
@@ -218,7 +218,7 @@ namespace ApiAirkxCompany.Model{
             set{ _skstate = value; }
         }        
 			
-		private string _cpy;
+		private string _cpy = "";
 		/// <summary>
 		/// CPY
         /// </summary>	
@@ -228,7 +228,7 @@ namespace ApiAirkxCompany.Model{
             set{ _cpy = value; }
         }        
 			
-		private string _xc;
+		private string _xc = "";
 		/// <summary>
 		/// XC
         /// </summary>	
@@ -238,7 +238,7 @@ namespace ApiAirkxCompany.Model{
             set{ _xc = value; }
         }        
 			
-		private string _rs;
+		private string _rs = "";
 		/// <summary>
 		/// RS
         /// </summary>	
@@ -248,7 +248,7 @@ namespace ApiAirkxCompany.Model{
             set{ _rs = value; }
         }        
 			
-		private string _ph;
+		private string _ph = "";
 		/// <summary>
 		/// PH
         /// </summary>	
@@ -258,7 +258,7 @@ namespace ApiAirkxCompany.Model{
             set{ _ph = value; }
         }        
 			
-		private string _fptt;
+		private string _fptt = "";
 		/// <summary>
 		/// FPTT
         /// </summary>	
@@ -268,7 +268,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fptt = value; }
         }        
 			
-		private decimal _fpje;
+		private decimal _fpje = 0M;
 		/// <summary>
 		/// FPJE
         /// </summary>	
@@ -278,7 +278,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fpje = value; }
         }        
 			
-		private string _fkfs;
+		private string _fkfs = "请选择";
 		/// <summary>
 		/// FKFS
         /// </summary>	
@@ -288,7 +288,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fkfs = value; }
         }        
 			
-		private string _customer;
+		private string _customer = "";
 		/// <summary>
 		/// Customer
         /// </summary>	
@@ -298,7 +298,7 @@ namespace ApiAirkxCompany.Model{
             set{ _customer = value; }
         }        
 			
-		private string _bz;
+		private string _bz = "";
 		/// <summary>
 		/// BZ
         /// </summary>	
@@ -308,7 +308,7 @@ namespace ApiAirkxCompany.Model{
             set{ _bz = value; }
         }        
 			
-		private string _spy;
+		private string _spy = "";
 		/// <summary>
 		/// SPY
         /// </summary>	
@@ -318,7 +318,7 @@ namespace ApiAirkxCompany.Model{
             set{ _spy = value; }
         }        
 			
-		private string _spfs;
+		private string _spfs = "";
 		/// <summary>
 		/// SPFS
         /// </summary>	
@@ -328,7 +328,7 @@ namespace ApiAirkxCompany.Model{
             set{ _spfs = value; }
         }        
 			
-		private decimal _fdje;
+		private decimal _fdje = 0M;
 		/// <summary>
 		/// FDJE
         /// </summary>	
@@ -338,7 +338,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fdje = value; }
         }        
 			
-		private string _fksm;
+		private string _fksm = "";
 		/// <summary>
 		/// FKSM
         /// </summary>	
@@ -348,7 +348,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fksm = value; }
         }        
 			
-		private string _cpdsm;
+		private string _cpdsm = "";
 		/// <summary>
 		/// CPDSM
         /// </summary>	
@@ -358,7 +358,7 @@ namespace ApiAirkxCompany.Model{
             set{ _cpdsm = value; }
         }        
 			
-		private string _subskstate;
+		private string _subskstate = "";
 		/// <summary>
 		/// SubSKState
         /// </summary>	
@@ -368,7 +368,7 @@ namespace ApiAirkxCompany.Model{
             set{ _subskstate = value; }
         }        
 			
-		private decimal _sjdz;
+		private decimal _sjdz = 0M;
 		/// <summary>
 		/// SJDZ
         /// </summary>	
@@ -378,7 +378,7 @@ namespace ApiAirkxCompany.Model{
             set{ _sjdz = value; }
         }        
 			
-		private string _dlzh;
+		private string _dlzh = "";
 		/// <summary>
 		/// DLZH
         /// </summary>	
@@ -388,7 +388,7 @@ namespace ApiAirkxCompany.Model{
             set{ _dlzh = value; }
         }        
 			
-		private string _fdone;
+		private string _fdone = "";
 		/// <summary>
 		/// FDOne
         /// </summary>	
@@ -398,7 +398,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fdone = value; }
         }        
 			
-		private string _fdtwo;
+		private string _fdtwo = "";
 		/// <summary>
 		/// FDTwo
         /// </summary>	
@@ -408,7 +408,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fdtwo = value; }
         }        
 			
-		private string _subfk;
+		private string _subfk = "";
 		/// <summary>
 		/// SubFK
         /// </summary>	
@@ -418,7 +418,7 @@ namespace ApiAirkxCompany.Model{
             set{ _subfk = value; }
         }        
 			
-		private string _gryh;
+		private string _gryh = "";
 		/// <summary>
 		/// GRYH
         /// </summary>	
@@ -428,7 +428,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gryh = value; }
         }        
 			
-		private decimal _syjj;
+		private decimal _syjj = 0M;
 		/// <summary>
 		/// SYJJ
         /// </summary>	
@@ -438,7 +438,7 @@ namespace ApiAirkxCompany.Model{
             set{ _syjj = value; }
         }        
 			
-		private decimal _fxje;
+		private decimal _fxje = 0M;
 		/// <summary>
 		/// FXJE
         /// </summary>	
@@ -448,7 +448,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fxje = value; }
         }        
 			
-		private decimal _ywf;
+		private decimal _ywf = 0M;
 		/// <summary>
 		/// YWF
         /// </summary>	
@@ -458,7 +458,7 @@ namespace ApiAirkxCompany.Model{
             set{ _ywf = value; }
         }        
 			
-		private decimal _ysje;
+		private decimal _ysje = 0M;
 		/// <summary>
 		/// YSJE
         /// </summary>	
@@ -468,7 +468,7 @@ namespace ApiAirkxCompany.Model{
             set{ _ysje = value; }
         }        
 			
-		private string _fkfs1;
+		private string _fkfs1 = "请选择";
 		/// <summary>
 		/// FKFS1
         /// </summary>	
@@ -478,7 +478,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fkfs1 = value; }
         }        
 			
-		private string _fkfs2;
+		private string _fkfs2 = "请选择";
 		/// <summary>
 		/// FKFS2
         /// </summary>	
@@ -488,7 +488,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fkfs2 = value; }
         }        
 			
-		private string _fkfs3;
+		private string _fkfs3 = "请选择";
 		/// <summary>
 		/// FKFS3
         /// </summary>	
@@ -498,7 +498,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fkfs3 = value; }
         }        
 			
-		private string _subfk1;
+		private string _subfk1 = "";
 		/// <summary>
 		/// SubFK1
         /// </summary>	
@@ -508,7 +508,7 @@ namespace ApiAirkxCompany.Model{
             set{ _subfk1 = value; }
         }        
 			
-		private string _subfk2;
+		private string _subfk2 = "";
 		/// <summary>
 		/// SubFK2
         /// </summary>	
@@ -518,7 +518,7 @@ namespace ApiAirkxCompany.Model{
             set{ _subfk2 = value; }
         }        
 			
-		private string _subfk3;
+		private string _subfk3 = "";
 		/// <summary>
 		/// SubFK3
         /// </summary>	
@@ -528,7 +528,7 @@ namespace ApiAirkxCompany.Model{
             set{ _subfk3 = value; }
         }        
 			
-		private string _gryh1;
+		private string _gryh1 = "";
 		/// <summary>
 		/// GRYH1
         /// </summary>	
@@ -538,7 +538,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gryh1 = value; }
         }        
 			
-		private string _gryh2;
+		private string _gryh2 = "";
 		/// <summary>
 		/// GRYH2
         /// </summary>	
@@ -548,7 +548,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gryh2 = value; }
         }        
 			
-		private string _gryh3;
+		private string _gryh3 = "";
 		/// <summary>
 		/// GRYH3
         /// </summary>	
@@ -558,7 +558,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gryh3 = value; }
         }        
 			
-		private decimal _ysje1;
+		private decimal _ysje1 = 0M;
 		/// <summary>
 		/// YSJE1
         /// </summary>	
@@ -566,9 +566,9 @@ namespace ApiAirkxCompany.Model{
         {
             get{ return _ysje1; }
             set{ _ysje1 = value; }
-        }        
+        }
 			
-		private decimal _ysje2;
+		private decimal _ysje2 = 0M;
 		/// <summary>
 		/// YSJE2
         /// </summary>	
@@ -578,7 +578,7 @@ namespace ApiAirkxCompany.Model{
             set{ _ysje2 = value; }
         }        
 			
-		private decimal _ysje3;
+		private decimal _ysje3 = 0M;
 		/// <summary>
 		/// YSJE3
         /// </summary>	
@@ -588,7 +588,7 @@ namespace ApiAirkxCompany.Model{
             set{ _ysje3 = value; }
         }        
 			
-		private string _ywr;
+		private string _ywr = "请选择";
 		/// <summary>
 		/// YWR
         /// </summary>	
@@ -598,17 +598,17 @@ namespace ApiAirkxCompany.Model{
             set{ _ywr = value; }
         }        
 			
-		private DateTime _skdata;
+		private DateTime? _skdata;
 		/// <summary>
 		/// SKData
         /// </summary>	
-        public DateTime SKData
+        public DateTime? SKData
         {
             get{ return _skdata; }
             set{ _skdata = value; }
         }        
 			
-		private string _fkstate;
+		private string _fkstate = "";
 		/// <summary>
 		/// FKState
         /// </summary>	
@@ -618,7 +618,7 @@ namespace ApiAirkxCompany.Model{
             set{ _fkstate = value; }
         }        
 			
-		private string _kpstate;
+		private string _kpstate = "";
 		/// <summary>
 		/// KPState
         /// </summary>	
@@ -628,7 +628,7 @@ namespace ApiAirkxCompany.Model{
             set{ _kpstate = value; }
         }        
 			
-		private string _gntph;
+		private string _gntph = "";
 		/// <summary>
 		/// GNTPH
         /// </summary>	
@@ -638,7 +638,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gntph = value; }
         }        
 			
-		private string _gntph1;
+		private string _gntph1 = "";
 		/// <summary>
 		/// GNTPH1
         /// </summary>	
@@ -648,7 +648,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gntph1 = value; }
         }        
 			
-		private string _gntph2;
+		private string _gntph2 = "";
 		/// <summary>
 		/// GNTPH2
         /// </summary>	
@@ -658,7 +658,7 @@ namespace ApiAirkxCompany.Model{
             set{ _gntph2 = value; }
         }        
 			
-		private string _gntph3;
+		private string _gntph3 = "";
 		/// <summary>
 		/// GNTPH3
         /// </summary>	
@@ -668,27 +668,27 @@ namespace ApiAirkxCompany.Model{
             set{ _gntph3 = value; }
         }        
 			
-		private DateTime _startdate;
+		private DateTime? _startdate;
 		/// <summary>
 		/// StartDate
         /// </summary>	
-        public DateTime StartDate
+        public DateTime? StartDate
         {
             get{ return _startdate; }
             set{ _startdate = value; }
         }        
 			
-		private DateTime _enddate;
+		private DateTime? _enddate;
 		/// <summary>
 		/// EndDate
         /// </summary>	
-        public DateTime EndDate
+        public DateTime? EndDate
         {
             get{ return _enddate; }
             set{ _enddate = value; }
         }        
 			
-		private string _yq;
+		private string _yq = "";
 		/// <summary>
 		/// YQ
         /// </summary>	
@@ -698,7 +698,7 @@ namespace ApiAirkxCompany.Model{
             set{ _yq = value; }
         }        
 			
-		private string _pnrtext;
+		private string _pnrtext = "";
 		/// <summary>
 		/// PNRText
         /// </summary>	
@@ -708,7 +708,7 @@ namespace ApiAirkxCompany.Model{
             set{ _pnrtext = value; }
         }        
 			
-		private string _cjr;
+		private string _cjr = "";
 		/// <summary>
 		/// CJR
         /// </summary>	
@@ -718,7 +718,7 @@ namespace ApiAirkxCompany.Model{
             set{ _cjr = value; }
         }        
 			
-		private string _hbh;
+		private string _hbh = "";
 		/// <summary>
 		/// HBH
         /// </summary>	
@@ -728,7 +728,7 @@ namespace ApiAirkxCompany.Model{
             set{ _hbh = value; }
         }        
 			
-		private string _qlsj;
+		private string _qlsj = "";
 		/// <summary>
 		/// QLSJ
         /// </summary>	
@@ -738,7 +738,7 @@ namespace ApiAirkxCompany.Model{
             set{ _qlsj = value; }
         }        
 			
-		private string _cwdj;
+		private string _cwdj = "";
 		/// <summary>
 		/// CWDJ
         /// </summary>	
@@ -748,7 +748,7 @@ namespace ApiAirkxCompany.Model{
             set{ _cwdj = value; }
         }        
 			
-		private string _zk;
+		private string _zk = "";
 		/// <summary>
 		/// ZK
         /// </summary>	
@@ -758,7 +758,7 @@ namespace ApiAirkxCompany.Model{
             set{ _zk = value; }
         }        
 			
-		private string _fwf;
+		private string _fwf = "";
 		/// <summary>
 		/// FWF
         /// </summary>	

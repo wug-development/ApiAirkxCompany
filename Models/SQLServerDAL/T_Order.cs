@@ -58,7 +58,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcOrderID", SqlDbType.VarChar,40),
 					new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40),
-					new SqlParameter("@dcTicketNO", SqlDbType.VarChar,40),
+					new SqlParameter("@dcTicketNO", SqlDbType.VarChar,100),
 					new SqlParameter("@dnOrderType", SqlDbType.Int,4),
 					new SqlParameter("@dnAirType", SqlDbType.Int,4),
 					new SqlParameter("@dcStartDate", SqlDbType.VarChar,20),
@@ -175,7 +175,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			strSql.Append(" where dcOrderID=@dcOrderID ");
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40),
-					new SqlParameter("@dcTicketNO", SqlDbType.VarChar,40),
+					new SqlParameter("@dcTicketNO", SqlDbType.VarChar,100),
 					new SqlParameter("@dnOrderType", SqlDbType.Int,4),
 					new SqlParameter("@dnAirType", SqlDbType.Int,4),
 					new SqlParameter("@dcStartDate", SqlDbType.VarChar,20),

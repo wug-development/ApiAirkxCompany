@@ -14,7 +14,7 @@ namespace ApiAirkxCompany
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-            var cors = new EnableCorsAttribute("http://www.dakehu.com:9999", "*", "*");
+            var cors = new EnableCorsAttribute("http://www.airkx.cn", "*", "*");
             config.EnableCors(cors);
 
 

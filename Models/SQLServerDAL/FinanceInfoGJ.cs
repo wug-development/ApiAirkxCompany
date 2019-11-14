@@ -14,9 +14,9 @@ namespace ApiAirkxCompany.SQLServerDAL
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select count(1) from FinanceInfo");
 			strSql.Append(" where ");
-			                                       strSql.Append(" FinanceID = SQL2012FinanceID  ");
+			                                       strSql.Append(" FinanceID = @FinanceID  ");
                             			SqlParameter[] parameters = {
-					new SqlParameter("SQL2012FinanceID", SqlDbType.Int,4)
+					new SqlParameter("@FinanceID", SqlDbType.Int,4)
 			};
 			parameters[0].Value = FinanceID;
 
@@ -32,87 +32,86 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into FinanceInfo(");			
-            strSql.Append("Company,JLCode,DPrice,SJPrice,SHPrice,SSPrice,LRPrice,XSPrice,HXPrice,FDPrice,DPriceStr,SJPriceStr,SHPriceStr,SSPriceStr,LRPriceStr,XSPriceStr,CPD,AddTime,AddUser,SKState,CPY,XC,RS,PH,FPTT,FPJE,FKFS,Customer,BZ,SPY,SPFS,FDJE,FKSM,CPDSM,SubSKState,SJDZ,DLZH,FDOne,FDTwo,SubFK,GRYH,SYJJ,FXJE,YWF,YSJE,FKFS1,FKFS2,FKFS3,SubFK1,SubFK2,SubFK3,GRYH1,GRYH2,GRYH3,YSJE1,YSJE2,YSJE3,YWR,SKData,FKState,KPState,GNTPH,GNTPH1,GNTPH2,GNTPH3,StartDate,EndDate,YQ,PNRText,CJR,HBH,QLSJ,CWDJ,ZK,FWF");
+            strSql.Append("Company,JLCode,DPrice,SJPrice,SHPrice,SSPrice,LRPrice,XSPrice,HXPrice,FDPrice,DPriceStr,SJPriceStr,SHPriceStr,SSPriceStr,LRPriceStr,XSPriceStr,CPD,AddTime,AddUser,SKState,CPY,XC,RS,PH,FPTT,FPJE,FKFS,Customer,BZ,SPY,SPFS,FDJE,FKSM,CPDSM,SubSKState,SJDZ,DLZH,FDOne,FDTwo,SubFK,GRYH,SYJJ,FXJE,YWF,YSJE,FKFS1,FKFS2,FKFS3,SubFK1,SubFK2,SubFK3,GRYH1,GRYH2,GRYH3,YSJE1,YSJE2,YSJE3,YWR,FKState,KPState,GNTPH,GNTPH1,GNTPH2,GNTPH3,StartDate,EndDate,YQ,PNRText,CJR,HBH,QLSJ,CWDJ,ZK,FWF");
 			strSql.Append(") values (");
-            strSql.Append("SQL2012Company,SQL2012JLCode,SQL2012DPrice,SQL2012SJPrice,SQL2012SHPrice,SQL2012SSPrice,SQL2012LRPrice,SQL2012XSPrice,SQL2012HXPrice,SQL2012FDPrice,SQL2012DPriceStr,SQL2012SJPriceStr,SQL2012SHPriceStr,SQL2012SSPriceStr,SQL2012LRPriceStr,SQL2012XSPriceStr,SQL2012CPD,SQL2012AddTime,SQL2012AddUser,SQL2012SKState,SQL2012CPY,SQL2012XC,SQL2012RS,SQL2012PH,SQL2012FPTT,SQL2012FPJE,SQL2012FKFS,SQL2012Customer,SQL2012BZ,SQL2012SPY,SQL2012SPFS,SQL2012FDJE,SQL2012FKSM,SQL2012CPDSM,SQL2012SubSKState,SQL2012SJDZ,SQL2012DLZH,SQL2012FDOne,SQL2012FDTwo,SQL2012SubFK,SQL2012GRYH,SQL2012SYJJ,SQL2012FXJE,SQL2012YWF,SQL2012YSJE,SQL2012FKFS1,SQL2012FKFS2,SQL2012FKFS3,SQL2012SubFK1,SQL2012SubFK2,SQL2012SubFK3,SQL2012GRYH1,SQL2012GRYH2,SQL2012GRYH3,SQL2012YSJE1,SQL2012YSJE2,SQL2012YSJE3,SQL2012YWR,SQL2012SKData,SQL2012FKState,SQL2012KPState,SQL2012GNTPH,SQL2012GNTPH1,SQL2012GNTPH2,SQL2012GNTPH3,SQL2012StartDate,SQL2012EndDate,SQL2012YQ,SQL2012PNRText,SQL2012CJR,SQL2012HBH,SQL2012QLSJ,SQL2012CWDJ,SQL2012ZK,SQL2012FWF");            
+            strSql.Append("@Company,@JLCode,@DPrice,@SJPrice,@SHPrice,@SSPrice,@LRPrice,@XSPrice,@HXPrice,@FDPrice,@DPriceStr,@SJPriceStr,@SHPriceStr,@SSPriceStr,@LRPriceStr,@XSPriceStr,@CPD,@AddTime,@AddUser,@SKState,@CPY,@XC,@RS,@PH,@FPTT,@FPJE,@FKFS,@Customer,@BZ,@SPY,@SPFS,@FDJE,@FKSM,@CPDSM,@SubSKState,@SJDZ,@DLZH,@FDOne,@FDTwo,@SubFK,@GRYH,@SYJJ,@FXJE,@YWF,@YSJE,@FKFS1,@FKFS2,@FKFS3,@SubFK1,@SubFK2,@SubFK3,@GRYH1,@GRYH2,@GRYH3,@YSJE1,@YSJE2,@YSJE3,@YWR,@FKState,@KPState,@GNTPH,@GNTPH1,@GNTPH2,@GNTPH3,@StartDate,@EndDate,@YQ,@PNRText,@CJR,@HBH,@QLSJ,@CWDJ,@ZK,@FWF");            
             strSql.Append(") ");            
             strSql.Append(";select @@IDENTITY");		
 			SqlParameter[] parameters = {
-			            new SqlParameter("SQL2012Company", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012JLCode", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012DPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012SJPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012SHPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012SSPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012LRPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012XSPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012HXPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FDPrice", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012DPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SJPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SHPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SSPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012LRPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012XSPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012CPD", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012AddTime", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012AddUser", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SKState", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012CPY", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012XC", SqlDbType.NVarChar,300) ,            
-                        new SqlParameter("SQL2012RS", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012PH", SqlDbType.NVarChar,100) ,            
-                        new SqlParameter("SQL2012FPTT", SqlDbType.NVarChar,1000) ,            
-                        new SqlParameter("SQL2012FPJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FKFS", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012Customer", SqlDbType.NVarChar,100) ,            
-                        new SqlParameter("SQL2012BZ", SqlDbType.NVarChar,4000) ,            
-                        new SqlParameter("SQL2012SPY", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SPFS", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FDJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FKSM", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012CPDSM", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012SubSKState", SqlDbType.VarChar,50) ,            
-                        new SqlParameter("SQL2012SJDZ", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012DLZH", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FDOne", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FDTwo", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012GRYH", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SYJJ", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FXJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YWF", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YSJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FKFS1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FKFS2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FKFS3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GRYH1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GRYH2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GRYH3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012YSJE1", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YSJE2", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YSJE3", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YWR", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SKData", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012FKState", SqlDbType.VarChar,50) ,            
-                        new SqlParameter("SQL2012KPState", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012StartDate", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012EndDate", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012YQ", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012PNRText", SqlDbType.Text) ,            
-                        new SqlParameter("SQL2012CJR", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012HBH", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012QLSJ", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012CWDJ", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012ZK", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012FWF", SqlDbType.NVarChar,-1)             
+			            new SqlParameter("@Company", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@JLCode", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@DPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@SJPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@SHPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@SSPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@LRPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@XSPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@HXPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FDPrice", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@DPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SJPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SHPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SSPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@LRPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@XSPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@CPD", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@AddTime", SqlDbType.DateTime) ,            
+                        new SqlParameter("@AddUser", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SKState", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@CPY", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@XC", SqlDbType.NVarChar,300) ,            
+                        new SqlParameter("@RS", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@PH", SqlDbType.NVarChar,100) ,            
+                        new SqlParameter("@FPTT", SqlDbType.NVarChar,1000) ,            
+                        new SqlParameter("@FPJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FKFS", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@Customer", SqlDbType.NVarChar,100) ,            
+                        new SqlParameter("@BZ", SqlDbType.NVarChar,4000) ,            
+                        new SqlParameter("@SPY", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SPFS", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FDJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FKSM", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@CPDSM", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@SubSKState", SqlDbType.VarChar,50) ,            
+                        new SqlParameter("@SJDZ", SqlDbType.Float,8) ,            
+                        new SqlParameter("@DLZH", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FDOne", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FDTwo", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@GRYH", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SYJJ", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FXJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YWF", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YSJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FKFS1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FKFS2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FKFS3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GRYH1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GRYH2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GRYH3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@YSJE1", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YSJE2", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YSJE3", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YWR", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FKState", SqlDbType.VarChar,50) ,            
+                        new SqlParameter("@KPState", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@StartDate", SqlDbType.DateTime) ,            
+                        new SqlParameter("@EndDate", SqlDbType.DateTime) ,            
+                        new SqlParameter("@YQ", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@PNRText", SqlDbType.Text) ,            
+                        new SqlParameter("@CJR", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@HBH", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@QLSJ", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@CWDJ", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@ZK", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@FWF", SqlDbType.NVarChar,-1)             
               
             };
 			            
@@ -173,24 +172,23 @@ namespace ApiAirkxCompany.SQLServerDAL
             parameters[54].Value = model.YSJE1;                        
             parameters[55].Value = model.YSJE2;                        
             parameters[56].Value = model.YSJE3;                        
-            parameters[57].Value = model.YWR;                        
-            parameters[58].Value = model.SKData;                        
-            parameters[59].Value = model.FKState;                        
-            parameters[60].Value = model.KPState;                        
-            parameters[61].Value = model.GNTPH;                        
-            parameters[62].Value = model.GNTPH1;                        
-            parameters[63].Value = model.GNTPH2;                        
-            parameters[64].Value = model.GNTPH3;                        
-            parameters[65].Value = model.StartDate;                        
-            parameters[66].Value = model.EndDate;                        
-            parameters[67].Value = model.YQ;                        
-            parameters[68].Value = model.PNRText;                        
-            parameters[69].Value = model.CJR;                        
-            parameters[70].Value = model.HBH;                        
-            parameters[71].Value = model.QLSJ;                        
-            parameters[72].Value = model.CWDJ;                        
-            parameters[73].Value = model.ZK;                        
-            parameters[74].Value = model.FWF;
+            parameters[57].Value = model.YWR;                           
+            parameters[58].Value = model.FKState;                        
+            parameters[59].Value = model.KPState;                        
+            parameters[60].Value = model.GNTPH;                        
+            parameters[61].Value = model.GNTPH1;                        
+            parameters[62].Value = model.GNTPH2;                        
+            parameters[63].Value = model.GNTPH3;                        
+            parameters[64].Value = model.StartDate;                        
+            parameters[65].Value = model.EndDate;                        
+            parameters[66].Value = model.YQ;                        
+            parameters[67].Value = model.PNRText;                        
+            parameters[68].Value = model.CJR;                        
+            parameters[69].Value = model.HBH;                        
+            parameters[70].Value = model.QLSJ;                        
+            parameters[71].Value = model.CWDJ;                        
+            parameters[72].Value = model.ZK;                        
+            parameters[73].Value = model.FWF;
 
             SqlHelperTool stool = new SqlHelperTool("gjcw");
 			object obj = stool.GetSingle(strSql.ToString(),parameters);			
@@ -216,160 +214,160 @@ namespace ApiAirkxCompany.SQLServerDAL
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("update FinanceInfo set ");
 			                                                
-            strSql.Append(" Company = SQL2012Company , ");                                    
-            strSql.Append(" JLCode = SQL2012JLCode , ");                                    
-            strSql.Append(" DPrice = SQL2012DPrice , ");                                    
-            strSql.Append(" SJPrice = SQL2012SJPrice , ");                                    
-            strSql.Append(" SHPrice = SQL2012SHPrice , ");                                    
-            strSql.Append(" SSPrice = SQL2012SSPrice , ");                                    
-            strSql.Append(" LRPrice = SQL2012LRPrice , ");                                    
-            strSql.Append(" XSPrice = SQL2012XSPrice , ");                                    
-            strSql.Append(" HXPrice = SQL2012HXPrice , ");                                    
-            strSql.Append(" FDPrice = SQL2012FDPrice , ");                                    
-            strSql.Append(" DPriceStr = SQL2012DPriceStr , ");                                    
-            strSql.Append(" SJPriceStr = SQL2012SJPriceStr , ");                                    
-            strSql.Append(" SHPriceStr = SQL2012SHPriceStr , ");                                    
-            strSql.Append(" SSPriceStr = SQL2012SSPriceStr , ");                                    
-            strSql.Append(" LRPriceStr = SQL2012LRPriceStr , ");                                    
-            strSql.Append(" XSPriceStr = SQL2012XSPriceStr , ");                                    
-            strSql.Append(" CPD = SQL2012CPD , ");                                    
-            strSql.Append(" AddTime = SQL2012AddTime , ");                                    
-            strSql.Append(" AddUser = SQL2012AddUser , ");                                    
-            strSql.Append(" SKState = SQL2012SKState , ");                                    
-            strSql.Append(" CPY = SQL2012CPY , ");                                    
-            strSql.Append(" XC = SQL2012XC , ");                                    
-            strSql.Append(" RS = SQL2012RS , ");                                    
-            strSql.Append(" PH = SQL2012PH , ");                                    
-            strSql.Append(" FPTT = SQL2012FPTT , ");                                    
-            strSql.Append(" FPJE = SQL2012FPJE , ");                                    
-            strSql.Append(" FKFS = SQL2012FKFS , ");                                    
-            strSql.Append(" Customer = SQL2012Customer , ");                                    
-            strSql.Append(" BZ = SQL2012BZ , ");                                    
-            strSql.Append(" SPY = SQL2012SPY , ");                                    
-            strSql.Append(" SPFS = SQL2012SPFS , ");                                    
-            strSql.Append(" FDJE = SQL2012FDJE , ");                                    
-            strSql.Append(" FKSM = SQL2012FKSM , ");                                    
-            strSql.Append(" CPDSM = SQL2012CPDSM , ");                                    
-            strSql.Append(" SubSKState = SQL2012SubSKState , ");                                    
-            strSql.Append(" SJDZ = SQL2012SJDZ , ");                                    
-            strSql.Append(" DLZH = SQL2012DLZH , ");                                    
-            strSql.Append(" FDOne = SQL2012FDOne , ");                                    
-            strSql.Append(" FDTwo = SQL2012FDTwo , ");                                    
-            strSql.Append(" SubFK = SQL2012SubFK , ");                                    
-            strSql.Append(" GRYH = SQL2012GRYH , ");                                    
-            strSql.Append(" SYJJ = SQL2012SYJJ , ");                                    
-            strSql.Append(" FXJE = SQL2012FXJE , ");                                    
-            strSql.Append(" YWF = SQL2012YWF , ");                                    
-            strSql.Append(" YSJE = SQL2012YSJE , ");                                    
-            strSql.Append(" FKFS1 = SQL2012FKFS1 , ");                                    
-            strSql.Append(" FKFS2 = SQL2012FKFS2 , ");                                    
-            strSql.Append(" FKFS3 = SQL2012FKFS3 , ");                                    
-            strSql.Append(" SubFK1 = SQL2012SubFK1 , ");                                    
-            strSql.Append(" SubFK2 = SQL2012SubFK2 , ");                                    
-            strSql.Append(" SubFK3 = SQL2012SubFK3 , ");                                    
-            strSql.Append(" GRYH1 = SQL2012GRYH1 , ");                                    
-            strSql.Append(" GRYH2 = SQL2012GRYH2 , ");                                    
-            strSql.Append(" GRYH3 = SQL2012GRYH3 , ");                                    
-            strSql.Append(" YSJE1 = SQL2012YSJE1 , ");                                    
-            strSql.Append(" YSJE2 = SQL2012YSJE2 , ");                                    
-            strSql.Append(" YSJE3 = SQL2012YSJE3 , ");                                    
-            strSql.Append(" YWR = SQL2012YWR , ");                                    
-            strSql.Append(" SKData = SQL2012SKData , ");                                    
-            strSql.Append(" FKState = SQL2012FKState , ");                                    
-            strSql.Append(" KPState = SQL2012KPState , ");                                    
-            strSql.Append(" GNTPH = SQL2012GNTPH , ");                                    
-            strSql.Append(" GNTPH1 = SQL2012GNTPH1 , ");                                    
-            strSql.Append(" GNTPH2 = SQL2012GNTPH2 , ");                                    
-            strSql.Append(" GNTPH3 = SQL2012GNTPH3 , ");                                    
-            strSql.Append(" StartDate = SQL2012StartDate , ");                                    
-            strSql.Append(" EndDate = SQL2012EndDate , ");                                    
-            strSql.Append(" YQ = SQL2012YQ , ");                                    
-            strSql.Append(" PNRText = SQL2012PNRText , ");                                    
-            strSql.Append(" CJR = SQL2012CJR , ");                                    
-            strSql.Append(" HBH = SQL2012HBH , ");                                    
-            strSql.Append(" QLSJ = SQL2012QLSJ , ");                                    
-            strSql.Append(" CWDJ = SQL2012CWDJ , ");                                    
-            strSql.Append(" ZK = SQL2012ZK , ");                                    
-            strSql.Append(" FWF = SQL2012FWF  ");            			
-			strSql.Append(" where FinanceID=SQL2012FinanceID ");
+            strSql.Append(" Company = @Company , ");                                    
+            strSql.Append(" JLCode = @JLCode , ");                                    
+            strSql.Append(" DPrice = @DPrice , ");                                    
+            strSql.Append(" SJPrice = @SJPrice , ");                                    
+            strSql.Append(" SHPrice = @SHPrice , ");                                    
+            strSql.Append(" SSPrice = @SSPrice , ");                                    
+            strSql.Append(" LRPrice = @LRPrice , ");                                    
+            strSql.Append(" XSPrice = @XSPrice , ");                                    
+            strSql.Append(" HXPrice = @HXPrice , ");                                    
+            strSql.Append(" FDPrice = @FDPrice , ");                                    
+            strSql.Append(" DPriceStr = @DPriceStr , ");                                    
+            strSql.Append(" SJPriceStr = @SJPriceStr , ");                                    
+            strSql.Append(" SHPriceStr = @SHPriceStr , ");                                    
+            strSql.Append(" SSPriceStr = @SSPriceStr , ");                                    
+            strSql.Append(" LRPriceStr = @LRPriceStr , ");                                    
+            strSql.Append(" XSPriceStr = @XSPriceStr , ");                                    
+            strSql.Append(" CPD = @CPD , ");                                    
+            strSql.Append(" AddTime = @AddTime , ");                                    
+            strSql.Append(" AddUser = @AddUser , ");                                    
+            strSql.Append(" SKState = @SKState , ");                                    
+            strSql.Append(" CPY = @CPY , ");                                    
+            strSql.Append(" XC = @XC , ");                                    
+            strSql.Append(" RS = @RS , ");                                    
+            strSql.Append(" PH = @PH , ");                                    
+            strSql.Append(" FPTT = @FPTT , ");                                    
+            strSql.Append(" FPJE = @FPJE , ");                                    
+            strSql.Append(" FKFS = @FKFS , ");                                    
+            strSql.Append(" Customer = @Customer , ");                                    
+            strSql.Append(" BZ = @BZ , ");                                    
+            strSql.Append(" SPY = @SPY , ");                                    
+            strSql.Append(" SPFS = @SPFS , ");                                    
+            strSql.Append(" FDJE = @FDJE , ");                                    
+            strSql.Append(" FKSM = @FKSM , ");                                    
+            strSql.Append(" CPDSM = @CPDSM , ");                                    
+            strSql.Append(" SubSKState = @SubSKState , ");                                    
+            strSql.Append(" SJDZ = @SJDZ , ");                                    
+            strSql.Append(" DLZH = @DLZH , ");                                    
+            strSql.Append(" FDOne = @FDOne , ");                                    
+            strSql.Append(" FDTwo = @FDTwo , ");                                    
+            strSql.Append(" SubFK = @SubFK , ");                                    
+            strSql.Append(" GRYH = @GRYH , ");                                    
+            strSql.Append(" SYJJ = @SYJJ , ");                                    
+            strSql.Append(" FXJE = @FXJE , ");                                    
+            strSql.Append(" YWF = @YWF , ");                                    
+            strSql.Append(" YSJE = @YSJE , ");                                    
+            strSql.Append(" FKFS1 = @FKFS1 , ");                                    
+            strSql.Append(" FKFS2 = @FKFS2 , ");                                    
+            strSql.Append(" FKFS3 = @FKFS3 , ");                                    
+            strSql.Append(" SubFK1 = @SubFK1 , ");                                    
+            strSql.Append(" SubFK2 = @SubFK2 , ");                                    
+            strSql.Append(" SubFK3 = @SubFK3 , ");                                    
+            strSql.Append(" GRYH1 = @GRYH1 , ");                                    
+            strSql.Append(" GRYH2 = @GRYH2 , ");                                    
+            strSql.Append(" GRYH3 = @GRYH3 , ");                                    
+            strSql.Append(" YSJE1 = @YSJE1 , ");                                    
+            strSql.Append(" YSJE2 = @YSJE2 , ");                                    
+            strSql.Append(" YSJE3 = @YSJE3 , ");                                    
+            strSql.Append(" YWR = @YWR , ");                                    
+            strSql.Append(" SKData = @SKData , ");                                    
+            strSql.Append(" FKState = @FKState , ");                                    
+            strSql.Append(" KPState = @KPState , ");                                    
+            strSql.Append(" GNTPH = @GNTPH , ");                                    
+            strSql.Append(" GNTPH1 = @GNTPH1 , ");                                    
+            strSql.Append(" GNTPH2 = @GNTPH2 , ");                                    
+            strSql.Append(" GNTPH3 = @GNTPH3 , ");                                    
+            strSql.Append(" StartDate = @StartDate , ");                                    
+            strSql.Append(" EndDate = @EndDate , ");                                    
+            strSql.Append(" YQ = @YQ , ");                                    
+            strSql.Append(" PNRText = @PNRText , ");                                    
+            strSql.Append(" CJR = @CJR , ");                                    
+            strSql.Append(" HBH = @HBH , ");                                    
+            strSql.Append(" QLSJ = @QLSJ , ");                                    
+            strSql.Append(" CWDJ = @CWDJ , ");                                    
+            strSql.Append(" ZK = @ZK , ");                                    
+            strSql.Append(" FWF = @FWF  ");            			
+			strSql.Append(" where FinanceID=@FinanceID ");
 						
 SqlParameter[] parameters = {
-			            new SqlParameter("SQL2012FinanceID", SqlDbType.Int,4) ,            
-                        new SqlParameter("SQL2012Company", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012JLCode", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012DPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012SJPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012SHPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012SSPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012LRPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012XSPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012HXPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FDPrice", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012DPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SJPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SHPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SSPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012LRPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012XSPriceStr", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012CPD", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012AddTime", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012AddUser", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SKState", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012CPY", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012XC", SqlDbType.NVarChar,300) ,            
-                        new SqlParameter("SQL2012RS", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012PH", SqlDbType.NVarChar,100) ,            
-                        new SqlParameter("SQL2012FPTT", SqlDbType.NVarChar,1000) ,            
-                        new SqlParameter("SQL2012FPJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FKFS", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012Customer", SqlDbType.NVarChar,100) ,            
-                        new SqlParameter("SQL2012BZ", SqlDbType.NVarChar,4000) ,            
-                        new SqlParameter("SQL2012SPY", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SPFS", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FDJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FKSM", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012CPDSM", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012SubSKState", SqlDbType.VarChar,50) ,            
-                        new SqlParameter("SQL2012SJDZ", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012DLZH", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FDOne", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FDTwo", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012GRYH", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SYJJ", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FXJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YWF", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YSJE", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012FKFS1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FKFS2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012FKFS3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SubFK3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GRYH1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GRYH2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GRYH3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012YSJE1", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YSJE2", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YSJE3", SqlDbType.Float,8) ,            
-                        new SqlParameter("SQL2012YWR", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012SKData", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012FKState", SqlDbType.VarChar,50) ,            
-                        new SqlParameter("SQL2012KPState", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH1", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH2", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012GNTPH3", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012StartDate", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012EndDate", SqlDbType.DateTime) ,            
-                        new SqlParameter("SQL2012YQ", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("SQL2012PNRText", SqlDbType.Text) ,            
-                        new SqlParameter("SQL2012CJR", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012HBH", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012QLSJ", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012CWDJ", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012ZK", SqlDbType.NVarChar,-1) ,            
-                        new SqlParameter("SQL2012FWF", SqlDbType.NVarChar,-1)             
+			            new SqlParameter("@FinanceID", SqlDbType.Int,4) ,            
+                        new SqlParameter("@Company", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@JLCode", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@DPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@SJPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@SHPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@SSPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@LRPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@XSPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@HXPrice", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FDPrice", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@DPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SJPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SHPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SSPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@LRPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@XSPriceStr", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@CPD", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@AddTime", SqlDbType.DateTime) ,            
+                        new SqlParameter("@AddUser", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SKState", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@CPY", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@XC", SqlDbType.NVarChar,300) ,            
+                        new SqlParameter("@RS", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@PH", SqlDbType.NVarChar,100) ,            
+                        new SqlParameter("@FPTT", SqlDbType.NVarChar,1000) ,            
+                        new SqlParameter("@FPJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FKFS", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@Customer", SqlDbType.NVarChar,100) ,            
+                        new SqlParameter("@BZ", SqlDbType.NVarChar,4000) ,            
+                        new SqlParameter("@SPY", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SPFS", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FDJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FKSM", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@CPDSM", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@SubSKState", SqlDbType.VarChar,50) ,            
+                        new SqlParameter("@SJDZ", SqlDbType.Float,8) ,            
+                        new SqlParameter("@DLZH", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FDOne", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FDTwo", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@GRYH", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SYJJ", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FXJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YWF", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YSJE", SqlDbType.Float,8) ,            
+                        new SqlParameter("@FKFS1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FKFS2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@FKFS3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SubFK3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GRYH1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GRYH2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GRYH3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@YSJE1", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YSJE2", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YSJE3", SqlDbType.Float,8) ,            
+                        new SqlParameter("@YWR", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@SKData", SqlDbType.DateTime) ,            
+                        new SqlParameter("@FKState", SqlDbType.VarChar,50) ,            
+                        new SqlParameter("@KPState", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH1", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH2", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@GNTPH3", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@StartDate", SqlDbType.DateTime) ,            
+                        new SqlParameter("@EndDate", SqlDbType.DateTime) ,            
+                        new SqlParameter("@YQ", SqlDbType.NVarChar,50) ,            
+                        new SqlParameter("@PNRText", SqlDbType.Text) ,            
+                        new SqlParameter("@CJR", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@HBH", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@QLSJ", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@CWDJ", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@ZK", SqlDbType.NVarChar,-1) ,            
+                        new SqlParameter("@FWF", SqlDbType.NVarChar,-1)             
               
             };
 						            
@@ -469,9 +467,9 @@ SqlParameter[] parameters = {
 			
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("delete from FinanceInfo ");
-			strSql.Append(" where FinanceID=SQL2012FinanceID");
+			strSql.Append(" where FinanceID=@FinanceID");
 						SqlParameter[] parameters = {
-					new SqlParameter("SQL2012FinanceID", SqlDbType.Int,4)
+					new SqlParameter("@FinanceID", SqlDbType.Int,4)
 			};
 			parameters[0].Value = FinanceID;
 
@@ -516,9 +514,9 @@ SqlParameter[] parameters = {
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select FinanceID, Company, JLCode, DPrice, SJPrice, SHPrice, SSPrice, LRPrice, XSPrice, HXPrice, FDPrice, DPriceStr, SJPriceStr, SHPriceStr, SSPriceStr, LRPriceStr, XSPriceStr, CPD, AddTime, AddUser, SKState, CPY, XC, RS, PH, FPTT, FPJE, FKFS, Customer, BZ, SPY, SPFS, FDJE, FKSM, CPDSM, SubSKState, SJDZ, DLZH, FDOne, FDTwo, SubFK, GRYH, SYJJ, FXJE, YWF, YSJE, FKFS1, FKFS2, FKFS3, SubFK1, SubFK2, SubFK3, GRYH1, GRYH2, GRYH3, YSJE1, YSJE2, YSJE3, YWR, SKData, FKState, KPState, GNTPH, GNTPH1, GNTPH2, GNTPH3, StartDate, EndDate, YQ, PNRText, CJR, HBH, QLSJ, CWDJ, ZK, FWF  ");			
 			strSql.Append("  from FinanceInfo ");
-			strSql.Append(" where FinanceID=SQL2012FinanceID");
+			strSql.Append(" where FinanceID=@FinanceID");
 						SqlParameter[] parameters = {
-					new SqlParameter("SQL2012FinanceID", SqlDbType.Int,4)
+					new SqlParameter("@FinanceID", SqlDbType.Int,4)
 			};
 			parameters[0].Value = FinanceID;
 

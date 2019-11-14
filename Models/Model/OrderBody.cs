@@ -94,6 +94,7 @@ namespace ApiAirkxCompany
         private string _id = "";
         private string _phone = "";
         private string _jjphone = "";
+        private string _cardtype = "";
 
         //联系人
         public string name { get => _name; set => _name = value; }
@@ -115,6 +116,8 @@ namespace ApiAirkxCompany
         public string phone { get => _phone; set => _phone = value; }
         //紧急电话
         public string jjphone { get => _jjphone; set => _jjphone = value; }
+        //证件类型 身份证 护照
+        public string cardtype { get => _cardtype; set => _cardtype = value; }
     }
 
     public class AirInfo
@@ -321,5 +324,49 @@ namespace ApiAirkxCompany
         public bool seatTypeSpecified { get => _seatTypeSpecified; set => _seatTypeSpecified = value; }
         public double settlePrice { get => _settlePrice; set => _settlePrice = value; }
         public bool settlePriceSpecified { get => _settlePriceSpecified; set => _settlePriceSpecified = value; }
+    }
+
+    public class PNRBody
+    {
+        public string cid { get; set; }
+        public string cname { get; set; }
+        public AirFlightInfo flightInfo { get; set; }
+    }
+
+    public class AirFlightInfo
+    {
+        public AirFlightInfo() { }
+
+        public string CTCM { get; set; }
+        public string CTCT { get; set; }
+        public string airCabin { get; set; }
+        public string airNo { get; set; }
+        public string airTerminal { get; set; }
+        public string content { get; set; }
+        public string ecity { get; set; }
+        public string etime { get; set; }
+        public string recordNo { get; set; }
+        public string scity { get; set; }
+        public string sdate { get; set; }
+        public string stime { get; set; }
+        public string ticketNo { get; set; }
+        public decimal totalPrice { get; set; }
+        public decimal zhekou { get; set; }
+        public List<FlightList> fligthList { get; set; }
+        public List<PersonList> Persons { get; set; }
+    }
+
+    public class FlightList
+    {
+        public string airCabin { get; set; }
+        public string airno { get; set; }
+        public string ecityport { get; set; }
+        public string ecityshort { get; set; }
+        public string etime { get; set; }
+        public string hzl { get; set; }
+        public string scityport { get; set; }
+        public string scityshort { get; set; }
+        public string sdate { get; set; }
+        public string stime { get; set; }
     }
 }

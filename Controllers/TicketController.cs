@@ -24,11 +24,8 @@ namespace ApiAirkxCompany.Controllers
             {
                 BLL.T_TicketSheet b_ticketsheet = new BLL.T_TicketSheet();
                 Model.T_TicketSheet m_ticketsheet = new Model.T_TicketSheet();
-                string[] xingcheng = ticket.dcStartCity.Split('-');
 
                 m_ticketsheet = ticket;
-                m_ticketsheet.dcStartCity = xingcheng[0];
-                m_ticketsheet.dcBackCity = xingcheng[1];
 
                 if (!string.IsNullOrWhiteSpace(ticket.dcTSID))
                 {
@@ -45,6 +42,15 @@ namespace ApiAirkxCompany.Controllers
                     m_ticketsheet.dtAddTime = DateTime.Now;
                     m_ticketsheet.dcCompanyID = m_order.dcCompanyID;
                     m_ticketsheet.dcCompanyName = m_order.dcCompanyName;
+                    m_ticketsheet.dnFlightClass = m_order.dnOrderType;
+
+                    if (m_ticketsheet.dnFlightClass == 0)
+                    {
+                        string[] xingcheng = ticket.dcStartCity.Split('-');
+                        m_ticketsheet.dcStartCity = xingcheng[0];
+                        m_ticketsheet.dcBackCity = xingcheng[1];
+                    }
+
                     b_ticketsheet.Add(m_ticketsheet);
 
                     m_order.dnIsTicket = 1;
@@ -75,7 +81,7 @@ namespace ApiAirkxCompany.Controllers
 
                     b_caccount.Update(m_caccount);
 
-                    if (ticket.dnFlightClass == 0)
+                    if (m_ticketsheet.dnFlightClass == 0)
                     {
                         postFinance(ticket);
                     }
@@ -106,19 +112,19 @@ namespace ApiAirkxCompany.Controllers
             m_fin.SHPrice = ticket.dnJieSuanPrice;
             m_fin.SSPrice = ticket.dnCountPrice;
             m_fin.LRPrice = ticket.dnLiRun;
-            m_fin.XSPrice = ticket.dnTotalPrice;
+            m_fin.XSPrice = ticket.dnSellPrice;
             m_fin.FDPrice = ticket.dnReturnPoint1.ToString();
             m_fin.CPD = ticket.dcOutTicketName;
-            m_fin.AddTime = DateTime.Now;
+            m_fin.AddTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
             m_fin.AddUser = "测试";
-            m_fin.SKState = "3";
+            m_fin.SKState = "1";
             m_fin.CPY = "";
-            m_fin.XC = ticket.dcStartCity;
+            m_fin.XC = ticket.dcStartCity+"-"+ticket.dcBackCity;
             m_fin.RS = ticket.dnPersonNumber.ToString();
             m_fin.PH = ticket.dcTicketNO;
             m_fin.FPTT = ticket.dcPersonName;
             m_fin.FPJE = ticket.dcStartDate;
-            m_fin.Customer = ticket.dcCompanyName;
+            m_fin.Customer = "S散客";// ticket.dcCompanyName;
             m_fin.BZ = ticket.dcOther;
             m_fin.SPY = ticket.dcSendTicketerName;
             m_fin.SPFS = ticket.dcSendTicketType;
@@ -131,10 +137,24 @@ namespace ApiAirkxCompany.Controllers
                 m_fin.ZK = ticket.dnDiscount + "折";
             }
             m_fin.YSJE = ticket.dnPaymentPrice1;
-            m_fin.FKFS = ticket.dcPaymentMethod1;
+            if (!string.IsNullOrWhiteSpace(ticket.dcPaymentMethod1))
+            {
+                m_fin.FKFS = "请选择";
+            }
+            else
+            {
+                m_fin.FKFS = ticket.dcPaymentMethod1;
+            }
             m_fin.SubFKFS = "";
             m_fin.YSJE1 = ticket.dnPaymentPrice2;
-            m_fin.FKFS1 = ticket.dcPaymentMethod2;
+            if (!string.IsNullOrWhiteSpace(ticket.dcPaymentMethod2))
+            {
+                m_fin.FKFS1 = "请选择";
+            }
+            else
+            {
+                m_fin.FKFS1 = ticket.dcPaymentMethod2;
+            }
             m_fin.SubFKFS1 = "";
             m_fin.SubSKState = "0";
             m_fin.GRYH = "";
@@ -152,7 +172,7 @@ namespace ApiAirkxCompany.Controllers
             m_fin.HBH = ticket.dcFlightNumber;
             m_fin.DPRQ = "";
             m_fin.NewFXPrice = ticket.dnFandianPrice;
-            // m_fin.SKData = null;
+            //m_fin.SKData = null;
             m_fin.CPDXX = ticket.dcCPDXX;
             m_fin.BXXX = "支付宝";
             m_fin.FKState = "0";
@@ -170,7 +190,7 @@ namespace ApiAirkxCompany.Controllers
             Model.FinanceInfoGJ m_fin = new Model.FinanceInfoGJ();
             m_fin.Company = ticket.dcAirCompanyName;
             m_fin.JLCode = ticket.dcOrderCode;
-            m_fin.DPrice = ticket.dnSafePrice;
+            m_fin.DPrice = ticket.dnDiJia;
             m_fin.SJPrice = ticket.dnTax;
             m_fin.SHPrice = ticket.dnJieSuanPrice;
             m_fin.SSPrice = ticket.dnShiShouPrice;
@@ -179,11 +199,11 @@ namespace ApiAirkxCompany.Controllers
             m_fin.HXPrice = ticket.dnHangXiePrice;
             m_fin.FDPrice = ticket.dnReturnPoint1.ToString();
             m_fin.CPD = ticket.dcOutTicketName;
-            m_fin.AddTime = DateTime.Now;
+            m_fin.AddTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
             m_fin.AddUser = "测试";
-            m_fin.SKState = "3";
-            m_fin.CPY = "赵明阳";
-            m_fin.XC = ticket.dcStartCity;
+            m_fin.SKState = "1";
+            m_fin.CPY = "";
+            m_fin.XC = ticket.dcStartCity;//  + "-" + ticket.dcBackCity
             m_fin.RS = ticket.dnPersonNumber.ToString();
             m_fin.PH = ticket.dcTicketNO;
             m_fin.FPTT = ticket.dcPersonName;
@@ -225,6 +245,10 @@ namespace ApiAirkxCompany.Controllers
             {
                 m_fin.StartDate = Convert.ToDateTime(ticket.dcStartDate);
             }
+            else
+            {
+                m_fin.StartDate = Convert.ToDateTime("1900-01-01 00:00:00.000");
+            }
             m_fin.EndDate = Convert.ToDateTime("1900-01-01 00:00:00.000");
             m_fin.YQ = "0";
             m_fin.PNRText = "";
@@ -235,6 +259,7 @@ namespace ApiAirkxCompany.Controllers
             m_fin.ZK = ticket.dnTicketPrice.ToString();
             m_fin.FWF = ticket.dnServicePrice.ToString();
             m_fin.FKState = "0";
+            // m_fin.SKData = Convert.ToDateTime("1900-01-01 00:00:00.000");
 
             b_fin.Add(m_fin);
         }

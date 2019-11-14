@@ -32,9 +32,9 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into FinanceInfo(");			
-            strSql.Append("Company,JLCode,DPrice,SJPrice,SHPrice,SSPrice,LRPrice,XSPrice,FDPrice,CPD,AddTime,AddUser,SKState,CPY,XC,RS,PH,FPTT,FPJE,FKFS,Customer,BZ,SPY,SPFS,ZK,SubFKFS,YSJE,YSJE1,FKFS1,SubFKFS1,SubSKState,GRYH,GRYH1,FDPrice1,YSPrice,FXPrice,SJDZ,JPQJ,CW,OrderCode,Jiangjin,JJRY,GPR,HBH,DPRQ,NewFXPrice,SKData,CPDXX,BXXX,FKState");
+            strSql.Append("Company,JLCode,DPrice,SJPrice,SHPrice,SSPrice,LRPrice,XSPrice,FDPrice,CPD,AddTime,AddUser,SKState,CPY,XC,RS,PH,FPTT,FPJE,FKFS,Customer,BZ,SPY,SPFS,ZK,SubFKFS,YSJE,YSJE1,FKFS1,SubFKFS1,SubSKState,GRYH,GRYH1,FDPrice1,YSPrice,FXPrice,SJDZ,JPQJ,CW,OrderCode,Jiangjin,JJRY,GPR,HBH,DPRQ,NewFXPrice,CPDXX,BXXX,FKState");
 			strSql.Append(") values (");
-            strSql.Append("@Company,@JLCode,@DPrice,@SJPrice,@SHPrice,@SSPrice,@LRPrice,@XSPrice,@FDPrice,@CPD,@AddTime,@AddUser,@SKState,@CPY,@XC,@RS,@PH,@FPTT,@FPJE,@FKFS,@Customer,@BZ,@SPY,@SPFS,@ZK,@SubFKFS,@YSJE,@YSJE1,@FKFS1,@SubFKFS1,@SubSKState,@GRYH,@GRYH1,@FDPrice1,@YSPrice,@FXPrice,@SJDZ,@JPQJ,@CW,@OrderCode,@Jiangjin,@JJRY,@GPR,@HBH,@DPRQ,@NewFXPrice,@SKData,@CPDXX,@BXXX,@FKState");            
+            strSql.Append("@Company,@JLCode,@DPrice,@SJPrice,@SHPrice,@SSPrice,@LRPrice,@XSPrice,@FDPrice,@CPD,@AddTime,@AddUser,@SKState,@CPY,@XC,@RS,@PH,@FPTT,@FPJE,@FKFS,@Customer,@BZ,@SPY,@SPFS,@ZK,@SubFKFS,@YSJE,@YSJE1,@FKFS1,@SubFKFS1,@SubSKState,@GRYH,@GRYH1,@FDPrice1,@YSPrice,@FXPrice,@SJDZ,@JPQJ,@CW,@OrderCode,@Jiangjin,@JJRY,@GPR,@HBH,@DPRQ,@NewFXPrice,@CPDXX,@BXXX,@FKState");            
             strSql.Append(") ");            
             strSql.Append(";select @@IDENTITY");		
 			SqlParameter[] parameters = {
@@ -83,8 +83,7 @@ namespace ApiAirkxCompany.SQLServerDAL
                         new SqlParameter("@GPR", SqlDbType.NVarChar,50) ,            
                         new SqlParameter("@HBH", SqlDbType.NVarChar,50) ,            
                         new SqlParameter("@DPRQ", SqlDbType.NVarChar,50) ,            
-                        new SqlParameter("@NewFXPrice", SqlDbType.Float,8) ,            
-                        new SqlParameter("@SKData", SqlDbType.DateTime) ,            
+                        new SqlParameter("@NewFXPrice", SqlDbType.Float,8) ,           
                         new SqlParameter("@CPDXX", SqlDbType.NVarChar,50) ,            
                         new SqlParameter("@BXXX", SqlDbType.NVarChar,50) ,            
                         new SqlParameter("@FKState", SqlDbType.NVarChar,50)             
@@ -136,11 +135,10 @@ namespace ApiAirkxCompany.SQLServerDAL
             parameters[42].Value = model.GPR;                        
             parameters[43].Value = model.HBH;                        
             parameters[44].Value = model.DPRQ;                        
-            parameters[45].Value = model.NewFXPrice;                        
-            parameters[46].Value = model.SKData;                        
-            parameters[47].Value = model.CPDXX;                        
-            parameters[48].Value = model.BXXX;                        
-            parameters[49].Value = model.FKState;
+            parameters[45].Value = model.NewFXPrice;                       
+            parameters[46].Value = model.CPDXX;                        
+            parameters[47].Value = model.BXXX;                        
+            parameters[48].Value = model.FKState;
 
             SqlHelperTool stool = new SqlHelperTool("gncw");
 			object obj = stool.GetSingle(strSql.ToString(),parameters);			

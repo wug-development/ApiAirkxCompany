@@ -681,6 +681,8 @@ namespace ApiAirkxCompany.Controllers
             {
                 m_order.dnStatus = order.dnStatus;
                 m_order.dcStartDate = order.dcStartDate;
+                m_order.dcStartCity = order.dcStartCity;
+                m_order.dcBackCity = order.dcBackCity;
                 m_order.dcOrderCode = order.dcOrderCode;
                 m_order.dcLinkName = order.dcLinkName;
                 m_order.dcTicketNO = order.dcTicketNO;
