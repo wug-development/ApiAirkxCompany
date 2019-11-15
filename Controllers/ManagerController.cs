@@ -17,13 +17,13 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage GetList(int page, int pagenum)
         {
             string sql = "select top " + (page * pagenum) + " dcAdminID as id,dcAdminName as name,dcPassword as pass,dcPhone as phone,dcQQ as qq from T_Admin where dcAdminID not in (";
-            sql += " select top " + ((page - 1) * pagenum) + " dcAdminID from T_Admin where dnIsCheck != 2 order by dtAddDate desc) and dnIsCheck != 2 order by dtAddDate desc";
+            sql += " select top " + ((page - 1) * pagenum) + " dcAdminID from T_Admin where dnIsCheck != 2 and dcAdminID != 'a000001' order by dtAddDate desc) and dnIsCheck != 2 and dcAdminID != 'a000001' order by dtAddDate desc";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
             object count = 0;
             if (page == 1)
             {
-                string sqlcount = "select count (dcAdminID) from dbo.T_Admin where dnIsCheck != 2 ";
+                string sqlcount = "select count (dcAdminID) from dbo.T_Admin where dnIsCheck != 2 and dcAdminID != 'a000001' ";
                 count = DbHelperSQL.GetSingle(sqlcount);
             }
 

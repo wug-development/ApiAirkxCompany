@@ -547,8 +547,8 @@ namespace ApiAirkxCompany.Controllers
                 sqlwhere += " and dcTicketNO = '" + tno + "' ";
             }
 
-            string sql = "select top " + (page * pagenum) + " dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate,dtAddTime as addTime,dnStatus as Status from T_Order where 1=1 " + sqlwhere;
-            sql += " and dcOrderID not in (select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where 1=1 " + sqlwhere + ")";
+            string sql = "select top " + (page * pagenum) + " dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate,dtAddTime as addTime,dnStatus as Status,dnIsTicket as isTicket from T_Order where 1=1 " + sqlwhere;
+            sql += " and dcOrderID not in (select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where 1=1 " + sqlwhere + " order by dtAddTime desc) order by dtAddTime desc";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {

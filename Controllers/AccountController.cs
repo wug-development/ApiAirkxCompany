@@ -47,7 +47,7 @@ namespace ApiAirkxCompany.Controllers
         [HttpGet]
         public HttpResponseMessage getList()
         {
-            string sql = " select dcAdminID as id,dcAdminName as name from T_Admin where dcAdminID !='a000001' ";
+            string sql = " select dcAdminID as id,dcAdminName as name from T_Admin where dcAdminID != 'a000001' ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {
