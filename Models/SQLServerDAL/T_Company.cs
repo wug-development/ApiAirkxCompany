@@ -1,18 +1,7 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/** 
 * T_Company.cs
-*
-* 功 能： N/A
 * 类 名： T_Company
-*
-* Ver    变更日期             负责人  变更内容
-* ───────────────────────────────────
-* V0.01  2019/11/1 17:56:15   N/A    初版
-*
-* Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+* V0.01  2019/11/16 12:03:24
 */
 using System;
 using System.Data;
@@ -52,13 +41,14 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_Company(");
-			strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck)");
+			strSql.Append("dcCompanyID,dcUserName,dcPassword,dcFirstLetter,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck)");
 			strSql.Append(" values (");
-			strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dnServicePirce,@dtCheckOutDate,@dcLinkName,@dcPhone,@dcAdminID,@dcAdminName,@dcOther,@dtAddDatetime,@dnIsCheck)");
+			strSql.Append("@dcCompanyID,@dcUserName,@dcPassword,@dcFirstLetter,@dcFullName,@dcShortName,@dcRegistrationNumber,@dnRegisteredFunds,@dcBusinessAddress,@dcMainBusiness,@dcShareholder,@dcLegalRepresentative,@dcLicenseRegistrationAddr,@dcBankAccount,@dcOpeningBank,@dcParentCompanyID,@dnCreditLine,@dnServicePirce,@dtCheckOutDate,@dcLinkName,@dcPhone,@dcAdminID,@dcAdminName,@dcOther,@dtAddDatetime,@dnIsCheck)");
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40),
 					new SqlParameter("@dcUserName", SqlDbType.NVarChar,40),
 					new SqlParameter("@dcPassword", SqlDbType.VarChar,50),
+					new SqlParameter("@dcFirstLetter", SqlDbType.VarChar,2),
 					new SqlParameter("@dcFullName", SqlDbType.NVarChar,60),
 					new SqlParameter("@dcShortName", SqlDbType.NVarChar,30),
 					new SqlParameter("@dcRegistrationNumber", SqlDbType.VarChar,32),
@@ -84,28 +74,29 @@ namespace ApiAirkxCompany.SQLServerDAL
 			parameters[0].Value = model.dcCompanyID;
 			parameters[1].Value = model.dcUserName;
 			parameters[2].Value = model.dcPassword;
-			parameters[3].Value = model.dcFullName;
-			parameters[4].Value = model.dcShortName;
-			parameters[5].Value = model.dcRegistrationNumber;
-			parameters[6].Value = model.dnRegisteredFunds;
-			parameters[7].Value = model.dcBusinessAddress;
-			parameters[8].Value = model.dcMainBusiness;
-			parameters[9].Value = model.dcShareholder;
-			parameters[10].Value = model.dcLegalRepresentative;
-			parameters[11].Value = model.dcLicenseRegistrationAddr;
-			parameters[12].Value = model.dcBankAccount;
-			parameters[13].Value = model.dcOpeningBank;
-			parameters[14].Value = model.dcParentCompanyID;
-			parameters[15].Value = model.dnCreditLine;
-			parameters[16].Value = model.dnServicePirce;
-			parameters[17].Value = model.dtCheckOutDate;
-			parameters[18].Value = model.dcLinkName;
-			parameters[19].Value = model.dcPhone;
-			parameters[20].Value = model.dcAdminID;
-			parameters[21].Value = model.dcAdminName;
-			parameters[22].Value = model.dcOther;
-			parameters[23].Value = model.dtAddDatetime;
-			parameters[24].Value = model.dnIsCheck;
+			parameters[3].Value = model.dcFirstLetter;
+			parameters[4].Value = model.dcFullName;
+			parameters[5].Value = model.dcShortName;
+			parameters[6].Value = model.dcRegistrationNumber;
+			parameters[7].Value = model.dnRegisteredFunds;
+			parameters[8].Value = model.dcBusinessAddress;
+			parameters[9].Value = model.dcMainBusiness;
+			parameters[10].Value = model.dcShareholder;
+			parameters[11].Value = model.dcLegalRepresentative;
+			parameters[12].Value = model.dcLicenseRegistrationAddr;
+			parameters[13].Value = model.dcBankAccount;
+			parameters[14].Value = model.dcOpeningBank;
+			parameters[15].Value = model.dcParentCompanyID;
+			parameters[16].Value = model.dnCreditLine;
+			parameters[17].Value = model.dnServicePirce;
+			parameters[18].Value = model.dtCheckOutDate;
+			parameters[19].Value = model.dcLinkName;
+			parameters[20].Value = model.dcPhone;
+			parameters[21].Value = model.dcAdminID;
+			parameters[22].Value = model.dcAdminName;
+			parameters[23].Value = model.dcOther;
+			parameters[24].Value = model.dtAddDatetime;
+			parameters[25].Value = 1;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -126,6 +117,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			strSql.Append("update T_Company set ");
 			strSql.Append("dcUserName=@dcUserName,");
 			strSql.Append("dcPassword=@dcPassword,");
+			strSql.Append("dcFirstLetter=@dcFirstLetter,");
 			strSql.Append("dcFullName=@dcFullName,");
 			strSql.Append("dcShortName=@dcShortName,");
 			strSql.Append("dcRegistrationNumber=@dcRegistrationNumber,");
@@ -152,6 +144,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcUserName", SqlDbType.NVarChar,40),
 					new SqlParameter("@dcPassword", SqlDbType.VarChar,50),
+					new SqlParameter("@dcFirstLetter", SqlDbType.VarChar,2),
 					new SqlParameter("@dcFullName", SqlDbType.NVarChar,60),
 					new SqlParameter("@dcShortName", SqlDbType.NVarChar,30),
 					new SqlParameter("@dcRegistrationNumber", SqlDbType.VarChar,32),
@@ -177,29 +170,30 @@ namespace ApiAirkxCompany.SQLServerDAL
 					new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)};
 			parameters[0].Value = model.dcUserName;
 			parameters[1].Value = model.dcPassword;
-			parameters[2].Value = model.dcFullName;
-			parameters[3].Value = model.dcShortName;
-			parameters[4].Value = model.dcRegistrationNumber;
-			parameters[5].Value = model.dnRegisteredFunds;
-			parameters[6].Value = model.dcBusinessAddress;
-			parameters[7].Value = model.dcMainBusiness;
-			parameters[8].Value = model.dcShareholder;
-			parameters[9].Value = model.dcLegalRepresentative;
-			parameters[10].Value = model.dcLicenseRegistrationAddr;
-			parameters[11].Value = model.dcBankAccount;
-			parameters[12].Value = model.dcOpeningBank;
-			parameters[13].Value = model.dcParentCompanyID;
-			parameters[14].Value = model.dnCreditLine;
-			parameters[15].Value = model.dnServicePirce;
-			parameters[16].Value = model.dtCheckOutDate;
-			parameters[17].Value = model.dcLinkName;
-			parameters[18].Value = model.dcPhone;
-			parameters[19].Value = model.dcAdminID;
-			parameters[20].Value = model.dcAdminName;
-			parameters[21].Value = model.dcOther;
-			parameters[22].Value = model.dtAddDatetime;
-			parameters[23].Value = model.dnIsCheck;
-			parameters[24].Value = model.dcCompanyID;
+			parameters[2].Value = model.dcFirstLetter;
+			parameters[3].Value = model.dcFullName;
+			parameters[4].Value = model.dcShortName;
+			parameters[5].Value = model.dcRegistrationNumber;
+			parameters[6].Value = model.dnRegisteredFunds;
+			parameters[7].Value = model.dcBusinessAddress;
+			parameters[8].Value = model.dcMainBusiness;
+			parameters[9].Value = model.dcShareholder;
+			parameters[10].Value = model.dcLegalRepresentative;
+			parameters[11].Value = model.dcLicenseRegistrationAddr;
+			parameters[12].Value = model.dcBankAccount;
+			parameters[13].Value = model.dcOpeningBank;
+			parameters[14].Value = model.dcParentCompanyID;
+			parameters[15].Value = model.dnCreditLine;
+			parameters[16].Value = model.dnServicePirce;
+			parameters[17].Value = model.dtCheckOutDate;
+			parameters[18].Value = model.dcLinkName;
+			parameters[19].Value = model.dcPhone;
+			parameters[20].Value = model.dcAdminID;
+			parameters[21].Value = model.dcAdminName;
+			parameters[22].Value = model.dcOther;
+			parameters[23].Value = model.dtAddDatetime;
+			parameters[24].Value = model.dnIsCheck;
+			parameters[25].Value = model.dcCompanyID;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -262,7 +256,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck from T_Company ");
+			strSql.Append("select  top 1 dcCompanyID,dcUserName,dcPassword,dcFirstLetter,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck from T_Company ");
 			strSql.Append(" where dcCompanyID=@dcCompanyID ");
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)			};
@@ -300,6 +294,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 				if(row["dcPassword"]!=null)
 				{
 					model.dcPassword=row["dcPassword"].ToString();
+				}
+				if(row["dcFirstLetter"]!=null)
+				{
+					model.dcFirstLetter=row["dcFirstLetter"].ToString();
 				}
 				if(row["dcFullName"]!=null)
 				{
@@ -399,7 +397,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck ");
+			strSql.Append("select dcCompanyID,dcUserName,dcPassword,dcFirstLetter,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck ");
 			strSql.Append(" FROM T_Company ");
 			if(strWhere.Trim()!="")
 			{
@@ -419,7 +417,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" dcCompanyID,dcUserName,dcPassword,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck ");
+			strSql.Append(" dcCompanyID,dcUserName,dcPassword,dcFirstLetter,dcFullName,dcShortName,dcRegistrationNumber,dnRegisteredFunds,dcBusinessAddress,dcMainBusiness,dcShareholder,dcLegalRepresentative,dcLicenseRegistrationAddr,dcBankAccount,dcOpeningBank,dcParentCompanyID,dnCreditLine,dnServicePirce,dtCheckOutDate,dcLinkName,dcPhone,dcAdminID,dcAdminName,dcOther,dtAddDatetime,dnIsCheck ");
 			strSql.Append(" FROM T_Company ");
 			if(strWhere.Trim()!="")
 			{

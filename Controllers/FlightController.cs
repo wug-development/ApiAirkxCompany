@@ -408,7 +408,7 @@ namespace ApiAirkxCompany.Controllers
                     return Utils.pubResult(0);
                 }
             }
-            catch(Exception e)
+            catch
             {
                 return Utils.pubResult(0);
             }

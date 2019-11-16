@@ -29,7 +29,8 @@ namespace ApiAirkxCompany.Model
 		private string _dccompanyid;
 		private string _dcusername="";
 		private string _dcpassword="";
-		private string _dcfullname="";
+        private string _dcfirstletter = "";
+        private string _dcfullname="";
 		private string _dcshortname="";
 		private string _dcregistrationnumber="";
 		private decimal _dnregisteredfunds=0M;
@@ -74,11 +75,15 @@ namespace ApiAirkxCompany.Model
 		{
 			set{ _dcpassword=value;}
 			get{return _dcpassword;}
-		}
-		/// <summary>
-		/// 公司全称
-		/// </summary>
-		public string dcFullName
+        }
+        /// <summary>
+        /// 首字母
+        /// </summary>
+        public string dcFirstLetter { get => _dcfirstletter; set => _dcfirstletter = value; }
+        /// <summary>
+        /// 公司全称
+        /// </summary>
+        public string dcFullName
 		{
 			set{ _dcfullname=value;}
 			get{return _dcfullname;}
@@ -251,8 +256,8 @@ namespace ApiAirkxCompany.Model
 			set{ _dnischeck=value;}
 			get{return _dnischeck;}
 		}
-		#endregion Model
+        #endregion Model
 
-	}
+    }
 }
 

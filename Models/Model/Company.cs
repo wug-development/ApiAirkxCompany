@@ -12,6 +12,7 @@ namespace ApiAirkxCompany
         public string companyid { get; set; }// 企业ID
         public string comShorthand { get; set; }//企业简称（账号）
         public string comPass { get; set; }//登录密码
+        public string firstLetter { get; set; }//首字母
         public string billfields { get; set; }//账单字段
         public CompanyInfo comInfo { get; set; }//企业信息
         public List<LinkMan> linkman { get; set; } //联系人
@@ -23,6 +24,7 @@ namespace ApiAirkxCompany
         public string cid { get; set; }// 分公司ID
         public string comShorthand { get; set; }// 分公司简称（账号）
         public string comPass { get; set; }// 登录密码
+        public string firstLetter { get; set; }// 首字母
         public string other { get; set; }// 备注
         public LinkMan linkmanList { get; set; }// 联系人
     }

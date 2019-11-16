@@ -26,9 +26,9 @@ namespace ApiAirkxCompany.Controllers
             string sqlwhere = "";
             if (v != "")
             {
-                sqlwhere = " and dcUserName like '%" + v + "%' ";
+                sqlwhere = " and dcUserName like '%" + v + "%' or dcFirstLetter like '%" + v + "%' ";
             }
-            string sql = " select dcCompanyID as id,dcUserName as name,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2  ";
+            string sql = " select dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2  ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
             return Utils.pubResult(1, "获取成功", dt); 
@@ -50,7 +50,7 @@ namespace ApiAirkxCompany.Controllers
             {
                 sqlwhere = " and dcParentCompanyID='" + v + "' ";
             }
-            string sql = " select dcCompanyID as id,dcUserName as name,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dnIsCheck!=2  ";
+            string sql = " select dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dnIsCheck!=2  ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
             return Utils.pubResult(1, "获取成功", dt);
@@ -73,7 +73,7 @@ namespace ApiAirkxCompany.Controllers
                 string v = PageValidate.SQL_KILL(filters);
                 sqlwhere = " and dcUserName like '%" + v + "%' ";
             }
-            string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,c.dcLinkName as linkman,c.dcPhone as phone,dnCreditLine as xinyong,1 as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID not in ( ";
+            string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,c.dcLinkName as linkman,c.dcPhone as phone,dnCreditLine as xinyong,1 as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID not in ( ";
             sql += " select top " + ((page - 1) * pagenum) + " dcCompanyID  from T_Company where dcParentCompanyID='' and dnIsCheck!=2 " + sqlwhere + " order by dtAddDatetime desc) " + sqlwhere + " order by dtAddDatetime desc ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
@@ -144,7 +144,7 @@ namespace ApiAirkxCompany.Controllers
                 string comid = Utils.getDataID("com");
                 NoSortHashtable SQLStringList = new NoSortHashtable();
 
-                SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
+                SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.firstLetter, company.comInfo.other, "", company.linkman[0]));
                 SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma"), comid, company.comInfo.remoney));
 
                 for (int i = 0; i < company.linkman.Count; i++)
@@ -159,7 +159,7 @@ namespace ApiAirkxCompany.Controllers
                 for (int n = 0; n < company.subcompany.Count; n++)
                 {
                     string subcomid = Utils.getDataID("coms" + n);
-                    SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].other, comid, company.subcompany[n].linkmanList));
+                    SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].firstLetter, company.subcompany[n].other, comid, company.subcompany[n].linkmanList));
                     SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma" + n), subcomid, company.comInfo.remoney));
                     SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lms" + n), subcomid, company.subcompany[n].linkmanList));
                 }
@@ -196,7 +196,7 @@ namespace ApiAirkxCompany.Controllers
                 string comid = PageValidate.SQL_KILL(cid);
                 Dictionary<StringBuilder, SqlParameter[]> SQLStringList = new Dictionary<StringBuilder, SqlParameter[]>();
 
-                SQLStringList.Add(CompanyMethods.companyinfoupsql(), CompanyMethods.companyUpParams(comid, company.comInfo, company.comShorthand, company.comPass, company.comInfo.other, "", company.linkman[0]));
+                SQLStringList.Add(CompanyMethods.companyinfoupsql(), CompanyMethods.companyUpParams(comid, company.comInfo, company.comShorthand, company.comPass, company.firstLetter, company.comInfo.other, "", company.linkman[0]));
                 SQLStringList.Add(CompanyMethods.companyaccountUpSql(), CompanyMethods.companyAccountUpParams(comid, company.comInfo.remoney));
 
                 // 企业联系人
@@ -277,7 +277,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage GetSubCompany(string id)
         {
             string v = PageValidate.SQL_KILL(id);
-            string sqlfield = "a.dcCompanyID as id,dcUserName as name,dcPassword as pass,c.dcLinkName as linkman,c.dcPhone as phone,dnCreditLine as xinyong,1 as qiankuan";
+            string sqlfield = "a.dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcPassword as pass,c.dcLinkName as linkman,c.dcPhone as phone,dnCreditLine as xinyong,1 as qiankuan";
             string sql = " select " + sqlfield + " from T_Company a, T_CompanyLinkMan c where dcParentCompanyID='" + id + "' and a.dcCompanyID=c.dcCompanyID  ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
@@ -340,7 +340,7 @@ namespace ApiAirkxCompany.Controllers
         [HttpGet]
         public HttpResponseMessage GetInfo(string id)
         {
-            string sqlfeild = " dcCompanyID as cid,dcUserName as comShorthand,dcPassword as comPass,dcFullName as nickname,dcRegistrationNumber as reno,dnRegisteredFunds as remoney,dcBusinessAddress as readdr,dcMainBusiness as business,";
+            string sqlfeild = " dcCompanyID as cid,dcUserName as comShorthand,dcPassword as comPass,dcFirstLetter as firstLetter,dcFullName as nickname,dcRegistrationNumber as reno,dnRegisteredFunds as remoney,dcBusinessAddress as readdr,dcMainBusiness as business,";
             sqlfeild += "dcShareholder as shareholder,dcLegalRepresentative as legal,dcLicenseRegistrationAddr as licenseAddr,dcBankAccount as bankAccount,dcOpeningBank as bankName,";
             sqlfeild += "dnCreditLine as credit,dnServicePirce as servicePirce, dtCheckOutDate as settleDate,dcAdminID as mid,dcAdminName as mname,dcOther as other";
             
@@ -368,7 +368,7 @@ namespace ApiAirkxCompany.Controllers
         {
             string n = PageValidate.SQL_KILL(uname);
             string p = PageValidate.SQL_KILL(upass);
-            string sql = " select top 1 dcCompanyID as id,dcUserName as uname,dcFullName as allname,dcShortName as shortname,dcPassword as upass,dnIsCheck as status from T_Company where dcUserName = '" + n + "' and dcPassword = '" + p + "' ";
+            string sql = " select top 1 dcCompanyID as id,dcUserName as uname,dcFirstLetter as firstletter,dcFullName as allname,dcShortName as shortname,dcPassword as upass,dnIsCheck as status from T_Company where dcUserName = '" + n + "' and dcPassword = '" + p + "' ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if(dt != null && dt.Rows.Count > 0)
             {
