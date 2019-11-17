@@ -27,11 +27,14 @@ namespace ApiAirkxCompany.Controllers
             if (v != "")
             {
                 sqlwhere = " and dcUserName like '%" + v + "%' or dcFirstLetter like '%" + v + "%' ";
+                string sql = " select dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2  ";
+                DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+                return Utils.pubResult(1, "获取成功", dt); 
             }
-            string sql = " select dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2  ";
-            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
-
-            return Utils.pubResult(1, "获取成功", dt); 
+            else
+            { 
+                return Utils.pubResult(1, "获取成功", "");
+            }
         }
         #endregion
         
@@ -73,7 +76,7 @@ namespace ApiAirkxCompany.Controllers
                 string v = PageValidate.SQL_KILL(filters);
                 sqlwhere = " and dcUserName like '%" + v + "%' ";
             }
-            string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,c.dcLinkName as linkman,c.dcPhone as phone,dnCreditLine as xinyong,1 as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID not in ( ";
+            string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,c.dcLinkName as linkman,c.dcPhone as phone,b.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyAccount b,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID=b.dcCompanyID and a.dcCompanyID not in ( ";
             sql += " select top " + ((page - 1) * pagenum) + " dcCompanyID  from T_Company where dcParentCompanyID='' and dnIsCheck!=2 " + sqlwhere + " order by dtAddDatetime desc) " + sqlwhere + " order by dtAddDatetime desc ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 

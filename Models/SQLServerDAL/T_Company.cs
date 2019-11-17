@@ -48,7 +48,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 					new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40),
 					new SqlParameter("@dcUserName", SqlDbType.NVarChar,40),
 					new SqlParameter("@dcPassword", SqlDbType.VarChar,50),
-					new SqlParameter("@dcFirstLetter", SqlDbType.VarChar,2),
+					new SqlParameter("@dcFirstLetter", SqlDbType.VarChar,20),
 					new SqlParameter("@dcFullName", SqlDbType.NVarChar,60),
 					new SqlParameter("@dcShortName", SqlDbType.NVarChar,30),
 					new SqlParameter("@dcRegistrationNumber", SqlDbType.VarChar,32),
@@ -144,7 +144,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcUserName", SqlDbType.NVarChar,40),
 					new SqlParameter("@dcPassword", SqlDbType.VarChar,50),
-					new SqlParameter("@dcFirstLetter", SqlDbType.VarChar,2),
+					new SqlParameter("@dcFirstLetter", SqlDbType.VarChar,20),
 					new SqlParameter("@dcFullName", SqlDbType.NVarChar,60),
 					new SqlParameter("@dcShortName", SqlDbType.NVarChar,30),
 					new SqlParameter("@dcRegistrationNumber", SqlDbType.VarChar,32),

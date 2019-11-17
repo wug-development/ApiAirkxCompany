@@ -194,6 +194,7 @@
     <Compile Include="Models\BLL\T_Ticket.cs" />
     <Compile Include="Models\BLL\T_TicketPrice.cs" />
     <Compile Include="Models\BLL\T_TicketSheet.cs" />
+    <Compile Include="Models\IBLL\ICacheService.cs" />
     <Compile Include="Models\Model\Company.cs" />
     <Compile Include="Models\Model\FinanceInfo.cs" />
     <Compile Include="Models\Model\FinanceInfoGJ.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Models\SQLServerDAL\T_TicketPrice.cs" />
     <Compile Include="Models\SQLServerDAL\T_TicketSheet.cs" />
     <Compile Include="Models\Tool\DbHelperSQL.cs" />
+    <Compile Include="Models\Tool\MemoryCache.cs" />
     <Compile Include="Models\Tool\MySort.cs" />
     <Compile Include="Models\Tool\NoSortHashtable.cs" />
     <Compile Include="Models\Tool\MySqlHelper.cs" />
