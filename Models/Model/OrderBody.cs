@@ -13,6 +13,8 @@ namespace ApiAirkxCompany
         public string cid { get; set; }
         // 企业名称
         public string cname { get; set; }
+        // 备注
+        public string content { get; set; }
         // 乘机人
         public List<Person> persons { get; set; }
         // 乘机人

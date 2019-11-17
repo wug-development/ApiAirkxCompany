@@ -123,7 +123,7 @@ namespace ApiAirkxCompany.Controllers
                     parameters[19].Value = 0;
                     parameters[20].Value = 0;
                     parameters[21].Value = 0;
-                    parameters[22].Value = "";// 备注
+                    parameters[22].Value = order.content;// 备注
                     parameters[23].Value = m_company.dcAdminID;
                     parameters[24].Value = m_company.dcAdminName;
                     parameters[25].Value = 0;
@@ -283,7 +283,14 @@ namespace ApiAirkxCompany.Controllers
                 }
                 parameters[8].Value = person.phone;
                 parameters[9].Value = person.jjphone;
-                parameters[10].Value = person.type == "成人" ? 1 : (person.type == "儿童" ? 2 : 3);
+                if (person.type.Length == 1)
+                {
+                    parameters[10].Value = person.type;
+                }
+                else
+                {
+                    parameters[10].Value = person.type == "成人" ? 1 : (person.type == "儿童" ? 2 : 3);
+                }
                 hash.Add(strSql, parameters);
             }
         }
