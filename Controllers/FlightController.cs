@@ -403,9 +403,13 @@ namespace ApiAirkxCompany.Controllers
                     };
                     return Utils.pubResult(1, "获取成功", obj);
                 }
+                else if (rep.returnMessage == "003_0074_没有航班")
+                {
+                    return Utils.pubResult(0, "服务器维护中...", "");
+                }
                 else
                 {
-                    return Utils.pubResult(0);
+                    return Utils.pubResult(0, "没有查询到航班", "");
                 }
             }
             catch

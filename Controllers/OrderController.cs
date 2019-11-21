@@ -16,8 +16,6 @@ namespace ApiAirkxCompany.Controllers
 {
     public class OrderController : ApiController
     {
-        private NoSortHashtable hash = new NoSortHashtable();
-
         #region 提交国际订单
         /// <summary>
         /// 提交国际订单
@@ -31,36 +29,37 @@ namespace ApiAirkxCompany.Controllers
             {
                 Random rd = new Random();
                 string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000, 9999).ToString();
+                NoSortHashtable hash = new NoSortHashtable();
 
                 if (order.persons.Count > 0)
                 {
                     // 添加常用乘机人
-                    runPerson(order.persons, order.cid);
+                    hash = runPerson(order.persons, order.cid, hash);
                     // 添加订单乘机人
-                    addOrderPerson(order.persons, orderid);
+                    hash = addOrderPerson(order.persons, orderid, hash);
                 }
 
                 // 添加去程
                 if (order.airinfo != null && order.airinfo.flightInfo != null && order.airinfo.flightInfo.airID > 0)
                 {
-                    addflight(order.airinfo.flightInfo.airID, orderid, order.airinfo.airtype, 0);
+                    hash = addflight(order.airinfo.flightInfo.airID, orderid, order.airinfo.airtype, 0, hash);
                     if (order.airinfo.flightInfo.toFlightInfo.Length > 0)
                     {
                         for (int i = 0; i < order.airinfo.flightInfo.toFlightInfo.Length; i++)
                         {
-                            addsubflight(order.airinfo.flightInfo.toFlightInfo[i], orderid, order.airinfo.airtype, 0, i);
+                            hash = addsubflight(order.airinfo.flightInfo.toFlightInfo[i], orderid, order.airinfo.airtype, 0, i, hash);
                         }
                     }
                 }
                 // 添加回程
                 if (order.airinfo != null && order.airinfo.airtype == 1 && order.airinfo.backFlightInfo != null && order.airinfo.backFlightInfo.airID > 0)
                 {
-                    addflight(order.airinfo.backFlightInfo.airID, orderid, order.airinfo.airtype, 1);
+                    hash = addflight(order.airinfo.backFlightInfo.airID, orderid, order.airinfo.airtype, 1, hash);
                     if (order.airinfo.backFlightInfo.toFlightInfo.Length > 0)
                     {
                         for (int i = 0; i < order.airinfo.backFlightInfo.toFlightInfo.Length; i++)
                         {
-                            addsubflight(order.airinfo.backFlightInfo.toFlightInfo[i], orderid, order.airinfo.airtype, 1, i);
+                            hash = addsubflight(order.airinfo.backFlightInfo.toFlightInfo[i], orderid, order.airinfo.airtype, 1, i, hash);
                         }
                     }
                 }
@@ -156,7 +155,7 @@ namespace ApiAirkxCompany.Controllers
         /// </summary>
         /// <param name="p">乘机人列表</param>
         /// <param name="cid">用户ID</param>
-        public void runPerson(List<Person> p, string cid)
+        public NoSortHashtable runPerson(List<Person> p, string cid, NoSortHashtable hash)
         {
             int i = 0;
             foreach (Person person in p)
@@ -198,6 +197,7 @@ namespace ApiAirkxCompany.Controllers
                     hash.Add(strSql, parameters);
                 }
             }
+            return hash;
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace ApiAirkxCompany.Controllers
         /// </summary>
         /// <param name="p">乘机人列表</param>
         /// <param name="oid">订单ID</param>
-        public void addOrderPerson(List<Person> p, string oid)
+        public NoSortHashtable addOrderPerson(List<Person> p, string oid, NoSortHashtable hash)
         {
             int i = 0;
             foreach (Person person in p)
@@ -244,6 +244,7 @@ namespace ApiAirkxCompany.Controllers
                 parameters[10].Value = 1;
                 hash.Add(strSql, parameters);
             }
+            return hash;
         }
 
         /// <summary>
@@ -253,7 +254,7 @@ namespace ApiAirkxCompany.Controllers
         /// <param name="orderid">订单ID</param>
         /// <param name="airtype">航班类型0单程1往返</param>
         /// <param name="flighttype">航线类型0去程1回程</param>
-        public void addflight(int airid, string orderid, int airtype, int flighttype)
+        public NoSortHashtable addflight(int airid, string orderid, int airtype, int flighttype, NoSortHashtable hash)
         {
             BLL.T_AirFlightInfo b_flightinfo = new BLL.T_AirFlightInfo();
             Model.T_AirFlightInfo m_flightinfo = new Model.T_AirFlightInfo();
@@ -267,9 +268,10 @@ namespace ApiAirkxCompany.Controllers
                 m_aircompany = b_aircompany.GetModel(m_flightinfo.CompanyCode);
                 if (m_aircompany != null)
                 {
-                    addOrderFlight(m_flightinfo, m_aircompany, orderid, airtype, flighttype, 0);
+                    hash = addOrderFlight(m_flightinfo, m_aircompany, orderid, airtype, flighttype, 0, hash);
                 }
             }
+            return hash;
         }
 
         /// <summary>
@@ -280,7 +282,7 @@ namespace ApiAirkxCompany.Controllers
         /// <param name="airtype">航班类型0单程1往返</param>
         /// <param name="flighttype">航线类型0去程1回程</param>
         /// <param name="i">第几次转机</param>
-        public void addsubflight(int airid, string orderid, int airtype, int flighttype, int i)
+        public NoSortHashtable addsubflight(int airid, string orderid, int airtype, int flighttype, int i, NoSortHashtable hash)
         {
             BLL.T_AirFlightInfoTo b_flightinfo = new BLL.T_AirFlightInfoTo();
             Model.T_AirFlightInfoTo m_flightinfo = new Model.T_AirFlightInfoTo();
@@ -294,9 +296,10 @@ namespace ApiAirkxCompany.Controllers
                 m_aircompany = b_aircompany.GetModel(m_flightinfo.CompanyCode);
                 if (m_aircompany != null)
                 {
-                    addOrderSubFlight(m_flightinfo, m_aircompany, orderid, airtype, flighttype, i + 1);
+                    hash = addOrderSubFlight(m_flightinfo, m_aircompany, orderid, airtype, flighttype, i + 1, hash);
                 }
             }
+            return hash;
         }
 
         /// <summary>
@@ -308,7 +311,7 @@ namespace ApiAirkxCompany.Controllers
         /// <param name="airtype"></param>
         /// <param name="flighttype"></param>
         /// <param name="i"></param>
-        public void addOrderFlight(Model.T_AirFlightInfo model, Model.T_AirCompany aircompany, string oid, int airtype, int flighttype, int i)
+        public NoSortHashtable addOrderFlight(Model.T_AirFlightInfo model, Model.T_AirCompany aircompany, string oid, int airtype, int flighttype, int i, NoSortHashtable hash)
         {
             if (model != null)
             {
@@ -362,6 +365,7 @@ namespace ApiAirkxCompany.Controllers
                 parameters[18].Value = "";
                 hash.Add(strSql, parameters);
             }
+            return hash;
         }
 
         /// <summary>
@@ -373,7 +377,7 @@ namespace ApiAirkxCompany.Controllers
         /// <param name="airtype"></param>
         /// <param name="flighttype"></param>
         /// <param name="i"></param>
-        public void addOrderSubFlight(Model.T_AirFlightInfoTo model, Model.T_AirCompany aircompany, string oid, int airtype, int flighttype, int i)
+        public NoSortHashtable addOrderSubFlight(Model.T_AirFlightInfoTo model, Model.T_AirCompany aircompany, string oid, int airtype, int flighttype, int i, NoSortHashtable hash)
         {
             if (model != null)
             {
@@ -427,6 +431,7 @@ namespace ApiAirkxCompany.Controllers
                 parameters[18].Value = "";
                 hash.Add(strSql, parameters);
             }
+            return hash;
         }
 
         #endregion
@@ -481,6 +486,13 @@ namespace ApiAirkxCompany.Controllers
                 parameters[0].Value = orderid;
                 parameters[1].Value = "";// 订单编码
                 parameters[2].Value = 1;// 订单类型（0国内航班订单1国际航班订单）
+                if (!string.IsNullOrWhiteSpace(order.ordertype))
+                {
+                    if (order.ordertype == "0")
+                    {
+                        parameters[2].Value = 0;
+                    }
+                }
                 parameters[3].Value = 2;//0直飞 1往返 2定制
                 parameters[4].Value = m_company.dcCompanyID;
                 parameters[5].Value = m_company.dcUserName;
@@ -812,5 +824,35 @@ namespace ApiAirkxCompany.Controllers
             }
         }
         #endregion
+
+        #region 获取企业今日订单
+        [HttpGet]
+        public HttpResponseMessage GetNowOrder(string cid, int page, int pagenum)
+        {
+            string v = PageValidate.SQL_KILL(cid);
+            string sdate = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
+            string edate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " 00:00:00";
+            string sqlwhere = " and dcCompanyID = '" + v + "' and dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "' ";
+            string sql = " select top " + (page * pagenum) + " * from T_Order a where a.dcOrderID not in (";
+            sql += " select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where 1=1 " + sqlwhere + " order by dtAddTime desc)";
+            sql += " " + sqlwhere + " order by a.dtAddTime desc";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+
+            object count = 0;
+            if (page == 1)
+            {
+                string sqlcount = "select count (dcOrderID) from T_Order where 1=1 " + sqlwhere;
+                count = DbHelperSQL.GetSingle(sqlcount);
+            }
+
+            var obj = new
+            {
+                pagecount = count,
+                data = dt
+            };
+            return Utils.pubResult(1, "获取成功", obj);
+        }
+        #endregion
+
     }
 }

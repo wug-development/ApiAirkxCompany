@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WebApiContrib.Formatting.Jsonp;
+using log4net.Config;
 
 namespace ApiAirkxCompany
 {
@@ -26,6 +27,10 @@ namespace ApiAirkxCompany
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             //GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
+            //应用程序启动时，自动加载配置log4Net
+            log4net.Config.XmlConfigurator.Configure();
+            GlobalConfiguration.Configuration.Filters.Add(new ApiTrackerFilter());
         }
     }
 }

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://gdsbook.gds.service.version1_0.webservice.model.ltips.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="GDSBookingServiceImpl_1_0Service" targetNamespace="http://gdsbook.gds.service.version1_0.webservice.model.ltips.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://gdsbook.gds.service.version1_0.webservice.model.ltips.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="gdsBooking" type="tns:gdsBooking" />
+      <xs:element name="gdsBookingReply" type="tns:gdsBookingReply" />
+      <xs:element name="gdsBookingResponse" type="tns:gdsBookingResponse" />
+      <xs:complexType name="gdsBooking">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:gdsBookingRequest" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="gdsBookingRequest">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoRequest">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="contacts" nillable="true" type="xs:string" />
+              <xs:element minOccurs="0" name="doPat" type="xs:string" />
+              <xs:element minOccurs="0" name="doRT" type="xs:string" />
+              <xs:element minOccurs="0" name="group" type="xs:string" />
+              <xs:element minOccurs="0" name="leaveDate" type="xs:string" />
+              <xs:element minOccurs="0" name="leaveTime" type="xs:string" />
+              <xs:element minOccurs="0" name="officeNo" type="xs:string" />
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="passengers" nillable="true" type="tns:wsBookingPassenger" />
+              <xs:element minOccurs="0" name="pidNo" type="xs:string" />
+              <xs:element minOccurs="0" name="pnrSource" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="segments" nillable="true" type="tns:wsBookingSegment" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoRequest" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="agencyCode" type="xs:string" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsBookingPassenger">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="birth" type="xs:string" />
+          <xs:element minOccurs="0" name="courseCardNo" type="xs:string" />
+          <xs:element minOccurs="0" name="henchMan" type="xs:string" />
+          <xs:element minOccurs="0" name="identityNo" type="xs:string" />
+          <xs:element minOccurs="0" name="identityType" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="passengerType" type="xs:string" />
+          <xs:element minOccurs="0" name="telePhone" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsBookingSegment">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arrTime" type="xs:string" />
+          <xs:element minOccurs="0" name="depDate" type="xs:string" />
+          <xs:element minOccurs="0" name="depTime" type="xs:string" />
+          <xs:element minOccurs="0" name="dstCode" type="xs:string" />
+          <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+          <xs:element minOccurs="0" name="orgCode" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="routeType" type="xs:string" />
+          <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="gdsBookingResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:gdsBookingReply" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="gdsBookingReply">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoReply">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="patResult" nillable="true" type="tns:wspatResult" />
+              <xs:element minOccurs="0" name="patTxt" type="xs:string" />
+              <xs:element minOccurs="0" name="pnrNo" type="xs:string" />
+              <xs:element minOccurs="0" name="pnrResult" type="tns:wspnrResult" />
+              <xs:element minOccurs="0" name="pnrTxt" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoReply" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="returnCode" type="xs:string" />
+          <xs:element minOccurs="0" name="returnMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="returnStackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspatResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="passengerType" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="patItems" nillable="true" type="tns:wspatItemt" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspatItemt">
+        <xs:sequence>
+          <xs:element name="airportTax" type="xs:double" />
+          <xs:element name="fuelTax" type="xs:double" />
+          <xs:element minOccurs="0" name="lineIndex" type="xs:int" />
+          <xs:element name="parPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+          <xs:element name="totalPrice" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="contactInfo" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="contacts" nillable="true" type="tns:wspnrContact" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="EI" nillable="true" type="tns:wspnrOther" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FC" nillable="true" type="tns:wspnrOther" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FN" nillable="true" type="tns:wspnrfn" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="FP" nillable="true" type="tns:wspnrOther" />
+          <xs:element minOccurs="0" name="groupName" type="xs:string" />
+          <xs:element minOccurs="0" name="groupNum" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="infants" nillable="true" type="tns:wspnrInfant" />
+          <xs:element minOccurs="0" name="isGroup" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="OSI" nillable="true" type="tns:wspnrosi" />
+          <xs:element minOccurs="0" name="office" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="passengers" nillable="true" type="tns:wspnrPassenger" />
+          <xs:element minOccurs="0" name="pnr" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="RMK" nillable="true" type="tns:wspnrrmk" />
+          <xs:element minOccurs="0" name="reservation" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="SSR" nillable="true" type="tns:wspnrssr" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="segments" nillable="true" type="tns:wspnrAirSegment" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ticketNos" nillable="true" type="tns:wspnrTktNo" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrContact">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="city" type="xs:string" />
+          <xs:element minOccurs="0" name="contact" type="xs:string" />
+          <xs:element minOccurs="0" name="lineIndex" type="xs:int" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="psgrID" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrOther">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="other" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="type" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrfn">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="airportTax" type="xs:string" />
+          <xs:element minOccurs="0" name="commision" type="xs:string" />
+          <xs:element minOccurs="0" name="fuelTax" type="xs:string" />
+          <xs:element name="infantFlag" type="xs:boolean" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="salePrice" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrInfant">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="brith" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="carrier" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="nameInPnr" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrosi">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="airline" type="xs:string" />
+          <xs:element minOccurs="0" name="osi" type="xs:string" />
+          <xs:element name="osi_tkno" type="xs:boolean" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="pNum" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrPassenger">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="age" type="xs:int" />
+          <xs:element minOccurs="0" name="idNumber" type="xs:string" />
+          <xs:element minOccurs="0" name="idType" type="xs:string" />
+          <xs:element minOccurs="0" name="lineIndex" type="xs:int" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="passengerType" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrrmk">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="psgrID" type="xs:string" />
+          <xs:element minOccurs="0" name="rmkInfo" type="xs:string" />
+          <xs:element minOccurs="0" name="rmkType" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrssr">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="actionCode" type="xs:string" />
+          <xs:element minOccurs="0" name="airline" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="psgrID" type="xs:string" />
+          <xs:element minOccurs="0" name="SSRType" type="xs:string" />
+          <xs:element minOccurs="0" name="serveInfo" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrAirSegment">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="actionCode" type="xs:string" />
+          <xs:element minOccurs="0" name="actionNum" type="xs:int" />
+          <xs:element minOccurs="0" name="arrTime" type="xs:string" />
+          <xs:element minOccurs="0" name="depDate" type="xs:string" />
+          <xs:element minOccurs="0" name="depTime" type="xs:string" />
+          <xs:element minOccurs="0" name="dstCity" type="xs:string" />
+          <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+          <xs:element minOccurs="0" name="isEticket" type="xs:boolean" />
+          <xs:element minOccurs="0" name="lineIndex" type="xs:int" />
+          <xs:element minOccurs="0" name="orgCity" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="routeType" type="xs:string" />
+          <xs:element minOccurs="0" name="seatCode" type="xs:string" />
+          <xs:element minOccurs="0" name="jetquay" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wspnrTktNo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="psgrID" type="xs:string" />
+          <xs:element minOccurs="0" name="remark" type="xs:string" />
+          <xs:element minOccurs="0" name="tktNo" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="gdsBookingResponse">
+    <wsdl:part name="parameters" element="tns:gdsBookingResponse" />
+  </wsdl:message>
+  <wsdl:message name="gdsBooking">
+    <wsdl:part name="parameters" element="tns:gdsBooking" />
+  </wsdl:message>
+  <wsdl:portType name="GDSBookingService_1_0">
+    <wsdl:operation name="gdsBooking">
+      <wsdl:input name="gdsBooking" message="tns:gdsBooking" />
+      <wsdl:output name="gdsBookingResponse" message="tns:gdsBookingResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GDSBookingServiceImpl_1_0ServiceSoapBinding" type="tns:GDSBookingService_1_0">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="gdsBooking">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="gdsBooking">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="gdsBookingResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GDSBookingServiceImpl_1_0Service">
+    <wsdl:port name="GDSBookingServiceImpl_1_0Port" binding="tns:GDSBookingServiceImpl_1_0ServiceSoapBinding">
+      <soap:address location="http://ws.tongyedns.com:8000//ltips/services/gdsBookingService1.0" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ApiAirkxCompany.getChildPolicyAndFlightService;
 
 namespace ApiAirkxCompany
 {
@@ -97,6 +98,7 @@ namespace ApiAirkxCompany
         private string _phone = "";
         private string _jjphone = "";
         private string _cardtype = "";
+        private string _safenum = "";
 
         //联系人
         public string name { get => _name; set => _name = value; }
@@ -120,6 +122,8 @@ namespace ApiAirkxCompany
         public string jjphone { get => _jjphone; set => _jjphone = value; }
         //证件类型 身份证 护照
         public string cardtype { get => _cardtype; set => _cardtype = value; }
+        //保险份数
+        public string safenum { get => _safenum; set => _safenum = value; }
     }
 
     public class AirInfo
@@ -174,6 +178,8 @@ namespace ApiAirkxCompany
     {
         //定制行程内容
         public string content { get; set; }
+        //航班类型 1国际 0国内
+        public string ordertype { get; set; }
         //企业 ID
         public string cid { get; set; }
     }
@@ -310,6 +316,8 @@ namespace ApiAirkxCompany
 
         private bool _settlePriceSpecified = false;
 
+        private PolicyData _policyData;
+
         public double discount { get => _discount; set => _discount = value; }
         public bool discountSpecified { get => _discountSpecified; set => _discountSpecified = value; }
         public string flightNo { get => _flightNo; set => _flightNo = value; }
@@ -326,6 +334,7 @@ namespace ApiAirkxCompany
         public bool seatTypeSpecified { get => _seatTypeSpecified; set => _seatTypeSpecified = value; }
         public double settlePrice { get => _settlePrice; set => _settlePrice = value; }
         public bool settlePriceSpecified { get => _settlePriceSpecified; set => _settlePriceSpecified = value; }
+        public PolicyData policyData { get => _policyData; set => _policyData = value; }
     }
 
     public class PNRBody
@@ -333,6 +342,12 @@ namespace ApiAirkxCompany
         public string cid { get; set; }
         public string cname { get; set; }
         public AirFlightInfo flightInfo { get; set; }
+    }
+
+    public class PolicyData
+    {
+        public string policyId { get; set; }
+        public string comment { get; set; }
     }
 
     public class AirFlightInfo
@@ -371,4 +386,19 @@ namespace ApiAirkxCompany
         public string sdate { get; set; }
         public string stime { get; set; }
     }
+
+    public class BookPnr
+    {
+        public List<AirSegment> segments { get; set; }
+        public List<BookPassenger> passengers { get; set; }
+        public double parPrice { get; set; }
+        public double fuelTax { get; set; }
+        public double airportTax { get; set; }
+    }
+
+    public class AirSegment
+    { }
+
+    public class BookPassenger
+    { }
 }

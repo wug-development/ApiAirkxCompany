@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://createorderbypassenger.b2b.service.version1_0.webservice.model.ltips.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="CreateOrderByPassengerServiceImpl_1_0Service" targetNamespace="http://createorderbypassenger.b2b.service.version1_0.webservice.model.ltips.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://createorderbypassenger.b2b.service.version1_0.webservice.model.ltips.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="createOrderByPassenger" type="tns:createOrderByPassenger" />
+      <xs:element name="createOrderByPassengerReply" type="tns:createOrderByPassengerReply" />
+      <xs:element name="createOrderByPassengerRequest" type="tns:createOrderByPassengerRequest" />
+      <xs:element name="createOrderByPassengerResponse" type="tns:createOrderByPassengerResponse" />
+      <xs:element name="wsAirSegment" type="tns:wsAirSegment" />
+      <xs:element name="wsBookPassenger" type="tns:wsBookPassenger" />
+      <xs:element name="wsBookPnr" type="tns:wsBookPnr" />
+      <xs:complexType name="createOrderByPassenger">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:createOrderByPassengerRequest" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createOrderByPassengerRequest">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoRequest">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="allowSwitchPolicy" type="xs:int" />
+              <xs:element minOccurs="0" name="b2cClientPay" type="xs:string" />
+              <xs:element minOccurs="0" name="b2cProfit" type="xs:string" />
+              <xs:element minOccurs="0" name="createdBy" type="xs:string" />
+              <xs:element minOccurs="0" name="linkMan" type="xs:string" />
+              <xs:element minOccurs="0" name="linkPhone" type="xs:string" />
+              <xs:element minOccurs="0" name="needSpeRulePolicy" type="xs:int" />
+              <xs:element minOccurs="0" name="notifiedUrl" type="xs:string" />
+              <xs:element minOccurs="0" name="otherLinkMethod" type="xs:string" />
+              <xs:element minOccurs="0" name="outOrderNo" type="xs:string" />
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" name="param4" type="xs:string" />
+              <xs:element minOccurs="0" name="param5" type="xs:string" />
+              <xs:element minOccurs="0" name="paymentReturnUrl" type="xs:string" />
+              <xs:element minOccurs="0" name="pnrInfo" type="tns:wsBookPnr" />
+              <xs:element minOccurs="0" name="policyId" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoRequest" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="agencyCode" type="xs:string" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsBookPnr">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="airportTax" type="xs:double" />
+          <xs:element minOccurs="0" name="fuelTax" type="xs:double" />
+          <xs:element minOccurs="0" name="parPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="passengers" nillable="true" type="tns:wsBookPassenger" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="segments" nillable="true" type="tns:wsAirSegment" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsBookPassenger">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="birthday" type="xs:string" />
+          <xs:element minOccurs="0" name="identityNo" type="xs:string" />
+          <xs:element minOccurs="0" name="identityType" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="type" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsAirSegment">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arrCode" type="xs:string" />
+          <xs:element minOccurs="0" name="arrTime" type="xs:string" />
+          <xs:element minOccurs="0" name="depCode" type="xs:string" />
+          <xs:element minOccurs="0" name="depDate" type="xs:string" />
+          <xs:element minOccurs="0" name="depTime" type="xs:string" />
+          <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="planeModel" type="xs:string" />
+          <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createOrderByPassengerResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:createOrderByPassengerReply" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="createOrderByPassengerReply">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoReply">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="order" type="tns:wsPolicyOrder" />
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" name="param5" type="xs:string" />
+              <xs:element minOccurs="0" name="parma4" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoReply" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="returnCode" type="xs:string" />
+          <xs:element minOccurs="0" name="returnMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="returnStackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPolicyOrder">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="commisionPoint" type="xs:string" />
+          <xs:element minOccurs="0" name="createdAt" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="flightInfoList" nillable="true" type="tns:wsFlightInfo" />
+          <xs:element minOccurs="0" name="increaseSystemCharge" type="xs:string" />
+          <xs:element minOccurs="0" name="liantuoOrderNo" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="passengerList" nillable="true" type="tns:wsBookedPassenger" />
+          <xs:element minOccurs="0" name="paymentInfo" type="tns:wsPaymentInfo" />
+          <xs:element minOccurs="0" name="pnrNo" type="xs:string" />
+          <xs:element minOccurs="0" name="policyId" type="xs:string" />
+          <xs:element minOccurs="0" name="status" type="xs:string" />
+          <xs:element minOccurs="0" name="supplyOfficeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="systemAlipayAccount" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsFlightInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arrCode" type="xs:string" />
+          <xs:element minOccurs="0" name="arrTime" type="xs:string" />
+          <xs:element minOccurs="0" name="depCode" type="xs:string" />
+          <xs:element minOccurs="0" name="depDate" type="xs:string" />
+          <xs:element minOccurs="0" name="depTime" type="xs:string" />
+          <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="planeModel" type="xs:string" />
+          <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+          <xs:element minOccurs="0" name="seatDiscount" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsBookedPassenger">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="airportTax" type="xs:double" />
+          <xs:element minOccurs="0" name="birthday" type="xs:string" />
+          <xs:element minOccurs="0" name="fuelTax" type="xs:double" />
+          <xs:element minOccurs="0" name="identityNo" type="xs:string" />
+          <xs:element minOccurs="0" name="identityType" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="parPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="settlePrice" type="xs:double" />
+          <xs:element minOccurs="0" name="type" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPaymentInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="paymentUrl" type="xs:string" />
+          <xs:element minOccurs="0" name="settlePrice" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createOrderByPassenger">
+    <wsdl:part name="parameters" element="tns:createOrderByPassenger" />
+  </wsdl:message>
+  <wsdl:message name="createOrderByPassengerResponse">
+    <wsdl:part name="parameters" element="tns:createOrderByPassengerResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CreateOrderByPassengerService_1_0">
+    <wsdl:operation name="createOrderByPassenger">
+      <wsdl:input name="createOrderByPassenger" message="tns:createOrderByPassenger" />
+      <wsdl:output name="createOrderByPassengerResponse" message="tns:createOrderByPassengerResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CreateOrderByPassengerServiceImpl_1_0ServiceSoapBinding" type="tns:CreateOrderByPassengerService_1_0">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createOrderByPassenger">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="createOrderByPassenger">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="createOrderByPassengerResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CreateOrderByPassengerServiceImpl_1_0Service">
+    <wsdl:port name="CreateOrderByPassengerServiceImpl_1_0Port" binding="tns:CreateOrderByPassengerServiceImpl_1_0ServiceSoapBinding">
+      <soap:address location="http://ws.51book.com:8000/ltips/services/createOrderByPassengerService1.0" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

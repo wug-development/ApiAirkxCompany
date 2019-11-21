@@ -8,5 +8,14 @@
     <Setting Name="ApiAirkxCompany_getChildPolicyAndFlightService_GetChildPolicyAndFlightServiceImpl_1_0Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://ws.51book.com:8000/ltips/services/getChildPolicyAndFlightService1.0</Value>
     </Setting>
+    <Setting Name="ApiAirkxCompany_createOrderByPassengerService_CreateOrderByPassengerServiceImpl_1_0Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://ws.51book.com:8000/ltips/services/createOrderByPassengerService1.0</Value>
+    </Setting>
+    <Setting Name="ApiAirkxCompany_getOrderByOrderNoService_GetOrderByOrderNoServiceImpl_1_0Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://ws.51book.com:8000/ltips/services/getOrderByOrderNoService1.0</Value>
+    </Setting>
+    <Setting Name="ApiAirkxCompany_GDSBookingServiceImp_GDSBookingServiceImpl_1_0Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://ws.tongyedns.com:8000//ltips/services/gdsBookingService1.0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

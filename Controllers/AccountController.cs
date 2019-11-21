@@ -20,7 +20,13 @@ namespace ApiAirkxCompany.Controllers
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {
-                sql = " select b.dcMenuID as id,b.dcMenuName as name,b.dcKey as keys from T_AdminMenu a,T_Menus b where dcAdminID = '" + dt.Rows[0]["dcAdminID"] + "' and a.dcMenuID=b.dcMenuID and b.dnIsShow=1 ";
+                sql = " select * from (" +
+                    "select dcMenuName as name,dcKey as keys,dnOrder as o from T_Menus where dnIsPublic = 1" +
+                    " union all " +
+                    " select distinct b.dcMenuName as name,b.dcKey as keys,b.dnOrder as o from T_AdminLimit a,T_Menus b, T_Limits c " +
+                    " where a.dcAdminID = '" + dt.Rows[0]["dcAdminID"] + "' and a.dcLimitID = c.dcLimitID and b.dcMenuID = c.dcMenuID " +
+                    ") as t order by o asc ";
+                // sql = " select b.dcMenuID as id,b.dcMenuName as name,b.dcKey as keys from T_AdminMenu a,T_Menus b where dcAdminID = '" + dt.Rows[0]["dcAdminID"] + "' and a.dcMenuID=b.dcMenuID and b.dnIsShow=1 ";
                 DataTable dt_menu = DbHelperSQL.Query(sql).Tables[0];
 
 
@@ -47,7 +53,7 @@ namespace ApiAirkxCompany.Controllers
         [HttpGet]
         public HttpResponseMessage getList()
         {
-            string sql = " select dcAdminID as id,dcAdminName as name from T_Admin where dcAdminID != 'a000001' ";
+            string sql = " select dcAdminID as id,dcAdminName as name from T_Admin where dcAdminID != 'a000001' and dnIsCheck=1 ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             if (dt != null && dt.Rows.Count > 0)
             {

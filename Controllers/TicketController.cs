@@ -116,7 +116,7 @@ namespace ApiAirkxCompany.Controllers
             m_fin.FDPrice = ticket.dnReturnPoint1.ToString();
             m_fin.CPD = ticket.dcOutTicketName;
             m_fin.AddTime = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
-            m_fin.AddUser = "测试";
+            m_fin.AddUser = ticket.dcAddUser; // 测试
             m_fin.SKState = "1";
             m_fin.CPY = "";
             m_fin.XC = ticket.dcStartCity+"-"+ticket.dcBackCity;
@@ -124,7 +124,7 @@ namespace ApiAirkxCompany.Controllers
             m_fin.PH = ticket.dcTicketNO;
             m_fin.FPTT = ticket.dcPersonName;
             m_fin.FPJE = ticket.dcStartDate;
-            m_fin.Customer = "S散客";// ticket.dcCompanyName;
+            m_fin.Customer = ticket.dcCompanyName;// ticket.dcCompanyName; "S散客"
             m_fin.BZ = ticket.dcOther;
             m_fin.SPY = ticket.dcSendTicketerName;
             m_fin.SPFS = ticket.dcSendTicketType;

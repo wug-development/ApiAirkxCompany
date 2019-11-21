@@ -301,5 +301,16 @@ namespace ApiAirkxCompany
             return BitConverter.ToString(MD5.Create().ComputeHash(Encoding.Default.GetBytes(str))).Replace("-", "").ToLower();
         }
         #endregion
+
+        #region 创建分页SQL
+        public static string createPageSql(string sql, string orderby, int page, int pagenum)
+        {
+            string strsql = "select * from ( " +
+                " SELECT ROW_NUMBER() OVER(" + orderby + ") AS Row, " +
+                "" + sql +
+                " ) as TT WHERE TT.Row between " + ((page - 1) * pagenum + 1) + " and " + (page * pagenum) + "";
+            return strsql;
+        }
+        #endregion
     }
 }

@@ -45,5 +45,36 @@ namespace ApiAirkxCompany.Properties {
                     "_1_0Service"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ws.51book.com:8000/ltips/services/createOrderByPassengerService1.0")]
+        public string ApiAirkxCompany_createOrderByPassengerService_CreateOrderByPassengerServiceImpl_1_0Service {
+            get {
+                return ((string)(this["ApiAirkxCompany_createOrderByPassengerService_CreateOrderByPassengerServiceImpl_1" +
+                    "_0Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ws.51book.com:8000/ltips/services/getOrderByOrderNoService1.0")]
+        public string ApiAirkxCompany_getOrderByOrderNoService_GetOrderByOrderNoServiceImpl_1_0Service {
+            get {
+                return ((string)(this["ApiAirkxCompany_getOrderByOrderNoService_GetOrderByOrderNoServiceImpl_1_0Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://ws.tongyedns.com:8000//ltips/services/gdsBookingService1.0")]
+        public string ApiAirkxCompany_GDSBookingServiceImp_GDSBookingServiceImpl_1_0Service {
+            get {
+                return ((string)(this["ApiAirkxCompany_GDSBookingServiceImp_GDSBookingServiceImpl_1_0Service"]));
+            }
+        }
     }
 }

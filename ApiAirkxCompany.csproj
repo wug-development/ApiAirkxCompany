@@ -56,6 +56,9 @@
     <Reference Include="linq2db, Version=2.7.4.0, Culture=neutral, PublicKeyToken=e41013125f9e410a, processorArchitecture=MSIL">
       <HintPath>packages\linq2db.2.7.4\lib\net46\linq2db.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data, Version=8.0.17.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>packages\MySql.Data.8.0.17\lib\net452\MySql.Data.dll</HintPath>
@@ -178,6 +181,7 @@
     </Compile>
     <Compile Include="JsonDataTimeConverter.cs" />
     <Compile Include="Models\BLLMethod\CompanyMethods.cs" />
+    <Compile Include="Models\BLLMethod\CreateGNOrder.cs" />
     <Compile Include="Models\BLL\FinanceInfo.cs" />
     <Compile Include="Models\BLL\FinanceInfoGJ.cs" />
     <Compile Include="Models\BLL\T_Admin.cs" />
@@ -230,14 +234,18 @@
     <Compile Include="Models\SQLServerDAL\T_Ticket.cs" />
     <Compile Include="Models\SQLServerDAL\T_TicketPrice.cs" />
     <Compile Include="Models\SQLServerDAL\T_TicketSheet.cs" />
+    <Compile Include="Models\Logs\ApiTrackerFilter.cs" />
     <Compile Include="Models\Tool\DbHelperSQL.cs" />
+    <Compile Include="Models\Logs\LoggerHelper.cs" />
     <Compile Include="Models\Tool\MemoryCache.cs" />
+    <Compile Include="Models\Logs\MonitorLog.cs" />
     <Compile Include="Models\Tool\MySort.cs" />
     <Compile Include="Models\Tool\NoSortHashtable.cs" />
     <Compile Include="Models\Tool\MySqlHelper.cs" />
     <Compile Include="Models\Tool\PageValidate.cs" />
     <Compile Include="Models\Tool\SessionMethod.cs" />
     <Compile Include="Models\Tool\SqlHelperTool.cs" />
+    <Compile Include="Models\Logs\TrackerFilter.cs" />
     <Compile Include="Models\Tool\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -245,12 +253,27 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Web References\createOrderByPassengerService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\GDSBookingServiceImp\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\getAvailableFlightWithPriceAndCommision\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\getChildPolicyAndFlightService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\getOrderByOrderNoService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -275,6 +298,7 @@
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <Content Include="log4net.config" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -283,6 +307,22 @@
     </None>
     <Content Include="Web References\getAvailableFlightWithPriceAndCommision\availableFlightWithPriceAndCommisionReply.datasource">
       <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\createOrderByPassengerService\createOrderByPassengerReply.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\createOrderByPassengerService\CreateOrderByPassengerServiceImpl_1_0Service.wsdl" />
+    <Content Include="Web References\createOrderByPassengerService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\GDSBookingServiceImp\gdsBookingReply.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\GDSBookingServiceImp\GDSBookingServiceImpl_1_0Service.wsdl" />
+    <Content Include="Web References\GDSBookingServiceImp\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <None Include="Web References\getAvailableFlightWithPriceAndCommision\GetAvailableFlightWithPriceAndCommisionServiceImpl_1_0Service.wsdl" />
     <Content Include="Web References\getAvailableFlightWithPriceAndCommision\Reference.map">
@@ -297,6 +337,14 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
+    <Content Include="Web References\getOrderByOrderNoService\getOrderByOrderNoReply.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\getOrderByOrderNoService\GetOrderByOrderNoServiceImpl_1_0Service.wsdl" />
+    <Content Include="Web References\getOrderByOrderNoService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -305,6 +353,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://ws.51book.com:8000/ltips/services/createOrderByPassengerService1.0%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\createOrderByPassengerService\</RelPath>
+      <UpdateFromURL>http://ws.51book.com:8000/ltips/services/createOrderByPassengerService1.0%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ApiAirkxCompany_createOrderByPassengerService_CreateOrderByPassengerServiceImpl_1_0Service</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://ws.51book.com:8000/ltips/services/getAvailableFlightWithPriceAndCommisionService1.0%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getAvailableFlightWithPriceAndCommision\</RelPath>
@@ -326,6 +385,28 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>ApiAirkxCompany_getChildPolicyAndFlightService_GetChildPolicyAndFlightServiceImpl_1_0Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://ws.51book.com:8000/ltips/services/getOrderByOrderNoService1.0%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\getOrderByOrderNoService\</RelPath>
+      <UpdateFromURL>http://ws.51book.com:8000/ltips/services/getOrderByOrderNoService1.0%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ApiAirkxCompany_getOrderByOrderNoService_GetOrderByOrderNoServiceImpl_1_0Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://ws.tongyedns.com:8000//ltips/services/gdsBookingService1.0%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GDSBookingServiceImp\</RelPath>
+      <UpdateFromURL>http://ws.tongyedns.com:8000//ltips/services/gdsBookingService1.0%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ApiAirkxCompany_GDSBookingServiceImp_GDSBookingServiceImpl_1_0Service</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>

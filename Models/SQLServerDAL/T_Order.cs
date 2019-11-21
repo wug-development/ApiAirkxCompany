@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2019/11/4 11:41:04   N/A    初版
+* V0.01  2019/11/21 10:54:48   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -52,9 +52,9 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into T_Order(");
-			strSql.Append("dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dtAddTime,dtEditTime)");
+			strSql.Append("dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dnIsPay,dtAddTime,dtEditTime,dcLiantuoOrderNo)");
 			strSql.Append(" values (");
-			strSql.Append("@dcOrderID,@dcOrderCode,@dcTicketNO,@dnOrderType,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnServicePrice,@dnSafePrice,@dnTotalPrice,@dnDiscount,@dnChangePrice,@dnChangeDatePrice,@dnChaPrice,@dcContent,@dcAdminID,@dcAdminName,@dnTicketID,@dnDetailID,@dcCTCT,@dnStatus,@dnOrderStatus,@dnIsTicket,@dtAddTime,@dtEditTime)");
+			strSql.Append("@dcOrderID,@dcOrderCode,@dcTicketNO,@dnOrderType,@dnAirType,@dcStartDate,@dcBackDate,@dcStartCity,@dcBackCity,@dcCompanyID,@dcCompanyName,@dcLinkName,@dcPhone,@dnPrice,@dnTax,@dnServicePrice,@dnSafePrice,@dnTotalPrice,@dnDiscount,@dnChangePrice,@dnChangeDatePrice,@dnChaPrice,@dcContent,@dcAdminID,@dcAdminName,@dnTicketID,@dnDetailID,@dcCTCT,@dnStatus,@dnOrderStatus,@dnIsTicket,@dnIsPay,@dtAddTime,@dtEditTime,@dcLiantuoOrderNo)");
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcOrderID", SqlDbType.VarChar,40),
 					new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40),
@@ -87,8 +87,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 					new SqlParameter("@dnStatus", SqlDbType.Int,4),
 					new SqlParameter("@dnOrderStatus", SqlDbType.Int,4),
 					new SqlParameter("@dnIsTicket", SqlDbType.Int,4),
+					new SqlParameter("@dnIsPay", SqlDbType.Int,4),
 					new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime),
-					new SqlParameter("@dtEditTime", SqlDbType.SmallDateTime)};
+					new SqlParameter("@dtEditTime", SqlDbType.SmallDateTime),
+					new SqlParameter("@dcLiantuoOrderNo", SqlDbType.VarChar,20)};
 			parameters[0].Value = model.dcOrderID;
 			parameters[1].Value = model.dcOrderCode;
 			parameters[2].Value = model.dcTicketNO;
@@ -120,8 +122,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 			parameters[28].Value = model.dnStatus;
 			parameters[29].Value = model.dnOrderStatus;
 			parameters[30].Value = model.dnIsTicket;
-			parameters[31].Value = model.dtAddTime;
-			parameters[32].Value = model.dtEditTime;
+			parameters[31].Value = model.dnIsPay;
+			parameters[32].Value = model.dtAddTime;
+			parameters[33].Value = model.dtEditTime;
+			parameters[34].Value = model.dcLiantuoOrderNo;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -170,8 +174,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 			strSql.Append("dnStatus=@dnStatus,");
 			strSql.Append("dnOrderStatus=@dnOrderStatus,");
 			strSql.Append("dnIsTicket=@dnIsTicket,");
+			strSql.Append("dnIsPay=@dnIsPay,");
 			strSql.Append("dtAddTime=@dtAddTime,");
-			strSql.Append("dtEditTime=@dtEditTime");
+			strSql.Append("dtEditTime=@dtEditTime,");
+			strSql.Append("dcLiantuoOrderNo=@dcLiantuoOrderNo");
 			strSql.Append(" where dcOrderID=@dcOrderID ");
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcOrderCode", SqlDbType.VarChar,40),
@@ -204,8 +210,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 					new SqlParameter("@dnStatus", SqlDbType.Int,4),
 					new SqlParameter("@dnOrderStatus", SqlDbType.Int,4),
 					new SqlParameter("@dnIsTicket", SqlDbType.Int,4),
+					new SqlParameter("@dnIsPay", SqlDbType.Int,4),
 					new SqlParameter("@dtAddTime", SqlDbType.SmallDateTime),
 					new SqlParameter("@dtEditTime", SqlDbType.SmallDateTime),
+					new SqlParameter("@dcLiantuoOrderNo", SqlDbType.VarChar,20),
 					new SqlParameter("@dcOrderID", SqlDbType.VarChar,40)};
 			parameters[0].Value = model.dcOrderCode;
 			parameters[1].Value = model.dcTicketNO;
@@ -237,9 +245,11 @@ namespace ApiAirkxCompany.SQLServerDAL
 			parameters[27].Value = model.dnStatus;
 			parameters[28].Value = model.dnOrderStatus;
 			parameters[29].Value = model.dnIsTicket;
-			parameters[30].Value = model.dtAddTime;
-			parameters[31].Value = model.dtEditTime;
-			parameters[32].Value = model.dcOrderID;
+			parameters[30].Value = model.dnIsPay;
+			parameters[31].Value = model.dtAddTime;
+			parameters[32].Value = model.dtEditTime;
+			parameters[33].Value = model.dcLiantuoOrderNo;
+			parameters[34].Value = model.dcOrderID;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -302,7 +312,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dtAddTime,dtEditTime from T_Order ");
+			strSql.Append("select  top 1 dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dnIsPay,dtAddTime,dtEditTime,dcLiantuoOrderNo from T_Order ");
 			strSql.Append(" where dcOrderID=@dcOrderID ");
 			SqlParameter[] parameters = {
 					new SqlParameter("@dcOrderID", SqlDbType.VarChar,40)			};
@@ -453,6 +463,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 				{
 					model.dnIsTicket=int.Parse(row["dnIsTicket"].ToString());
 				}
+				if(row["dnIsPay"]!=null && row["dnIsPay"].ToString()!="")
+				{
+					model.dnIsPay=int.Parse(row["dnIsPay"].ToString());
+				}
 				if(row["dtAddTime"]!=null && row["dtAddTime"].ToString()!="")
 				{
 					model.dtAddTime=DateTime.Parse(row["dtAddTime"].ToString());
@@ -460,6 +474,10 @@ namespace ApiAirkxCompany.SQLServerDAL
 				if(row["dtEditTime"]!=null && row["dtEditTime"].ToString()!="")
 				{
 					model.dtEditTime=DateTime.Parse(row["dtEditTime"].ToString());
+				}
+				if(row["dcLiantuoOrderNo"]!=null)
+				{
+					model.dcLiantuoOrderNo=row["dcLiantuoOrderNo"].ToString();
 				}
 			}
 			return model;
@@ -471,7 +489,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dtAddTime,dtEditTime ");
+			strSql.Append("select dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dnIsPay,dtAddTime,dtEditTime,dcLiantuoOrderNo ");
 			strSql.Append(" FROM T_Order ");
 			if(strWhere.Trim()!="")
 			{
@@ -491,7 +509,7 @@ namespace ApiAirkxCompany.SQLServerDAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dtAddTime,dtEditTime ");
+			strSql.Append(" dcOrderID,dcOrderCode,dcTicketNO,dnOrderType,dnAirType,dcStartDate,dcBackDate,dcStartCity,dcBackCity,dcCompanyID,dcCompanyName,dcLinkName,dcPhone,dnPrice,dnTax,dnServicePrice,dnSafePrice,dnTotalPrice,dnDiscount,dnChangePrice,dnChangeDatePrice,dnChaPrice,dcContent,dcAdminID,dcAdminName,dnTicketID,dnDetailID,dcCTCT,dnStatus,dnOrderStatus,dnIsTicket,dnIsPay,dtAddTime,dtEditTime,dcLiantuoOrderNo ");
 			strSql.Append(" FROM T_Order ");
 			if(strWhere.Trim()!="")
 			{

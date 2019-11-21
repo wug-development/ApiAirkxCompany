@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2019/11/4 11:41:04   N/A    初版
+* V0.01  2019/11/21 10:54:47   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -20,7 +20,8 @@ namespace ApiAirkxCompany.Model
 	/// <summary>
 	/// T_Order:实体类(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
-	public class T_Order
+	[Serializable]
+	public partial class T_Order
 	{
 		public T_Order()
 		{}
@@ -56,8 +57,10 @@ namespace ApiAirkxCompany.Model
 		private int _dnstatus=0;
 		private int _dnorderstatus=1;
 		private int _dnisticket=0;
+		private int _dnispay=0;
 		private DateTime _dtaddtime= DateTime.Now;
 		private DateTime _dtedittime= DateTime.Now;
+		private string _dcliantuoorderno="";
 		/// <summary>
 		/// 订单ID
 		/// </summary>
@@ -307,6 +310,14 @@ namespace ApiAirkxCompany.Model
 			get{return _dnisticket;}
 		}
 		/// <summary>
+		/// 是否支付(0未支付1已支付)
+		/// </summary>
+		public int dnIsPay
+		{
+			set{ _dnispay=value;}
+			get{return _dnispay;}
+		}
+		/// <summary>
 		/// 下单时间
 		/// </summary>
 		public DateTime dtAddTime
@@ -321,6 +332,14 @@ namespace ApiAirkxCompany.Model
 		{
 			set{ _dtedittime=value;}
 			get{return _dtedittime;}
+		}
+		/// <summary>
+		/// 第三方平台订单号
+		/// </summary>
+		public string dcLiantuoOrderNo
+		{
+			set{ _dcliantuoorderno=value;}
+			get{return _dcliantuoorderno;}
 		}
 		#endregion Model
 

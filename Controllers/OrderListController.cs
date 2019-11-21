@@ -5,12 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Data;
+using System.Collections;
 
 namespace ApiAirkxCompany.Controllers
 {
     public class OrderListController : ApiController
     {
         // GET api/<controller>/5
+        [HttpGet]
         public HttpResponseMessage GetNowOrder(int page, int pagenum)
         {
             string sdate = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
@@ -35,12 +37,43 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", obj);
         }
 
+        [HttpGet]
         public HttpResponseMessage delOrders(string oids)
         {
             string o = PageValidate.SQL_KILL(oids);
-            string sql = "delete from Airkx_Order where OrderID in (" + o + ")";
-            int count = DbHelperSQL.ExecuteSql(sql);
-            return Utils.pubResult(1, "删除成功", count);
+            string[] arr = o.Split(',');
+            string ids = "'1'";
+            for (int i = 0; i < arr.Length; i++) {
+                ids += ",'" + arr[i] + "'";
+            }
+            try
+            {
+                ArrayList sqls = new ArrayList();
+                sqls.Add("delete from T_Order where dcOrderID in (" + ids + ") and dnStatus=0 ");
+                sqls.Add("delete from T_OrderFlightInfo where dcOrderID in (" + ids + ")");
+                sqls.Add("delete from T_OrderPerson where dcOrderID in (" + ids + ")");
+
+                DbHelperSQL.ExecuteSqlTran(sqls);
+                return Utils.pubResult(1, "删除成功", 1);
+            }
+            catch
+            {
+                return Utils.pubResult(0, "删除失败", "");
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage getPNR(string oid)
+        {
+            //string agencyCode = "KX888";
+            //string sCode = "AEA34Pd!";
+            //getOrderByOrderNoService.GetOrderByOrderNoServiceImpl_1_0Service oservice = new getOrderByOrderNoService.GetOrderByOrderNoServiceImpl_1_0Service();
+            //getOrderByOrderNoService.getOrderByOrderNoRequest req = new getOrderByOrderNoService.getOrderByOrderNoRequest();
+            //req.agencyCode = agencyCode;
+            //req.orderNo = oid;
+            //req.sign = Utils.Md5(agencyCode + oid + sCode);
+            //getOrderByOrderNoService.getOrderByOrderNoReply res = oservice.getOrderByOrderNo(req);
+            return Utils.pubResult(1, "删除成功", "");
         }
 
         //getgjorder

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://getorderbyorderno.b2b.service.version1_0.webservice.model.ltips.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="GetOrderByOrderNoServiceImpl_1_0Service" targetNamespace="http://getorderbyorderno.b2b.service.version1_0.webservice.model.ltips.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://getorderbyorderno.b2b.service.version1_0.webservice.model.ltips.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getOrderByOrderNo" type="tns:getOrderByOrderNo" />
+      <xs:element name="getOrderByOrderNoReply" type="tns:getOrderByOrderNoReply" />
+      <xs:element name="getOrderByOrderNoResponse" type="tns:getOrderByOrderNoResponse" />
+      <xs:complexType name="getOrderByOrderNo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="request" type="tns:getOrderByOrderNoRequest" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrderByOrderNoRequest">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoRequest">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="loginName" type="xs:string" />
+              <xs:element minOccurs="0" name="orderNo" type="xs:string" />
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" name="param4" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoRequest" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="agencyCode" type="xs:string" />
+          <xs:element minOccurs="0" name="sign" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrderByOrderNoResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:getOrderByOrderNoReply" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getOrderByOrderNoReply">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractLiantuoReply">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="param1" type="xs:string" />
+              <xs:element minOccurs="0" name="param2" type="xs:string" />
+              <xs:element minOccurs="0" name="param3" type="xs:string" />
+              <xs:element minOccurs="0" name="param4" type="xs:string" />
+              <xs:element minOccurs="0" name="policyOrder" type="tns:wsPolicyOrder" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractLiantuoReply" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="returnCode" type="xs:string" />
+          <xs:element minOccurs="0" name="returnMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="returnStackTrace" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPolicyOrder">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="flightInfoList" nillable="true" type="tns:wsAirSegment" />
+          <xs:element minOccurs="0" name="liantuoOrderNo" type="xs:string" />
+          <xs:element minOccurs="0" name="oldPnrNo" type="xs:string" />
+          <xs:element minOccurs="0" name="outOrderNo" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="passengerList" nillable="true" type="tns:wsPassenger" />
+          <xs:element minOccurs="0" name="patTxt" type="xs:string" />
+          <xs:element minOccurs="0" name="paymentInfo" type="tns:wsPaymentInfo" />
+          <xs:element minOccurs="0" name="pnrNo" type="xs:string" />
+          <xs:element minOccurs="0" name="pnrTxt" type="xs:string" />
+          <xs:element minOccurs="0" name="policyData" type="tns:wsPolicyData" />
+          <xs:element minOccurs="0" name="status" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsAirSegment">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arrCode" type="xs:string" />
+          <xs:element minOccurs="0" name="arrTime" type="xs:string" />
+          <xs:element minOccurs="0" name="depCode" type="xs:string" />
+          <xs:element minOccurs="0" name="depDate" type="xs:string" />
+          <xs:element minOccurs="0" name="depTime" type="xs:string" />
+          <xs:element minOccurs="0" name="flightNo" type="xs:string" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="planeType" type="xs:string" />
+          <xs:element minOccurs="0" name="seatClass" type="xs:string" />
+          <xs:element minOccurs="0" name="seatDiscount" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPassenger">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="airportTax" type="xs:double" />
+          <xs:element minOccurs="0" name="fuelTax" type="xs:double" />
+          <xs:element minOccurs="0" name="identityNo" type="xs:string" />
+          <xs:element minOccurs="0" name="identityType" type="xs:string" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+          <xs:element minOccurs="0" name="parPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="passengerType" type="xs:string" />
+          <xs:element minOccurs="0" name="refundStatus" type="xs:int" />
+          <xs:element minOccurs="0" name="settlePrice" type="xs:double" />
+          <xs:element minOccurs="0" name="ticketNo" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPaymentInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="payMethod" type="xs:string" />
+          <xs:element minOccurs="0" name="payTime" type="xs:string" />
+          <xs:element minOccurs="0" name="payTradeNo" type="xs:string" />
+          <xs:element minOccurs="0" name="payerAccount" type="xs:string" />
+          <xs:element minOccurs="0" name="paymentUrl" type="xs:string" />
+          <xs:element name="totalAirportTax" type="xs:float" />
+          <xs:element name="totalFuelTax" type="xs:float" />
+          <xs:element name="totalParPrice" type="xs:float" />
+          <xs:element name="totalPay" type="xs:float" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="wsPolicyData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="comment" type="xs:string" />
+          <xs:element minOccurs="0" name="commisionMoney" type="xs:double" />
+          <xs:element minOccurs="0" name="commisionPoint" type="xs:string" />
+          <xs:element minOccurs="0" name="commisionType" type="xs:int" />
+          <xs:element minOccurs="0" name="needSwitchPNR" type="xs:int" />
+          <xs:element minOccurs="0" name="onWorking" type="xs:boolean" />
+          <xs:element minOccurs="0" name="param1" type="xs:string" />
+          <xs:element minOccurs="0" name="param2" type="xs:string" />
+          <xs:element minOccurs="0" name="param3" type="xs:string" />
+          <xs:element minOccurs="0" name="param4" type="xs:string" />
+          <xs:element minOccurs="0" name="policyBelongTo" type="xs:string" />
+          <xs:element minOccurs="0" name="policyId" type="xs:int" />
+          <xs:element minOccurs="0" name="policyType" type="xs:string" />
+          <xs:element minOccurs="0" name="seatType" type="xs:string" />
+          <xs:element minOccurs="0" name="status" type="xs:string" />
+          <xs:element minOccurs="0" name="ticketSpeed" type="xs:string" />
+          <xs:element minOccurs="0" name="vtWorkingTime" type="xs:string" />
+          <xs:element minOccurs="0" name="workTime" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getOrderByOrderNo">
+    <wsdl:part name="parameters" element="tns:getOrderByOrderNo" />
+  </wsdl:message>
+  <wsdl:message name="getOrderByOrderNoResponse">
+    <wsdl:part name="parameters" element="tns:getOrderByOrderNoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="GetOrderByOrderNoService_1_0">
+    <wsdl:operation name="getOrderByOrderNo">
+      <wsdl:input name="getOrderByOrderNo" message="tns:getOrderByOrderNo" />
+      <wsdl:output name="getOrderByOrderNoResponse" message="tns:getOrderByOrderNoResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GetOrderByOrderNoServiceImpl_1_0ServiceSoapBinding" type="tns:GetOrderByOrderNoService_1_0">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getOrderByOrderNo">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getOrderByOrderNo">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getOrderByOrderNoResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GetOrderByOrderNoServiceImpl_1_0Service">
+    <wsdl:port name="GetOrderByOrderNoServiceImpl_1_0Port" binding="tns:GetOrderByOrderNoServiceImpl_1_0ServiceSoapBinding">
+      <soap:address location="http://ws.51book.com:8000/ltips/services/getOrderByOrderNoService1.0" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

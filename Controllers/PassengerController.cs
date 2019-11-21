@@ -87,16 +87,17 @@ namespace ApiAirkxCompany.Controllers
             string sqlwhere = " and a.dcCompanyID = '" + n + "' and a.dcCompanyID = b.dcCompanyID ";
             if (!string.IsNullOrWhiteSpace(filtername))
             {
-                sqlwhere += " and dcPerName like '% " + PageValidate.SQL_KILL(filtername) + " %' ";
+                sqlwhere += " and a.dcPerName like '%" + PageValidate.SQL_KILL(filtername) + "%' ";
             }
             if (!string.IsNullOrWhiteSpace(filterphone))
             {
-                sqlwhere += " and dcPhone like '% " + PageValidate.SQL_KILL(filterphone) + " %' ";
+                sqlwhere += " and a.dcPhone like '%" + PageValidate.SQL_KILL(filterphone) + "%' ";
             }
             string sqlfeild = " dcUserName as cname,dcPerID as id,dcPerName as CjrName,dcBirthday as CSRQ,dcPassportNo as HZH,dcPassportDate as HZYXQ,dcSex as Sex,dcIDNumber as idcard,a.dcPhone as phone,dcUrgentPhone as jingji,dcType as type,a.dtAddTime as adddate ";
-            string sql = "select top " + (page * pagenum) + sqlfeild + " from T_Passenger a,T_Company b where 1=1 " + sqlwhere + " and a.dcPerID not in (";
-            sql += " select top " + ((page - 1) * pagenum) + " dcPerID from T_Passenger a,T_Company b where 1=1 " + sqlwhere + ")";
-            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            string sql = " " + sqlfeild + " from T_Passenger a,T_Company b where 1=1 " + sqlwhere + " ";
+
+            string sqlstr = Utils.createPageSql(sql, " order by a.dtAddTime desc ", page, pagenum);
+            DataTable dt = DbHelperSQL.Query(sqlstr).Tables[0];
 
             decimal count = 0;
             if (page == 1)
@@ -108,7 +109,7 @@ namespace ApiAirkxCompany.Controllers
             var res = new
             {
                 data = dt,
-                pagecount = Math.Ceiling(count / pagenum)
+                pagecount = count
             };
             return Utils.pubResult(1, "获取成功", res);
         }

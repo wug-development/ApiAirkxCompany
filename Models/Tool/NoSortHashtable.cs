@@ -13,7 +13,9 @@ using System.Collections;
 /// </summary>
 public class NoSortHashtable : Hashtable
 {
-    private ArrayList keys = new ArrayList(); public NoSortHashtable()
+    private ArrayList keys = new ArrayList();
+
+    public NoSortHashtable()
     {
     }
     public override void Add(object key, object value)

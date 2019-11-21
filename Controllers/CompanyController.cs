@@ -76,8 +76,13 @@ namespace ApiAirkxCompany.Controllers
                 string v = PageValidate.SQL_KILL(filters);
                 sqlwhere = " and dcUserName like '%" + v + "%' ";
             }
-            string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,c.dcLinkName as linkman,c.dcPhone as phone,b.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyAccount b,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID=b.dcCompanyID and a.dcCompanyID not in ( ";
-            sql += " select top " + ((page - 1) * pagenum) + " dcCompanyID  from T_Company where dcParentCompanyID='' and dnIsCheck!=2 " + sqlwhere + " order by dtAddDatetime desc) " + sqlwhere + " order by dtAddDatetime desc ";
+            string sqlfiled = " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,a.dcLinkName as linkman,a.dcPhone as phone,a.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (z.dcCompanyID) from dbo.T_Company z where z.dcParentCompanyID=a.dcCompanyID) as childnum ";
+            string sql = "select * from (" +
+                "SELECT ROW_NUMBER() OVER(order by a.dtAddDatetime desc) AS Row, " + sqlfiled + "  from T_Company a,T_CompanyAccount b where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=b.dcCompanyID " + sqlwhere + " " +
+                ") as TT WHERE TT.Row between "+ ((page - 1) * pagenum + 1) + " and " + (page * pagenum) + "";
+
+            //string sql = " select top " + (page * pagenum) + " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,c.dcLinkName as linkman,c.dcPhone as phone,b.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (b.dcCompanyID) from dbo.T_Company b where b.dcParentCompanyID=a.dcCompanyID) as childnum from T_Company a,T_CompanyAccount b,T_CompanyLinkMan c where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=c.dcCompanyID and a.dcCompanyID=b.dcCompanyID and a.dcCompanyID not in ( ";
+            //sql += " select top " + ((page - 1) * pagenum) + " dcCompanyID  from T_Company where dcParentCompanyID='' and dnIsCheck!=2 " + sqlwhere + " order by dtAddDatetime desc) " + sqlwhere + " order by dtAddDatetime desc ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
             DataTable _d = new DataTable();
@@ -89,14 +94,14 @@ namespace ApiAirkxCompany.Controllers
             decimal count = 0;
             if (page == 1)
             {
-                string sqlcount = "select count (dcCompanyID) from dbo.T_Company where dcParentCompanyID='' " + sqlwhere;
+                string sqlcount = "select count (dcCompanyID) from dbo.T_Company where dcParentCompanyID='' and dnIsCheck != 2 " + sqlwhere;
                 count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
             }
 
             var res = new
             {
                 data = _d,
-                pagecount = Math.Ceiling(count / pagenum)
+                pagecount = count
             };
             return Utils.pubResult(1, "获取成功", res);
         }
@@ -140,7 +145,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage AddCompany([FromBody] Company company)
         {
             string hand = PageValidate.SQL_KILL(company.comShorthand);
-            string sql = " select count(1) from T_Company where dcUserName='" + hand + "'";
+            string sql = " select count(1) from T_Company where dcUserName='" + hand + "' ";
             int count = Convert.ToInt32(DbHelperSQL.GetSingle(sql));
             if (count < 1)
             {
@@ -148,7 +153,7 @@ namespace ApiAirkxCompany.Controllers
                 NoSortHashtable SQLStringList = new NoSortHashtable();
 
                 SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(comid, company.comInfo, company.comShorthand, company.comPass, company.firstLetter, company.comInfo.other, "", company.linkman[0]));
-                SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma"), comid, company.comInfo.remoney));
+                SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma"), comid, company.comInfo.credit));
 
                 for (int i = 0; i < company.linkman.Count; i++)
                 {
@@ -163,7 +168,7 @@ namespace ApiAirkxCompany.Controllers
                 {
                     string subcomid = Utils.getDataID("coms" + n);
                     SQLStringList.Add(CompanyMethods.companyinfosql(), CompanyMethods.companyParams(subcomid, company.comInfo, company.subcompany[n].comShorthand, company.subcompany[n].comPass, company.subcompany[n].firstLetter, company.subcompany[n].other, comid, company.subcompany[n].linkmanList));
-                    SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma" + n), subcomid, company.comInfo.remoney));
+                    SQLStringList.Add(CompanyMethods.companyaccountsql(), CompanyMethods.companyAccountParams(Utils.getDataID("cma" + n), subcomid, company.comInfo.credit));
                     SQLStringList.Add(CompanyMethods.linkmansql(), CompanyMethods.linkmanParams(Utils.getDataID("lms" + n), subcomid, company.subcompany[n].linkmanList));
                 }
 
@@ -200,7 +205,7 @@ namespace ApiAirkxCompany.Controllers
                 Dictionary<StringBuilder, SqlParameter[]> SQLStringList = new Dictionary<StringBuilder, SqlParameter[]>();
 
                 SQLStringList.Add(CompanyMethods.companyinfoupsql(), CompanyMethods.companyUpParams(comid, company.comInfo, company.comShorthand, company.comPass, company.firstLetter, company.comInfo.other, "", company.linkman[0]));
-                SQLStringList.Add(CompanyMethods.companyaccountUpSql(), CompanyMethods.companyAccountUpParams(comid, company.comInfo.remoney));
+                SQLStringList.Add(CompanyMethods.companyaccountUpSql(), CompanyMethods.companyAccountUpParams(comid, company.comInfo.credit));
 
                 // 企业联系人
                 StringBuilder strSql = new StringBuilder();
@@ -329,8 +334,18 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage DelCompany(string id)
         {
             string v = PageValidate.SQL_KILL(id);
-            string sql = " update T_Company set dnIsCheck=2 where dcCompanyID = '" + v + "' ";            
-            return Utils.pubResult(DbHelperSQL.ExecuteSql(sql));
+            try
+            {
+                ArrayList sqls = new ArrayList();
+                sqls.Add(" update T_Company set dnIsCheck=2 where dcCompanyID = '" + v + "' ");
+                sqls.Add(" update T_Company set dnIsCheck=2 where dcParentCompanyID = '" + v + "' ");
+                DbHelperSQL.ExecuteSqlTran(sqls);
+                return Utils.pubResult(1);
+            }
+            catch
+            {
+                return Utils.pubResult(0);
+            }
         }
         #endregion
 

@@ -82,7 +82,7 @@ namespace ApiAirkxCompany
             parameters[22].Value = comInfo.manager.name;
             parameters[23].Value = other;
             parameters[24].Value = DateTime.Now;
-            parameters[25].Value = 0;
+            parameters[25].Value = 1;
             return parameters;
         }
         // 企业修改SQL
@@ -295,10 +295,21 @@ namespace ApiAirkxCompany
         /// <returns></returns>
         public static SqlParameter[] companyAccountUpParams(string comid, string credit)
         {
+            string sql = "select dnDebt from T_CompanyAccount where dcCompanyID='" + comid + "'";
+            object o = DbHelperSQL.GetSingle(sql);
+            decimal sr = Convert.ToDecimal(credit) - Convert.ToDecimal(o);
+
             SqlParameter[] parameters = {
                     new SqlParameter("@dnCreditLine", SqlDbType.Decimal,9),
                     new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)};
-            parameters[0].Value = credit;
+            if (sr > 0)
+            {
+                parameters[0].Value = sr;
+            }
+            else
+            {
+                parameters[0].Value = 0;
+            }
             parameters[1].Value = comid;
             return parameters;
         }
