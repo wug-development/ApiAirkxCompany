@@ -12,6 +12,7 @@ namespace ApiAirkxCompany.Controllers
 {
     public class ManagerController : ApiController
     {
+        #region 获取管理员列表
         // GET api/<controller>/5
         [HttpGet]
         public HttpResponseMessage GetList(int page, int pagenum)
@@ -42,25 +43,29 @@ namespace ApiAirkxCompany.Controllers
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             return Utils.pubResult(1, "获取成功", dt);
         }
+        #endregion
 
+        #region 删除管理员
         [HttpGet]
         public HttpResponseMessage DelUser(string id)
         {
-            StringBuilder strSql=new StringBuilder();
-			strSql.Append("update T_Admin set ");
-			strSql.Append("dnIsCheck=2 ");
-			strSql.Append("where ");
-			strSql.Append("dcAdminID=@dcAdminID ");
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update T_Admin set ");
+            strSql.Append("dnIsCheck=2 ");
+            strSql.Append("where ");
+            strSql.Append("dcAdminID=@dcAdminID ");
 
-			SqlParameter[] parameters = {
+            SqlParameter[] parameters = {
                 new SqlParameter("@dcAdminID", SqlDbType.VarChar,40),
             };
             parameters[0].Value = id;
 
-            int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             return Utils.pubResult(rows);
         }
+        #endregion
 
+        #region 添加管理员
         [HttpGet]
         public HttpResponseMessage AddUser(string name, string pass, string phone, string qq)
         {
@@ -83,7 +88,9 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(b_admin.Add(m_admin) ? 1 : 0);
             }
         }
+        #endregion
 
+        #region 编辑管理员信息
         [HttpGet]
         public HttpResponseMessage EditUser(string id, string name, string pass, string phone, string qq)
         {
@@ -114,6 +121,7 @@ namespace ApiAirkxCompany.Controllers
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             return Utils.pubResult(rows);
-        }
+        } 
+        #endregion
     }
 }

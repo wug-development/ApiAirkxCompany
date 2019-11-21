@@ -103,15 +103,15 @@ namespace ApiAirkxCompany.Controllers
                         new SqlParameter("@dtEditTime", SqlDbType.SmallDateTime)
                     };
 
-                    int tax = 0;
-                    double price = order.airseat.parPrice + order.airbody.airportTax + order.airbody.fuelTax;
+                    double tax = order.airbody.airportTax + order.airbody.fuelTax;
+                    double price = order.airseat.parPrice;
                     double total = 0;
                     int safeprice = 0;
                     for (int i = 0; i < order.personlist.Count; i++)
                     {
                         int _s = getSafe(order.personlist[i].safenum);
                         safeprice += _s;
-                        total += price + Convert.ToDouble(m_company.dnServicePirce) + _s;
+                        total += price + tax + Convert.ToDouble(m_company.dnServicePirce) + _s;
                     }
 
                     parameters[0].Value = orderid;
@@ -160,14 +160,12 @@ namespace ApiAirkxCompany.Controllers
                     try
                     {
                         DbHelperSQL.ExecuteSqlTran(hash);
-                        LoggerHelper.Info("------开始调用第三方下单接口------");
                         GDSBookingServiceImp.gdsBookingReply res = CreateGNOrder.createOrder(order, orderid, m_admin.dcRealName, m_admin.dcPhone);
                         if (res.returnCode == "S")
                         {
                             BLL.T_Order b_o = new BLL.T_Order();
                             Model.T_Order m_o = b_o.GetModel(orderid);
                             m_o.dcOrderCode = res.pnrNo;
-                            // m_o.dcLiantuoOrderNo = res.order.liantuoOrderNo;
                             b_o.Update(m_o);
 
                             return Utils.pubResult(1, "提交成功", res);
@@ -314,7 +312,7 @@ namespace ApiAirkxCompany.Controllers
                 parameters[7].Value = person.idcard;
                 parameters[8].Value = person.phone;
                 parameters[9].Value = person.jjphone;
-                parameters[11].Value = person.cardtype;
+                parameters[11].Value = getCardType(person.cardtype);
                 if (!string.IsNullOrWhiteSpace(person.cardtype))
                 {
                     if (person.cardtype == "1")
@@ -565,6 +563,7 @@ namespace ApiAirkxCompany.Controllers
         #endregion
 
         #region PNR国内订单提交
+        [HttpPost]
         public HttpResponseMessage SubmitPNROrder([FromBody] PNRBody order)
         {
             if (order != null)
@@ -638,7 +637,7 @@ namespace ApiAirkxCompany.Controllers
                     decimal total = order.flightInfo.totalPrice;
 
                     parameters[0].Value = orderid;
-                    parameters[1].Value = "";// 订单编码
+                    parameters[1].Value = order.flightInfo.recordNo;// 订单编码
                     parameters[2].Value = order.flightInfo.ticketNo;// 票号
                     parameters[3].Value = 0;// 订单类型（0国内航班订单1国际航班订单）
                     parameters[4].Value = 0;// 0直行  1往返
@@ -675,8 +674,14 @@ namespace ApiAirkxCompany.Controllers
 
                 }
 
-                DbHelperSQL.ExecuteSqlTran(hash);
-
+                try
+                {
+                    DbHelperSQL.ExecuteSqlTran(hash);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
                 return Utils.pubResult(1, "提交成功", "");
             }
             else
@@ -776,5 +781,28 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 证件类型
+        private static string getCardType(string v)
+        {
+            string text = "";
+            if (v.Length == 1)
+            {
+                text = v;
+            }
+            else
+            {
+                switch (v)
+                {
+                    case "身份证": text = "1"; break;
+                    case "护照": text = "2"; break;
+                    case "军官证": text = "3"; break;
+                    case "士兵证": text = "4"; break;
+                    case "台胞证": text = "5"; break;
+                    default: text = "6"; break;
+                }
+            }
+            return text;
+        } 
+        #endregion
     }
 }

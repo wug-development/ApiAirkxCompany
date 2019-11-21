@@ -11,6 +11,7 @@ namespace ApiAirkxCompany.Controllers
 {
     public class OrderListController : ApiController
     {
+        #region 获取今日订单
         // GET api/<controller>/5
         [HttpGet]
         public HttpResponseMessage GetNowOrder(int page, int pagenum)
@@ -36,14 +37,17 @@ namespace ApiAirkxCompany.Controllers
             };
             return Utils.pubResult(1, "获取成功", obj);
         }
+        #endregion
 
+        #region 删除订单
         [HttpGet]
         public HttpResponseMessage delOrders(string oids)
         {
             string o = PageValidate.SQL_KILL(oids);
             string[] arr = o.Split(',');
             string ids = "'1'";
-            for (int i = 0; i < arr.Length; i++) {
+            for (int i = 0; i < arr.Length; i++)
+            {
                 ids += ",'" + arr[i] + "'";
             }
             try
@@ -62,21 +66,9 @@ namespace ApiAirkxCompany.Controllers
             }
         }
 
-        [HttpGet]
-        public HttpResponseMessage getPNR(string oid)
-        {
-            //string agencyCode = "KX888";
-            //string sCode = "AEA34Pd!";
-            //getOrderByOrderNoService.GetOrderByOrderNoServiceImpl_1_0Service oservice = new getOrderByOrderNoService.GetOrderByOrderNoServiceImpl_1_0Service();
-            //getOrderByOrderNoService.getOrderByOrderNoRequest req = new getOrderByOrderNoService.getOrderByOrderNoRequest();
-            //req.agencyCode = agencyCode;
-            //req.orderNo = oid;
-            //req.sign = Utils.Md5(agencyCode + oid + sCode);
-            //getOrderByOrderNoService.getOrderByOrderNoReply res = oservice.getOrderByOrderNo(req);
-            return Utils.pubResult(1, "删除成功", "");
-        }
+        #endregion
 
-        //getgjorder
+        #region 获取订单列表
         [HttpGet]
         public HttpResponseMessage GetGJOrder(string cid, int page, int pagenum, string other)
         {
@@ -106,6 +98,9 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", res);
         }
 
+        #endregion
+
+        #region 获取订单列表
         /// <summary>
         /// 获取订单
         /// </summary>
@@ -159,16 +154,19 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", res);
         }
 
+        #endregion
+
+        #region 获取订单详情
         [HttpGet]
         public HttpResponseMessage GetGJOrderDetail(string id, string cid)
         {
             string _id = PageValidate.SQL_KILL(id);
             string _cid = PageValidate.SQL_KILL(cid);
-            string sql = " select * from T_Order where dcOrderID = '"+ _id + "' and dcCompanyID = '"+ _cid + "'; ";
+            string sql = " select * from T_Order where dcOrderID = '" + _id + "' and dcCompanyID = '" + _cid + "'; ";
             sql += " select * from T_OrderFlightInfo where dcOrderID = '" + _id + "'; ";
             sql += " select * from T_OrderPerson where dcOrderID = '" + _id + "'; ";
             DataSet ds = DbHelperSQL.Query(sql);
-            
+
             var obj = new
             {
                 info = ds.Tables[0],
@@ -178,5 +176,6 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", obj);
         }
 
+        #endregion
     }
 }

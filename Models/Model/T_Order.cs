@@ -20,8 +20,7 @@ namespace ApiAirkxCompany.Model
 	/// <summary>
 	/// T_Order:实体类(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
-	[Serializable]
-	public partial class T_Order
+	public class T_Order
 	{
 		public T_Order()
 		{}

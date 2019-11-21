@@ -267,8 +267,8 @@ namespace ApiAirkxCompany.Controllers
         #endregion
 
         #endregion
-
-
+        
+        #region 获取票信息
         /// <summary>
         /// 获取票信息
         /// </summary>
@@ -282,6 +282,9 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", dt);
         }
 
+        #endregion
+
+        #region 获取票列表
         /// <summary>
         /// 获取票列表
         /// </summary>
@@ -293,7 +296,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage GetTicketList(string cid, int page, int pagenum, string filterdate)
         {
             string sqlwhere = " and dcCompanyID = '" + cid + "' ";
-            if (!string.IsNullOrWhiteSpace(filterdate)) 
+            if (!string.IsNullOrWhiteSpace(filterdate))
             {
                 string[] arr = filterdate.Split(',');
                 sqlwhere += " and dtAddTime > '" + arr[0] + "' ";
@@ -318,6 +321,9 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", res);
         }
 
+        #endregion
+
+        #region 获取国际出票点
         /// <summary>
         /// 获取国际出票点
         /// </summary>
@@ -326,11 +332,14 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage GetGJOutTicket()
         {
             string sql = " select JCID as id,JCName as name from BaseInfo where JCType='出票点' ";
-            SqlHelperTool dbsql = new SqlHelperTool("gjcw"); 
+            SqlHelperTool dbsql = new SqlHelperTool("gjcw");
             DataTable dt = dbsql.Query(sql).Tables[0];
             return Utils.pubResult(1, "获取成功", dt);
         }
 
+        #endregion
+
+        #region 获取人
         /// <summary>
         /// 获取人
         /// </summary>
@@ -339,11 +348,14 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage GetGJPeople()
         {
             string sql = " select HKYWID as id,LXR as name from HKYWInfo where 1=1 ";
-            SqlHelperTool dbsql = new SqlHelperTool("gjcw"); 
+            SqlHelperTool dbsql = new SqlHelperTool("gjcw");
             DataTable dt = dbsql.Query(sql).Tables[0];
             return Utils.pubResult(1, "获取成功", dt);
         }
 
+        #endregion
+
+        #region 导出票数据
         /// <summary>
         /// 导出票数据
         /// </summary>
@@ -366,5 +378,6 @@ namespace ApiAirkxCompany.Controllers
             return Utils.pubResult(1, "获取成功", dt);
         }
 
+        #endregion
     }
 }

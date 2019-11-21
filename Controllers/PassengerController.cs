@@ -115,6 +115,7 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 删除联系人
         /// <summary>
         /// 删除联系人
         /// </summary>
@@ -138,6 +139,9 @@ namespace ApiAirkxCompany.Controllers
             }
         }
 
+        #endregion
+
+        #region 修改联系人
         /// <summary>
         /// 修改联系人
         /// </summary>
@@ -247,5 +251,8 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0, "保存失败", "");
             }
         }
+
+        #endregion
+
     }
 }

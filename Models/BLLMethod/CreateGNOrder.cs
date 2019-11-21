@@ -8,6 +8,14 @@ namespace ApiAirkxCompany
 {
     public class CreateGNOrder
     {
+        /// <summary>
+        /// 第三方下单 停用
+        /// </summary>
+        /// <param name="order">订单内容</param>
+        /// <param name="oid">订单ID</param>
+        /// <param name="aname">订票联系人</param>
+        /// <param name="aphone">订票联系人电话</param>
+        /// <returns></returns>
         public static createOrderByPassengerReply createOrders(OrderBody order, string oid, string aname, string aphone)
         {
             string agencyCode = "KX888";
@@ -97,6 +105,14 @@ namespace ApiAirkxCompany
             return res;
         }
 
+        /// <summary>
+        /// 第三方下单 使用中
+        /// </summary>
+        /// <param name="order">订单内容</param>
+        /// <param name="oid">订单ID</param>
+        /// <param name="aname">订票联系人</param>
+        /// <param name="aphone">订票联系人电话</param>
+        /// <returns></returns>
         public static GDSBookingServiceImp.gdsBookingReply createOrder(OrderBody order, string oid, string aname, string aphone)
         {
             string agencyCode = "KX888";

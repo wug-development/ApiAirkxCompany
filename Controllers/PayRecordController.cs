@@ -87,6 +87,7 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 提交付款记录
         [HttpPost]
         public HttpResponseMessage submitPayRecord([FromBody] PayRecordBody record)
         {
@@ -134,6 +135,9 @@ namespace ApiAirkxCompany.Controllers
             }
         }
 
+        #endregion
+
+        #region 确认收款
         [HttpGet]
         public HttpResponseMessage comfirmPay(string id, string mid)
         {
@@ -200,5 +204,7 @@ namespace ApiAirkxCompany.Controllers
                 return Utils.pubResult(0);
             }
         }
+
+        #endregion
     }
 }

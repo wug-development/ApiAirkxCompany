@@ -12,6 +12,7 @@ namespace ApiAirkxCompany.Controllers
 {
     public class LimitMenuController : ApiController
     {
+        #region 修改权限
         /// <summary>
         /// 修改权限
         /// </summary>
@@ -76,6 +77,9 @@ namespace ApiAirkxCompany.Controllers
 
         }
 
+        #endregion
+
+        #region 获取权限
         [HttpGet]
         public HttpResponseMessage GetLimit(string id)
         {
@@ -84,6 +88,8 @@ namespace ApiAirkxCompany.Controllers
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             return Utils.pubResult(1, "", dt);
         }
+
+        #endregion
 
         private string getSql(DataTable dt, string v, string id, string aid)
         {
