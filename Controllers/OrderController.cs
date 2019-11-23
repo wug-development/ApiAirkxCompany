@@ -551,51 +551,33 @@ namespace ApiAirkxCompany.Controllers
             if (!string.IsNullOrWhiteSpace(filtername))
             {
                 filtername = PageValidate.SQL_KILL(filtername);
-                sqlwhere += " and dcLinkName = '" + filtername + "' ";
+                sqlwhere += " and dcLinkName like '%" + filtername + "%' ";
             }
             if (!string.IsNullOrWhiteSpace(tno))
             {
                 tno = PageValidate.SQL_KILL(tno);
                 sqlwhere += " and dcTicketNO = '" + tno + "' ";
             }
-
-            string sql = "select top " + (page * pagenum) + " dcOrderID as OrderID,dcOrderCode as OrderCode,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate,dtAddTime as addTime,dnStatus as Status,dnIsTicket as isTicket from T_Order where 1=1 " + sqlwhere;
-            sql += " and dcOrderID not in (select top " + ((page - 1) * pagenum) + " dcOrderID from T_Order where 1=1 " + sqlwhere + " order by dtAddTime desc) order by dtAddTime desc";
-            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
-            if (dt != null && dt.Rows.Count > 0)
+            string orderby = " order by dtAddTime desc ";
+            string sql = " dcOrderID as OrderID,dcOrderCode as OrderCode,dcLinkName as name,dnTotalPrice as TotalPrice,dcStartCity as startCity,dcBackCity as endCity,dcStartDate as startDate,dtAddTime as addTime,dnStatus as Status,dnIsTicket as isTicket from T_Order where 1=1 " + sqlwhere;
+            sql = Utils.createPageSql(sql, orderby, page, pagenum);
+            string sqlcount = " select count(1) from T_Order where 1=1 " + sqlwhere;
+            try
             {
-                string strsql = "";
-                int qk = 0;
-                for (int i = 0; i < dt.Rows.Count; i++)
+                DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+                int count = 1;
+                if (page == 1) 
                 {
-                    strsql += " select dcPerName as pername from T_OrderPerson where dcOrderID='" + dt.Rows[i]["OrderID"] + "'; ";
-                    qk += Convert.ToInt32(dt.Rows[i]["TotalPrice"]);
+                    count = Convert.ToInt32(DbHelperSQL.GetSingle(sqlcount));
                 }
-                DataSet ds = DbHelperSQL.Query(strsql);
-                string json = Utils.tableToJson(dt);
-
-                JArray objA = JArray.Parse(json);
-                for (int j = 0; j < dt.Rows.Count; j++)
-                {
-                    objA[j]["person"] = JArray.Parse(Utils.tableToJson(ds.Tables[j]));
-                }
-                int paycount = 0;
-                if (!string.IsNullOrWhiteSpace(_cid))
-                {
-                    string sqlpay = "  select Count(dnMoney) from T_PayRecord where dnStatus = 1 and dcCompanyID = '" + _cid + "' ";
-                    paycount = Convert.ToInt32(DbHelperSQL.GetSingle(sqlpay));
-                }
-
                 var obj = new
                 {
-                    orderlist = objA,
-                    qiankuan = (qk - paycount) > 0 ? (qk - paycount) : 0,
-                    paycount = paycount
+                    data = dt,
+                    count = count
                 };
-
                 return Utils.pubResult(1, "success", obj);
             }
-            else
+            catch
             {
                 return Utils.pubResult(0, "获取失败", "");
             }

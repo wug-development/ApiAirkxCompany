@@ -81,7 +81,7 @@ namespace ApiAirkxCompany.Controllers
             var res = new
             {
                 data = dt,
-                pagecount = Math.Ceiling(count / pagenum)
+                pagecount = count
             };
             return Utils.pubResult(1, "获取成功", res);
         }

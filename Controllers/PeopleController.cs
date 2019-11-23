@@ -28,19 +28,32 @@ namespace ApiAirkxCompany.Controllers
             {
                 sqlwhere = " and a.dcPerName like '%" + filtername + "%' ";
             }
-            string sql = "select top " + (page * pagenum) + " * from(select a.*,b.dcUserName as uname from T_Passenger a,T_Company b where 1=1 and a.dcCompanyID = '" + n + "'"+ sqlwhere + " and a.dcCompanyID=b.dcCompanyID ";
-            sql += " union all select a.*,b.dcUserName as uname from T_Passenger a,T_Company b where 1=1 and b.dcParentCompanyID = '" + n + "'" + sqlwhere + " and a.dcCompanyID=b.dcCompanyID) as tb  where dcPerID not in ( ";
-            sql += "select top " + ((page - 1) * pagenum) + " dcPerID from(";
-            sql += " select a.dcPerID from T_Passenger a,T_Company b where 1=1 and a.dcCompanyID = '" + n + "'" + sqlwhere + " and a.dcCompanyID=b.dcCompanyID ";
-            sql += " union all select a.dcPerID as uname from T_Passenger a,T_Company b where 1=1 and b.dcParentCompanyID = '" + n + "'" + sqlwhere + " and a.dcCompanyID=b.dcCompanyID) as td) ";
+            string orderby = " order by dtAddTime desc ";
+            string sql = " * from(select a.*,b.dcUserName as uname from T_Passenger a,T_Company b where 1=1 and a.dcCompanyID = '" + n + "'"+ sqlwhere + " and a.dcCompanyID=b.dcCompanyID ";
+            sql += " union all select a.*,b.dcUserName as uname from T_Passenger a,T_Company b where 1=1 and b.dcParentCompanyID = '" + n + "'" + sqlwhere + " and a.dcCompanyID=b.dcCompanyID) as tb ";
 
-            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            sql = Utils.createPageSql(sql, orderby, page, pagenum);
 
-            if (dt != null)
+
+            try
             {
-                return Utils.pubResult(1, "success", dt);
+                DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+                int count = 0;
+                if (page == 1)
+                {
+                    string sqlcount = " select count(1) from (" +
+                        "select a.*,b.dcUserName as uname from T_Passenger a,T_Company b where 1=1 and a.dcCompanyID = '" + n + "'" + sqlwhere + " and a.dcCompanyID=b.dcCompanyID" +
+                        " union all select a.*,b.dcUserName as uname from T_Passenger a,T_Company b where 1=1 and b.dcParentCompanyID = '" + n + "'" + sqlwhere + " and a.dcCompanyID=b.dcCompanyID" +
+                        ") as t ";
+                    count = Convert.ToInt32(DbHelperSQL.GetSingle(sqlcount));
+                }
+                var obj = new { 
+                    data = dt,
+                    count = count
+                };
+                return Utils.pubResult(1, "success", obj);
             }
-            else
+            catch
             {
                 return Utils.pubResult(0, "获取失败", "");
             }
