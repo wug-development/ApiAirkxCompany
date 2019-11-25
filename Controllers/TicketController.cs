@@ -54,7 +54,7 @@ namespace ApiAirkxCompany.Controllers
                     b_ticketsheet.Add(m_ticketsheet);
 
                     m_order.dnIsTicket = 1;
-                    m_order.dcTicketNO = m_ticketsheet.dcTSID;
+                    // m_order.dcTicketNO = m_ticketsheet.dcTSID;
                     b_order.Update(m_order);
 
                     BLL.T_Company b_com = new BLL.T_Company();

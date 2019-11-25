@@ -523,6 +523,8 @@ namespace ApiAirkxCompany.Controllers
                 m_order.dtEditTime = DateTime.Now;
                 m_order.dcPhone = order.dcPhone;
                 m_order.dnDiscount = order.dnDiscount;
+                m_order.dcAdminID = order.dcAdminID;
+                m_order.dcAdminName = order.dcAdminName;
 
                 if (order.dnOrderStatus == 2)
                 {
@@ -802,7 +804,8 @@ namespace ApiAirkxCompany.Controllers
                 }
             }
             return text;
-        } 
+        }
         #endregion
+
     }
 }
