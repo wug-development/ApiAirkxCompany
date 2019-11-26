@@ -277,7 +277,13 @@ namespace ApiAirkxCompany.Controllers
         [HttpGet]
         public HttpResponseMessage GetTicketInfo(string tid)
         {
-            string sql = "select * from T_TicketSheet where dcTSID = '" + tid + "'";
+            string v = PageValidate.SQL_KILL(tid);
+            string n = v.Substring(0, 2);
+            if (n != "ts")
+            {
+                v = "ts" + v;
+            }
+            string sql = "select * from T_TicketSheet where dcTSID = '" + v + "'";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
             return Utils.pubResult(1, "获取成功", dt);
         }

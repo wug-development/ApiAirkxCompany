@@ -27,14 +27,14 @@ namespace ApiAirkxCompany.Controllers
             if (v != "")
             {
                 sqlwhere = " and dcUserName like '%" + v + "%' or dcFirstLetter like '%" + v + "%' ";
-                string sql = " select dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2  ";
-                DataTable dt = DbHelperSQL.Query(sql).Tables[0];
-                return Utils.pubResult(1, "获取成功", dt); 
             }
             else
-            { 
-                return Utils.pubResult(1, "获取成功", "");
+            {
+                sqlwhere = " and dnIsCUse=1 ";
             }
+            string sql = " select dcCompanyID as id,dcUserName as name,dcFirstLetter as firstletter,dcShortName as shortname,dcFullName as nickname from T_Company where 1=1 " + sqlwhere + " and dcParentCompanyID='' and dnIsCheck!=2 order by dcFirstLetter asc ";
+            DataTable dt = DbHelperSQL.Query(sql).Tables[0];
+            return Utils.pubResult(1, "获取成功", dt); 
         }
         #endregion
         
@@ -76,7 +76,7 @@ namespace ApiAirkxCompany.Controllers
                 string v = PageValidate.SQL_KILL(filters);
                 sqlwhere = " and dcUserName like '%" + v + "%' ";
             }
-            string sqlfiled = " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,a.dcLinkName as linkman,a.dcPhone as phone,a.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,(select count (z.dcCompanyID) from dbo.T_Company z where z.dcParentCompanyID=a.dcCompanyID) as childnum ";
+            string sqlfiled = " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,a.dcLinkName as linkman,a.dcPhone as phone,a.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,dnIsCUse as isUse,(select count (z.dcCompanyID) from dbo.T_Company z where z.dcParentCompanyID=a.dcCompanyID) as childnum ";
             string sql = "select * from (" +
                 "SELECT ROW_NUMBER() OVER(order by a.dtAddDatetime desc) AS Row, " + sqlfiled + "  from T_Company a,T_CompanyAccount b where dcParentCompanyID='' and dnIsCheck!=2 and a.dcCompanyID=b.dcCompanyID " + sqlwhere + " " +
                 ") as TT WHERE TT.Row between "+ ((page - 1) * pagenum + 1) + " and " + (page * pagenum) + "";
@@ -346,6 +346,17 @@ namespace ApiAirkxCompany.Controllers
             {
                 return Utils.pubResult(0);
             }
+        }
+        #endregion
+
+        #region 设置常用企业
+        [HttpGet]
+        public HttpResponseMessage setCompanyUse(string id, int use)
+        {
+            string v = PageValidate.SQL_KILL(id);
+            string sql = " update T_Company set dnIsCUse=" + use + " where dcCompanyID='" + v + "' ";
+            int count = DbHelperSQL.ExecuteSql(sql);
+            return Utils.pubResult(count);
         }
         #endregion
 
