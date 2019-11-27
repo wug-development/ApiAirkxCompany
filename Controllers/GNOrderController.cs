@@ -38,7 +38,7 @@ namespace ApiAirkxCompany.Controllers
                 if (order.personlist.Count > 0)
                 {
                     // 添加常用乘机人
-                    hash = addPerson(order.personlist, order.cid, hash);
+                    // hash = addPerson(order.personlist, order.cid, hash);
                     // 添加订单乘机人
                     hash = addOrderPersonList(order.personlist, orderid, hash);
                 }
