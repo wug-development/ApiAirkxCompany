@@ -159,7 +159,7 @@ namespace ApiAirkxCompany
             reqs.doPat = "T";
             reqs.doRT = "T";
             reqs.officeNo = "PEK455";
-            reqs.contacts = new string[] { "13800001234" };// aphone
+            reqs.contacts = new string[] { aphone };// aphone
             if (order.sdate == DateTime.Now.ToString("yyyy-MM-dd"))
             {
                 reqs.leaveDate = DateTime.Now.ToString("yyyy-MM-dd");

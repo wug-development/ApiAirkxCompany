@@ -54,7 +54,6 @@ namespace ApiAirkxCompany.Controllers
                     b_ticketsheet.Add(m_ticketsheet);
 
                     m_order.dnIsTicket = 1;
-                    // m_order.dcTicketNO = m_ticketsheet.dcTSID;
                     b_order.Update(m_order);
 
                     BLL.T_Company b_com = new BLL.T_Company();
@@ -75,7 +74,6 @@ namespace ApiAirkxCompany.Controllers
                         m_caccount.dnCreditLine = 0;
                         m_caccount.dnUrgentMoney = cl;// 急需结算金额
                     }
-                    // m_caccount.dnPayCount = 0;  // 付款总额
                     m_caccount.dnTotalTicketPrice += m_ticketsheet.dnJieSuanPrice;
 
 
@@ -137,9 +135,9 @@ namespace ApiAirkxCompany.Controllers
                 m_fin.ZK = ticket.dnDiscount + "折";
             }
             m_fin.YSJE = ticket.dnPaymentPrice1;
-            if (!string.IsNullOrWhiteSpace(ticket.dcPaymentMethod1))
+            if (string.IsNullOrWhiteSpace(ticket.dcPaymentMethod1))
             {
-                m_fin.FKFS = "请选择";
+                m_fin.FKFS = "欠款";
             }
             else
             {
@@ -147,9 +145,9 @@ namespace ApiAirkxCompany.Controllers
             }
             m_fin.SubFKFS = "";
             m_fin.YSJE1 = ticket.dnPaymentPrice2;
-            if (!string.IsNullOrWhiteSpace(ticket.dcPaymentMethod2))
+            if (string.IsNullOrWhiteSpace(ticket.dcPaymentMethod2))
             {
-                m_fin.FKFS1 = "请选择";
+                m_fin.FKFS1 = "欠款";
             }
             else
             {
