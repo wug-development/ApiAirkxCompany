@@ -144,8 +144,8 @@ namespace ApiAirkxCompany.Controllers
                     {
                         parameters[22].Value = "";
                     }
-                    parameters[23].Value = m_admin.dcAdminID;
-                    parameters[24].Value = m_admin.dcAdminName;
+                    parameters[23].Value = "";// m_admin.dcAdminID
+                    parameters[24].Value = "";// m_admin.dcAdminName;
                     parameters[25].Value = 0;
                     parameters[26].Value = 0;
                     parameters[27].Value = m_admin.dcPhone;
@@ -504,51 +504,61 @@ namespace ApiAirkxCompany.Controllers
         [HttpPost]
         public HttpResponseMessage editOrder([FromBody] Model.T_Order order)
         {
-            BLL.T_Order b_order = new BLL.T_Order();
-            Model.T_Order m_order = b_order.GetModel(order.dcOrderID);
-            if (m_order != null)
+            lock (this)
             {
-                m_order.dnStatus = order.dnStatus;
-                m_order.dcStartDate = order.dcStartDate;
-                m_order.dcOrderCode = order.dcOrderCode;
-                m_order.dcLinkName = order.dcLinkName;
-                m_order.dcTicketNO = order.dcTicketNO;
-                m_order.dnTotalPrice = order.dnTotalPrice;
-                m_order.dnPrice = order.dnPrice;
-                m_order.dnTax = order.dnTax;
-                m_order.dnServicePrice = order.dnServicePrice;
-                m_order.dnSafePrice = order.dnSafePrice;
-                m_order.dcContent = order.dcContent;
-                m_order.dnOrderStatus = order.dnOrderStatus;
-                m_order.dtEditTime = DateTime.Now;
-                m_order.dcPhone = order.dcPhone;
-                m_order.dnDiscount = order.dnDiscount;
-                m_order.dcAdminID = order.dcAdminID;
-                m_order.dcAdminName = order.dcAdminName;
+                BLL.T_Order b_order = new BLL.T_Order();
+                Model.T_Order m_order = b_order.GetModel(order.dcOrderID);
+                if (m_order != null)
+                {
+                    if (m_order.dnStatus == 0)
+                    {
+                        m_order.dnStatus = order.dnStatus;
+                        m_order.dcStartDate = order.dcStartDate;
+                        m_order.dcOrderCode = order.dcOrderCode;
+                        m_order.dcLinkName = order.dcLinkName;
+                        m_order.dcTicketNO = order.dcTicketNO;
+                        m_order.dnTotalPrice = order.dnTotalPrice;
+                        m_order.dnPrice = order.dnPrice;
+                        m_order.dnTax = order.dnTax;
+                        m_order.dnServicePrice = order.dnServicePrice;
+                        m_order.dnSafePrice = order.dnSafePrice;
+                        m_order.dcContent = order.dcContent;
+                        m_order.dnOrderStatus = order.dnOrderStatus;
+                        m_order.dtEditTime = DateTime.Now;
+                        m_order.dcPhone = order.dcPhone;
+                        m_order.dnDiscount = order.dnDiscount;
+                        m_order.dcAdminID = order.dcAdminID;
+                        m_order.dcAdminName = order.dcAdminName;
 
-                if (order.dnOrderStatus == 2)
-                {
-                    m_order.dnChangePrice = order.dnChangePrice;
-                }
-                if (order.dnOrderStatus == 3)
-                {
-                    m_order.dnChangePrice = order.dnChangePrice;
-                    m_order.dnChangeDatePrice = order.dnChangeDatePrice;
-                    m_order.dnChaPrice = order.dnChaPrice;
-                }
+                        if (order.dnOrderStatus == 2)
+                        {
+                            m_order.dnChangePrice = order.dnChangePrice;
+                        }
+                        if (order.dnOrderStatus == 3)
+                        {
+                            m_order.dnChangePrice = order.dnChangePrice;
+                            m_order.dnChangeDatePrice = order.dnChangeDatePrice;
+                            m_order.dnChaPrice = order.dnChaPrice;
+                        }
 
-                if (b_order.Update(m_order))
-                {
-                    return Utils.pubResult(1);
+                        if (b_order.Update(m_order))
+                        {
+                            return Utils.pubResult(1);
+                        }
+                        else
+                        {
+                            return Utils.pubResult(0, "保存失败，请检查数据！", "");
+                        }
+                    }
+                    else
+                    {
+                        return Utils.pubResult(-1, "保存失败，该订单已处理", "");
+                    }
                 }
                 else
                 {
                     return Utils.pubResult(0);
                 }
-            }
-            else
-            {
-                return Utils.pubResult(0);
             }
         }
         #endregion

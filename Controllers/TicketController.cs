@@ -20,80 +20,83 @@ namespace ApiAirkxCompany.Controllers
         [HttpPost]
         public HttpResponseMessage SubmitTicket([FromBody] Model.T_TicketSheet ticket)
         {
-            if (ticket != null)
+            lock (this)
             {
-                BLL.T_TicketSheet b_ticketsheet = new BLL.T_TicketSheet();
-                Model.T_TicketSheet m_ticketsheet = new Model.T_TicketSheet();
-
-                m_ticketsheet = ticket;
-
-                if (!string.IsNullOrWhiteSpace(ticket.dcTSID))
+                if (ticket != null)
                 {
-                    b_ticketsheet.Update(m_ticketsheet);
+                    BLL.T_TicketSheet b_ticketsheet = new BLL.T_TicketSheet();
+                    Model.T_TicketSheet m_ticketsheet = new Model.T_TicketSheet();
+
+                    m_ticketsheet = ticket;
+
+                    if (!string.IsNullOrWhiteSpace(ticket.dcTSID))
+                    {
+                        b_ticketsheet.Update(m_ticketsheet);
+                    }
+                    else
+                    {
+                        BLL.T_Order b_order = new BLL.T_Order();
+                        Model.T_Order m_order = b_order.GetModel(ticket.dcOrderID);
+
+                        m_ticketsheet.dnStatus = 1;
+                        m_ticketsheet.dcOrderID = ticket.dcOrderID;
+                        m_ticketsheet.dcTSID = "ts" + ticket.dcOrderID;
+                        m_ticketsheet.dtAddTime = DateTime.Now;
+                        m_ticketsheet.dcCompanyID = m_order.dcCompanyID;
+                        m_ticketsheet.dcCompanyName = m_order.dcCompanyName;
+                        m_ticketsheet.dnFlightClass = m_order.dnOrderType;
+
+                        if (m_ticketsheet.dnFlightClass == 0)
+                        {
+                            string[] xingcheng = ticket.dcStartCity.Split('-');
+                            m_ticketsheet.dcStartCity = xingcheng[0];
+                            m_ticketsheet.dcBackCity = xingcheng[1];
+                        }
+
+                        b_ticketsheet.Add(m_ticketsheet);
+
+                        m_order.dnIsTicket = 1;
+                        b_order.Update(m_order);
+
+                        BLL.T_Company b_com = new BLL.T_Company();
+                        Model.T_Company m_com = new Model.T_Company();
+                        m_com = b_com.GetModel(m_order.dcCompanyID);
+
+                        BLL.T_CompanyAccount b_caccount = new BLL.T_CompanyAccount();
+                        Model.T_CompanyAccount m_caccount = b_caccount.GetCModel(m_order.dcCompanyID);
+                        m_caccount.dcLastOrderDate = DateTime.Now.ToString("yyyy-MM-dd");
+                        m_caccount.dnDebt = m_caccount.dnDebt + m_ticketsheet.dnJieSuanPrice;      // 欠款
+                        decimal cl = m_com.dnCreditLine - m_caccount.dnDebt;
+                        if (cl > 0)
+                        {
+                            m_caccount.dnCreditLine = cl;// 可用信用额度
+                        }
+                        else
+                        {
+                            m_caccount.dnCreditLine = 0;
+                            m_caccount.dnUrgentMoney = cl;// 急需结算金额
+                        }
+                        m_caccount.dnTotalTicketPrice += m_ticketsheet.dnJieSuanPrice;
+
+
+                        b_caccount.Update(m_caccount);
+
+                        if (m_ticketsheet.dnFlightClass == 0)
+                        {
+                            postFinance(ticket);
+                        }
+                        else
+                        {
+                            postFinanceGJ(ticket);
+                        }
+                    }
+
+                    return Utils.pubResult(1, "提交成功", "");
                 }
                 else
                 {
-                    BLL.T_Order b_order = new BLL.T_Order();
-                    Model.T_Order m_order = b_order.GetModel(ticket.dcOrderID);
-
-                    m_ticketsheet.dnStatus = 1;
-                    m_ticketsheet.dcOrderID = ticket.dcOrderID;
-                    m_ticketsheet.dcTSID = "ts" + ticket.dcOrderID;
-                    m_ticketsheet.dtAddTime = DateTime.Now;
-                    m_ticketsheet.dcCompanyID = m_order.dcCompanyID;
-                    m_ticketsheet.dcCompanyName = m_order.dcCompanyName;
-                    m_ticketsheet.dnFlightClass = m_order.dnOrderType;
-
-                    if (m_ticketsheet.dnFlightClass == 0)
-                    {
-                        string[] xingcheng = ticket.dcStartCity.Split('-');
-                        m_ticketsheet.dcStartCity = xingcheng[0];
-                        m_ticketsheet.dcBackCity = xingcheng[1];
-                    }
-
-                    b_ticketsheet.Add(m_ticketsheet);
-
-                    m_order.dnIsTicket = 1;
-                    b_order.Update(m_order);
-
-                    BLL.T_Company b_com = new BLL.T_Company();
-                    Model.T_Company m_com = new Model.T_Company();
-                    m_com = b_com.GetModel(m_order.dcCompanyID);
-
-                    BLL.T_CompanyAccount b_caccount = new BLL.T_CompanyAccount();
-                    Model.T_CompanyAccount m_caccount = b_caccount.GetCModel(m_order.dcCompanyID);
-                    m_caccount.dcLastOrderDate = DateTime.Now.ToString("yyyy-MM-dd");
-                    m_caccount.dnDebt = m_caccount.dnDebt + m_ticketsheet.dnJieSuanPrice;      // 欠款
-                    decimal cl = m_com.dnCreditLine - m_caccount.dnDebt;
-                    if (cl > 0)
-                    {
-                        m_caccount.dnCreditLine = cl;// 可用信用额度
-                    }
-                    else
-                    {
-                        m_caccount.dnCreditLine = 0;
-                        m_caccount.dnUrgentMoney = cl;// 急需结算金额
-                    }
-                    m_caccount.dnTotalTicketPrice += m_ticketsheet.dnJieSuanPrice;
-
-
-                    b_caccount.Update(m_caccount);
-
-                    if (m_ticketsheet.dnFlightClass == 0)
-                    {
-                        postFinance(ticket);
-                    }
-                    else
-                    {
-                        postFinanceGJ(ticket);
-                    }
+                    return Utils.pubResult(0, "提交失败", "");
                 }
-
-                return Utils.pubResult(1, "提交成功", "");
-            }
-            else
-            {
-                return Utils.pubResult(0, "提交失败", "");
             }
         }
 
