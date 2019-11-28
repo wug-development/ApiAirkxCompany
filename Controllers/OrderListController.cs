@@ -18,7 +18,7 @@ namespace ApiAirkxCompany.Controllers
         {
             string sdate = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
             string edate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " 00:00:00";
-            string sql = " * from T_Order a where dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "'";
+            string sql = " * from T_Order a where dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "' or dnStatus=0 ";
             string orderby = " order by a.dtAddTime desc ";
             sql = Utils.createPageSql(sql, orderby, page, pagenum);
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
@@ -26,7 +26,7 @@ namespace ApiAirkxCompany.Controllers
             object count = 0;
             if (page == 1)
             {
-                string sqlcount = "select count (dcOrderID) from T_Order where dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "'";
+                string sqlcount = "select count (dcOrderID) from T_Order where dtAddTime > '" + sdate + "' and dtAddTime < '" + edate + "' or dnStatus=0 ";
                 count = DbHelperSQL.GetSingle(sqlcount);
             }
 

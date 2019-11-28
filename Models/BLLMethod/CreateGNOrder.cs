@@ -111,9 +111,9 @@ namespace ApiAirkxCompany
         /// <param name="order">订单内容</param>
         /// <param name="oid">订单ID</param>
         /// <param name="aname">订票联系人</param>
-        /// <param name="aphone">订票联系人电话</param>
+        /// <param name="ctct">订票联系人电话</param>
         /// <returns></returns>
-        public static GDSBookingServiceImp.gdsBookingReply createOrder(OrderBody order, string oid, string aname, string aphone)
+        public static GDSBookingServiceImp.gdsBookingReply createOrder(OrderBody order, string oid, string aname, string ctct)
         {
             string agencyCode = "KX888";
             string sCode = "AEA34Pd!";
@@ -159,7 +159,7 @@ namespace ApiAirkxCompany
             reqs.doPat = "T";
             reqs.doRT = "T";
             reqs.officeNo = "PEK455";
-            reqs.contacts = new string[] { aphone };// aphone
+            reqs.contacts = new string[] { ctct };// aphone
             if (order.sdate == DateTime.Now.ToString("yyyy-MM-dd"))
             {
                 reqs.leaveDate = DateTime.Now.ToString("yyyy-MM-dd");

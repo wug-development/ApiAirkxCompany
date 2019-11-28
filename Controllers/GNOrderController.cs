@@ -160,7 +160,7 @@ namespace ApiAirkxCompany.Controllers
                     try
                     {
                         DbHelperSQL.ExecuteSqlTran(hash);
-                        GDSBookingServiceImp.gdsBookingReply res = CreateGNOrder.createOrder(order, orderid, m_admin.dcRealName, m_admin.dcPhone);
+                        GDSBookingServiceImp.gdsBookingReply res = CreateGNOrder.createOrder(order, orderid, m_admin.dcRealName, order.personlist[0].jjphone);
                         if (res.returnCode == "S")
                         {
                             BLL.T_Order b_o = new BLL.T_Order();
