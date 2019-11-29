@@ -177,7 +177,7 @@ namespace ApiAirkxCompany
                         new SqlParameter("@dcCompanyName", SqlDbType.NVarChar,40) ,
                         new SqlParameter("@dcLinkName", SqlDbType.NVarChar,20) ,
                         new SqlParameter("@dnFlightPrice", SqlDbType.Decimal,9) ,
-                        new SqlParameter("@dcTicketNO", SqlDbType.VarChar,30) ,
+                        new SqlParameter("@dcTicketNO", SqlDbType.VarChar,100) ,
                         new SqlParameter("@dcOrderID", SqlDbType.VarChar,40) ,
                         new SqlParameter("@dnServicePrice", SqlDbType.Decimal,9) ,
                         new SqlParameter("@dnSafePrice", SqlDbType.Decimal,9) ,
