@@ -13,8 +13,7 @@ namespace ApiAirkxCompany.Model
 	/// <summary>
 	/// T_OrderFlightInfo:实体类(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
-	[Serializable]
-	public partial class T_OrderFlightInfo
+	public class T_OrderFlightInfo
 	{
 		public T_OrderFlightInfo()
 		{}

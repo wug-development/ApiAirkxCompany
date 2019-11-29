@@ -725,55 +725,51 @@ namespace ApiAirkxCompany.Controllers
         /// <param name="order"></param>
         /// <returns></returns>
         [HttpPost]
-        public HttpResponseMessage changeOrder([FromBody] Model.T_Order order)
+        public HttpResponseMessage changeOrder([FromBody] changeOrderBody orderinfo)
         {
-            Model.T_Order m_order = new Model.T_Order();
+            Model.T_Order m_order = orderinfo.orderinfo;
             BLL.T_Order b_order = new BLL.T_Order();
-            if (order != null)
+            if (m_order != null)
             {
                 Random rd = new Random();
                 string orderid = DateTime.Now.ToString("yyMMddhhmm") + rd.Next(1000, 9999).ToString();
                 m_order.dcOrderID = orderid;
-                m_order.dcOrderCode = order.dcOrderCode;
-                m_order.dcTicketNO = order.dcTicketNO;
-                m_order.dnOrderType = order.dnOrderType;
-                m_order.dnAirType = order.dnAirType;
-                m_order.dcStartDate = order.dcStartDate;
-                m_order.dcBackDate = order.dcBackDate;
-                m_order.dcStartCity = order.dcStartCity;
-                m_order.dcBackCity = order.dcBackCity;
-                m_order.dcCompanyID = order.dcCompanyID;
-                m_order.dcCompanyName = order.dcCompanyName;
-                m_order.dcLinkName = order.dcLinkName;
-                m_order.dcPhone = order.dcPhone;
-                m_order.dnPrice = order.dnPrice;
-                m_order.dnTax = order.dnTax;
-                m_order.dnServicePrice = order.dnServicePrice;
-                m_order.dnSafePrice = order.dnSafePrice;
-                m_order.dnTotalPrice = order.dnTotalPrice;
-                if (order.dnOrderStatus == 2) //退票
+                m_order.dnStatus = 0;
+                if (m_order.dnOrderStatus == 2)
                 {
-                    m_order.dnChangePrice = order.dnTotalPrice;
+                    m_order.dnStatus = 1;
                 }
-                if (order.dnOrderStatus == 3) //改期
+                else
                 {
-                    m_order.dnChangePrice = order.dnTotalPrice;
-                    m_order.dnChangeDatePrice = order.dnChangeDatePrice;
-                    m_order.dnChaPrice = order.dnChaPrice;
+                    m_order.dcAdminID = "";
+                    m_order.dcAdminName = "";
                 }
-                m_order.dcContent = order.dcContent;
-                m_order.dcAdminID = order.dcAdminID;
-                m_order.dcAdminName = order.dcAdminName;
-                m_order.dnTicketID = order.dnTicketID;
-                m_order.dnDetailID = order.dnDetailID;
-                m_order.dnStatus = order.dnStatus;
-                m_order.dnOrderStatus = order.dnOrderStatus;
                 m_order.dnIsTicket = 0;
                 m_order.dtAddTime = DateTime.Now;
                 m_order.dtEditTime = m_order.dtAddTime;
+                m_order.dnIsPay = 0;
 
-                b_order.Add(m_order);
-                return Utils.pubResult(1);
+                try
+                {
+                    b_order.Add(m_order);
+                    BLL.T_OrderPerson b_op = new BLL.T_OrderPerson();
+                    for (int i = 0; i < orderinfo.personlist.Count; i++)
+                    {
+                        orderinfo.personlist[i].dcOrderID = orderid;
+                        orderinfo.personlist[i].dcOPID = Utils.getDataID("op") + i;
+                        b_op.Add(orderinfo.personlist[i]);
+                    }
+                    BLL.T_OrderFlightInfo b_of = new BLL.T_OrderFlightInfo();
+                    orderinfo.flightinfo.dcOrderID = orderid;
+                    orderinfo.flightinfo.dcOrderFlightID = Utils.getDataID("of");
+                    b_of.Add(orderinfo.flightinfo);
+
+                    return Utils.pubResult(1);
+                }
+                catch
+                {
+                    return Utils.pubResult(0);
+                }
             }
             else
             {
@@ -836,5 +832,12 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+    }
+
+    public class changeOrderBody
+    {
+        public Model.T_Order orderinfo { get; set; }
+        public List<Model.T_OrderPerson> personlist { get; set; }
+        public Model.T_OrderFlightInfo flightinfo { get; set; }
     }
 }

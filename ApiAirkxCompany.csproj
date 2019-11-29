@@ -203,6 +203,7 @@
     <Compile Include="Models\Model\FinanceInfo.cs" />
     <Compile Include="Models\Model\FinanceInfoGJ.cs" />
     <Compile Include="Models\Model\OrderBody.cs" />
+    <Compile Include="Models\Model\OrderTicketSql.cs" />
     <Compile Include="Models\Model\PayRecordBody.cs" />
     <Compile Include="Models\Model\T_Admin.cs" />
     <Compile Include="Models\Model\T_AdminMenu.cs" />
