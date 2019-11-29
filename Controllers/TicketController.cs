@@ -402,7 +402,8 @@ namespace ApiAirkxCompany.Controllers
                         }
                         catch(Exception e)
                         {
-                            throw e;
+                            LoggerHelper.Error("下单并提交出票单 submitOrderTicket：" + e.Message);
+                            // throw e;
                             return Utils.pubResult(0);
                         }
                     }
