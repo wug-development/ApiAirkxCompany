@@ -38,7 +38,7 @@ namespace ApiAirkxCompany.Controllers
                 if (order.personlist.Count > 0)
                 {
                     // 添加常用乘机人
-                    // hash = addPerson(order.personlist, order.cid, hash);
+                    hash = addPerson(order.personlist, order.cid, hash);
                     // 添加订单乘机人
                     hash = addOrderPersonList(order.personlist, orderid, hash);
                 }
@@ -211,14 +211,18 @@ namespace ApiAirkxCompany.Controllers
             {
                 if (String.IsNullOrEmpty(person.id))
                 {
-                    StringBuilder strSql = new StringBuilder();
-                    strSql.Append("insert into T_Passenger(");
-                    strSql.Append("dcPerID,dcCompanyID,dcPerName,dcBirthday,dcPassportNo,dcPassportDate,dcSex,dcIDNumber,dcPhone,dcUrgentPhone,dcType");
-                    strSql.Append(") values (");
-                    strSql.Append("@dcPerID,@dcCompanyID,@dcPerName,@dcBirthday,@dcPassportNo,@dcPassportDate,@dcSex,@dcIDNumber,@dcPhone,@dcUrgentPhone,@dcType");
-                    strSql.Append(") ");
+                    string sql = "select count(1) from T_Passenger where dcCompanyID='" + cid + "' and dcPerName='" + person.name + "'";
+                    int count = Convert.ToInt32(DbHelperSQL.GetSingle(sql));
+                    if (count < 1)
+                    {
+                        StringBuilder strSql = new StringBuilder();
+                        strSql.Append("insert into T_Passenger(");
+                        strSql.Append("dcPerID,dcCompanyID,dcPerName,dcBirthday,dcPassportNo,dcPassportDate,dcSex,dcIDNumber,dcPhone,dcUrgentPhone,dcType");
+                        strSql.Append(") values (");
+                        strSql.Append("@dcPerID,@dcCompanyID,@dcPerName,@dcBirthday,@dcPassportNo,@dcPassportDate,@dcSex,@dcIDNumber,@dcPhone,@dcUrgentPhone,@dcType");
+                        strSql.Append(") ");
 
-                    SqlParameter[] parameters = {
+                        SqlParameter[] parameters = {
                         new SqlParameter("@dcPerID", SqlDbType.VarChar,40) ,
                         new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,
                         new SqlParameter("@dcPerName", SqlDbType.NVarChar,20) ,
@@ -232,39 +236,40 @@ namespace ApiAirkxCompany.Controllers
                         new SqlParameter("@dcType", SqlDbType.Int,4)
                     };
 
-                    parameters[0].Value = Utils.getDataID("per") + i++;
-                    parameters[1].Value = cid;
-                    parameters[2].Value = person.name;
-                    parameters[3].Value = person.csrq;
-                    parameters[5].Value = person.hzyxq;
-                    parameters[6].Value = person.sex;
-                    if (!string.IsNullOrWhiteSpace(person.cardtype))
-                    {
-                        if (person.cardtype == "身份证")
+                        parameters[0].Value = Utils.getDataID("per") + i++;
+                        parameters[1].Value = cid;
+                        parameters[2].Value = person.name;
+                        parameters[3].Value = person.csrq;
+                        parameters[5].Value = person.hzyxq;
+                        parameters[6].Value = person.sex;
+                        if (!string.IsNullOrWhiteSpace(person.cardtype))
                         {
-                            parameters[7].Value = person.idcard;
-                            parameters[4].Value = "";
-                        }
-                        else if (person.cardtype == "护照")
-                        {
-                            parameters[7].Value = "";
-                            parameters[4].Value = person.idcard;
+                            if (person.cardtype == "身份证")
+                            {
+                                parameters[7].Value = person.idcard;
+                                parameters[4].Value = "";
+                            }
+                            else if (person.cardtype == "护照")
+                            {
+                                parameters[7].Value = "";
+                                parameters[4].Value = person.idcard;
+                            }
+                            else
+                            {
+                                parameters[4].Value = person.hzh;
+                                parameters[7].Value = person.idcard;
+                            }
                         }
                         else
                         {
                             parameters[4].Value = person.hzh;
                             parameters[7].Value = person.idcard;
                         }
+                        parameters[8].Value = person.phone;
+                        parameters[9].Value = person.jjphone;
+                        parameters[10].Value = person.type == "成人" ? 1 : (person.type == "儿童" ? 2 : 3);
+                        hash.Add(strSql, parameters);
                     }
-                    else
-                    {
-                        parameters[4].Value = person.hzh;
-                        parameters[7].Value = person.idcard;
-                    }
-                    parameters[8].Value = person.phone;
-                    parameters[9].Value = person.jjphone;
-                    parameters[10].Value = person.type == "成人" ? 1 : (person.type == "儿童" ? 2 : 3);
-                    hash.Add(strSql, parameters);
                 }
             }
             return hash;
