@@ -273,7 +273,7 @@ namespace ApiAirkxCompany
             parameters[3].Value = 0;
             parameters[4].Value = 0;
             parameters[5].Value = 0;
-            parameters[6].Value = "";
+            parameters[6].Value = DateTime.Now.ToString("yyyy-MM-dd");
             return parameters;
         }
 

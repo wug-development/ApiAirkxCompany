@@ -58,6 +58,38 @@ namespace ApiAirkxCompany.Controllers
             }
         }
 
+
+        [HttpGet]
+        public HttpResponseMessage getPersonList(string cid, int page, int pagenum, string key)
+        {
+            string n = PageValidate.SQL_KILL(cid);
+            string sqlwhere = " and a.dcCompanyID = '" + n + "'  ";
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                sqlwhere += " and a.dcPerName like '%" + PageValidate.SQL_KILL(key) + "%' ";
+                sqlwhere += " or a.dcPhone like '%" + PageValidate.SQL_KILL(key) + "%' ";
+            }
+            string sqlfeild = " dcPerID as id,dcPerName as name,dcBirthday as csrq,dcPassportNo as hzh,dcPassportDate as hzyxq,dcSex as sex,dcIDNumber as idcard,dcPhone as phone,dcUrgentPhone as jjphone,dcType as type ";
+            string sql = " " + sqlfeild + " from T_Passenger a where 1=1 " + sqlwhere + " ";
+
+            string sqlstr = Utils.createPageSql(sql, " order by a.dtAddTime desc ", page, pagenum);
+            DataTable dt = DbHelperSQL.Query(sqlstr).Tables[0];
+
+            decimal count = 0;
+            if (page == 1)
+            {
+                string sqlcount = "select count(a.dcPerID) from T_Passenger a where 1=1 " + sqlwhere;
+                count = Convert.ToDecimal(DbHelperSQL.GetSingle(sqlcount));
+            }
+
+            var res = new
+            {
+                data = dt,
+                pagecount = count
+            };
+            return Utils.pubResult(1, "获取成功", res);
+        }
+
         /// <summary>
         /// 获取企业乘机人
         /// </summary>

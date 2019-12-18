@@ -167,6 +167,7 @@
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\FlightController.cs" />
     <Compile Include="Controllers\GNOrderController.cs" />
+    <Compile Include="Controllers\GuideDataController.cs" />
     <Compile Include="Controllers\LimitMenuController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\OrderController.cs" />

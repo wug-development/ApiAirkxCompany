@@ -178,23 +178,23 @@ namespace ApiAirkxCompany.Controllers
                             sqls.Add("delete from T_OrderPerson where dcOrderID in (" + orderid + ")");
                             DbHelperSQL.ExecuteSqlTran(sqls);
 
-                            return Utils.pubResult(0, "提交失败", "");
+                            return Utils.pubResult(0, "提交失败1，请截图发送至群", "");
                         }
                     }
                     catch (Exception e)
                     {
                         LoggerHelper.Error("国内下单SubmitOrderCN：" + e.Message);
-                        return Utils.pubResult(0, "提交失败", "");
+                        return Utils.pubResult(0, "提交失败2，请截图发送至群", "");
                     }
                 }
                 else
                 {
-                    return Utils.pubResult(0, "提交失败", "");
+                    return Utils.pubResult(0, "提交失败3，请截图发送至群", "");
                 }
             }
             else
             {
-                return Utils.pubResult(0, "提交失败", "");
+                return Utils.pubResult(0, "提交失败4，请截图发送至群", "");
             }
         }
 
