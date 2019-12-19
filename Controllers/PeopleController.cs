@@ -79,7 +79,7 @@ namespace ApiAirkxCompany.Controllers
             strSql.Append("dcUrgentPhone=@dcUrgentPhone");
             strSql.Append(" where dcPerID=@dcPerID ");
             SqlParameter[] parameters = {
-                new SqlParameter("@dcPerName", SqlDbType.NVarChar,20),
+                new SqlParameter("@dcPerName", SqlDbType.NVarChar,40),
                 new SqlParameter("@dcBirthday", SqlDbType.VarChar,20),
                 new SqlParameter("@dcPassportNo", SqlDbType.NVarChar,25),
                 new SqlParameter("@dcPassportDate", SqlDbType.VarChar,20),
@@ -87,7 +87,7 @@ namespace ApiAirkxCompany.Controllers
                 new SqlParameter("@dcIDNumber", SqlDbType.VarChar,20),
                 new SqlParameter("@dcPhone", SqlDbType.VarChar,20),
                 new SqlParameter("@dcUrgentPhone", SqlDbType.VarChar,20),
-                new SqlParameter("@dcPerID", SqlDbType.VarChar,40)};
+                new SqlParameter("@dcPerID", SqlDbType.VarChar,45)};
 
             parameters[0].Value = person.CjrName;
             parameters[1].Value = person.CSRQ;

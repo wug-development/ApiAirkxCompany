@@ -223,9 +223,9 @@ namespace ApiAirkxCompany.Controllers
                         strSql.Append(") ");
 
                         SqlParameter[] parameters = {
-                        new SqlParameter("@dcPerID", SqlDbType.VarChar,40) ,
+                        new SqlParameter("@dcPerID", SqlDbType.VarChar,45) ,
                         new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40) ,
-                        new SqlParameter("@dcPerName", SqlDbType.NVarChar,20) ,
+                        new SqlParameter("@dcPerName", SqlDbType.NVarChar,40) ,
                         new SqlParameter("@dcBirthday", SqlDbType.VarChar,20) ,
                         new SqlParameter("@dcPassportNo", SqlDbType.NVarChar,25) ,
                         new SqlParameter("@dcPassportDate", SqlDbType.VarChar,20) ,
