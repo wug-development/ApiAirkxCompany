@@ -106,13 +106,16 @@ namespace ApiAirkxCompany.Controllers
                     double tax = order.airbody.airportTax + order.airbody.fuelTax;
                     double price = order.airseat.parPrice;
                     double total = 0;
-                    int safeprice = 0;
+                    double safeprice = 0;
                     for (int i = 0; i < order.personlist.Count; i++)
                     {
-                        int _s = getSafe(order.personlist[i].safenum);
+                        double _s = getSafe(order.personlist[i].safenum);
                         safeprice += _s;
                         total += price + tax + Convert.ToDouble(m_company.dnServicePirce) + _s;
                     }
+                    string cname = order.personlist[0].name;
+                    string cphone = order.personlist[0].phone;
+                    string cjjphone = order.personlist[0].jjphone;
 
                     parameters[0].Value = orderid;
                     parameters[1].Value = "";// 订单编码
@@ -125,8 +128,8 @@ namespace ApiAirkxCompany.Controllers
                     parameters[8].Value = order.ecity.name;
                     parameters[9].Value = order.cid;
                     parameters[10].Value = order.cname;
-                    parameters[11].Value = order.personlist[0].name;// 联系人
-                    parameters[12].Value = order.personlist[0].phone;// 联系电话
+                    parameters[11].Value = cname;// 联系人
+                    parameters[12].Value = cphone;// 联系电话
                     parameters[13].Value = price;
                     parameters[14].Value = tax;
                     parameters[15].Value = m_company.dnServicePirce;
@@ -159,32 +162,49 @@ namespace ApiAirkxCompany.Controllers
 
                     try
                     {
-                        DbHelperSQL.ExecuteSqlTran(hash);
-                        GDSBookingServiceImp.gdsBookingReply res = CreateGNOrder.createOrder(order, orderid, m_admin.dcRealName, order.personlist[0].jjphone);
-                        if (res.returnCode == "S")
+                        if (string.IsNullOrWhiteSpace(cjjphone))
                         {
-                            BLL.T_Order b_o = new BLL.T_Order();
-                            Model.T_Order m_o = b_o.GetModel(orderid);
-                            m_o.dcOrderCode = res.pnrNo;
-                            b_o.Update(m_o);
-
-                            return Utils.pubResult(1, "提交成功", res);
+                            return Utils.pubResult(0, "提交失败，请输入紧急联系人", "");
                         }
                         else
                         {
-                            ArrayList sqls = new ArrayList();
-                            sqls.Add("delete from T_Order where dcOrderID in (" + orderid + ") and dnStatus=0 ");
-                            sqls.Add("delete from T_OrderFlightInfo where dcOrderID in (" + orderid + ")");
-                            sqls.Add("delete from T_OrderPerson where dcOrderID in (" + orderid + ")");
-                            DbHelperSQL.ExecuteSqlTran(sqls);
+                            DbHelperSQL.ExecuteSqlTran(hash);
+                            GDSBookingServiceImp.gdsBookingReply res = CreateGNOrder.createOrder(order, orderid, m_admin.dcRealName, cjjphone);
+                            if (res.returnCode == "S")
+                            {
+                                BLL.T_Order b_o = new BLL.T_Order();
+                                Model.T_Order m_o = b_o.GetModel(orderid);
+                                m_o.dcOrderCode = res.pnrNo;
+                                b_o.Update(m_o);
 
-                            return Utils.pubResult(0, "提交失败1，请截图发送至群", "");
+                                return Utils.pubResult(1, "提交成功", res);
+                            }
+                            else
+                            {
+                                ArrayList sqls = new ArrayList();
+                                sqls.Add("delete from T_Order where dcOrderID in (" + orderid + ") and dnStatus=0 ");
+                                sqls.Add("delete from T_OrderFlightInfo where dcOrderID in (" + orderid + ")");
+                                sqls.Add("delete from T_OrderPerson where dcOrderID in (" + orderid + ")");
+                                DbHelperSQL.ExecuteSqlTran(sqls);
+                                string _txt = "";
+                                if (!string.IsNullOrEmpty(res.returnMessage))
+                                {
+                                    _txt = res.returnMessage;
+                                }
+                                return Utils.pubResult(0, "提交失败," + _txt, "");
+                            }
                         }
                     }
                     catch (Exception e)
                     {
+                        string _s = "";
+                        for (int i = 0; i < hash.Count; i++)
+                        {
+                            _s += hash[i].ToString();
+                        }
+                        LoggerHelper.Info("错误SQL:" + _s);
                         LoggerHelper.Error("国内下单SubmitOrderCN：" + e.Message);
-                        return Utils.pubResult(0, "提交失败2，请截图发送至群", "");
+                        return Utils.pubResult(0, "提交失败2，请检查数据！", "");
                     }
                 }
                 else
@@ -429,9 +449,9 @@ namespace ApiAirkxCompany.Controllers
         }
 
         // 获取保险
-        private int getSafe(string s)
+        private double getSafe(string s)
         {
-            int safenum = 0;
+            double safenum = 0;
             switch (s)
             {
                 case "1": safenum = 20; break;
