@@ -182,16 +182,16 @@ namespace ApiAirkxCompany.Controllers
                             else
                             {
                                 ArrayList sqls = new ArrayList();
-                                sqls.Add("delete from T_Order where dcOrderID in (" + orderid + ") and dnStatus=0 ");
-                                sqls.Add("delete from T_OrderFlightInfo where dcOrderID in (" + orderid + ")");
-                                sqls.Add("delete from T_OrderPerson where dcOrderID in (" + orderid + ")");
+                                sqls.Add("delete from T_Order where dcOrderID in ('" + orderid + "') and dnStatus=0 ");
+                                sqls.Add("delete from T_OrderFlightInfo where dcOrderID in ('" + orderid + "')");
+                                sqls.Add("delete from T_OrderPerson where dcOrderID in ('" + orderid + "')");
                                 DbHelperSQL.ExecuteSqlTran(sqls);
                                 string _txt = "";
                                 if (!string.IsNullOrEmpty(res.returnMessage))
                                 {
                                     _txt = res.returnMessage;
                                 }
-                                return Utils.pubResult(0, "提交失败," + _txt, "");
+                                return Utils.pubResult(0, "订单提交失败," + _txt, "");
                             }
                         }
                     }
