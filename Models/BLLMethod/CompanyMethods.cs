@@ -51,7 +51,7 @@ namespace ApiAirkxCompany
                 new SqlParameter("@dtAddDatetime", SqlDbType.SmallDateTime),
                 new SqlParameter("@dnIsCheck", SqlDbType.Int,4)};
             parameters[0].Value = id;
-            parameters[1].Value = uname;
+            parameters[1].Value = uname.Substring(1, uname.Length-1);
             parameters[2].Value = upass;
             parameters[3].Value = ufirst;
             parameters[4].Value = comInfo.nickname;

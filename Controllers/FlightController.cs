@@ -256,6 +256,48 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 获取机型
+        [HttpGet]
+        public HttpResponseMessage GetJixing(string aircom, string jixing)
+        {
+            DataTable dt_AirComInfo = new DataTable();
+            DataTable dt_AirInfo = new DataTable();
+            
+            string[] jxs = aircom.Split(',');
+            string sql = "";
+            for (int i = 0; i < jxs.Length; i++)
+            {
+                if (i > 0)
+                {
+                    sql += " UNION ALL ";
+                }
+                sql += "select CompanyName,Picture,CompanyContent from aircompanyinfo where CompanyCode='" + jxs[i] + "'";
+            }
+            dt_AirComInfo = MySqlHelper.Query(sql).Tables[0];
+        
+            if (!String.IsNullOrWhiteSpace(jixing))
+            {
+                string[] acs = jixing.Split(',');
+                string sqls = ""; 
+                for (int i = 0; i < acs.Length; i++)
+                {
+                    if (i > 0)
+                    {
+                        sqls += " UNION ALL ";
+                    }
+                    sqls += "select AirName, JXCK, ZWS from airinfo where AirCode ='" + acs[i] + "'";
+                }
+                dt_AirInfo = MySqlHelper.Query(sqls).Tables[0];
+            }
+            var obj = new
+            {
+                aircomInfo = dt_AirComInfo,
+                airInfo = dt_AirInfo
+            };
+            return Utils.pubResult(1, "success", obj);
+        }
+        #endregion
+
         #region 获取国内航班
         [HttpGet]
         public HttpResponseMessage GetGNFlight(string scity, string ecity, string sdate)

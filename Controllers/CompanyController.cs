@@ -473,7 +473,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage getNotPurchased(int page, int pagenum)
         {
             string sqlwhere = " and a.dcCompanyID=b.dcCompanyID and a.dnIsCheck=1 and b.dcLastOrderDate != '' and b.dcLastOrderDate <= '" + DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd") + "'";
-            string sql = " select top " + (page * pagenum) + " a.dcUserName as name,b.dcLastOrderDate as lastdate from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " and a.dcCompanyID not in (";
+            string sql = " select top " + (page * pagenum) + " a.dcUserName as name,a.dcShortName as shortname,b.dcLastOrderDate as lastdate from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " and a.dcCompanyID not in (";
             sql += " select top " + ((page - 1) * pagenum) + " a.dcCompanyID from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + ")  ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
@@ -502,7 +502,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage getMoreDateOrder(int page, int pagenum)
         {
             string sqlwhere = " and a.dcCompanyID=b.dcCompanyID and a.dnIsCheck=1 and b.dnUrgentMoney > 0";
-            string sql = " select top " + (page * pagenum) + " a.dcUserName as name,b.dcLastOrderDate,b.dnDebt as debt,dcLastOrderDate as lastdate,dnUrgentMoney as price,b.dnCreditLine as credit from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " and a.dcCompanyID not in (";
+            string sql = " select top " + (page * pagenum) + " a.dcUserName as name,a.dcShortName as shortname,b.dcLastOrderDate,b.dnDebt as debt,dcLastOrderDate as lastdate,dnUrgentMoney as price,b.dnCreditLine as credit from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " and a.dcCompanyID not in (";
             sql += " select top " + ((page - 1) * pagenum) + " a.dcCompanyID from T_Company a,T_CompanyAccount b where 1=1 " + sqlwhere + " ) ";
             DataTable dt = DbHelperSQL.Query(sql).Tables[0];
 
