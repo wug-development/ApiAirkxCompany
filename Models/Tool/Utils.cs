@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ApiAirkxCompany
 {
@@ -106,7 +108,7 @@ namespace ApiAirkxCompany
                 mailMessage.Priority = MailPriority.Normal;
 
                 //发件人邮箱地址。
-                string FromMial = "13701381359@163.com";
+                string FromMial = "kaixing_service@163.com"; /// 13701381359@163.com
                 mailMessage.From = new MailAddress(FromMial);
 
                 //收件人邮箱地址。需要群发就写多个
@@ -191,6 +193,9 @@ namespace ApiAirkxCompany
                         case "sina":
                             client.Host = "smtp.sina.com.cn";
                             break;
+                        case "airkx":
+                            client.Host = "smtp.airkx.com";
+                            break;
                         default:
                             client.Host = "smtp.exmail.qq.com";//qq企业邮箱
                             break;
@@ -198,13 +203,17 @@ namespace ApiAirkxCompany
                 }
                 #endregion
 
+                client.Port = 25;
+
                 //使用安全加密连接。
                 client.EnableSsl = true;
                 //不和请求一块发送。
                 client.UseDefaultCredentials = false;
+                //超时时间
+                client.Timeout = 10000;
 
                 //验证发件人身份(发件人的邮箱，邮箱里的生成授权码);
-                client.Credentials = new NetworkCredential(FromMial, "zk721215");
+                client.Credentials = new NetworkCredential(FromMial, "LHUKAXARGFBBSLPM");///zk721215
 
                 //如果发送失败，SMTP 服务器将发送 失败邮件告诉我  
                 mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
@@ -212,11 +221,120 @@ namespace ApiAirkxCompany
                 client.Send(mailMessage);
                 return 1;
             }
-            catch (Exception)
+            catch (Exception ex)
+            {
+                LoggerHelper.Error(ex.Message);
+                return 0;
+            }
+        }
+        #endregion
+
+        public static int SendMails(string email, string bodyStr, string title)
+        {
+            string fromMail = "kaixing_service@163.com";
+            string toMail = email;
+            MailMessage mailMessage = new MailMessage
+            {
+                //发件人
+                From = new MailAddress(fromMail)
+            };
+
+            //收件人 可以添加多个收件人
+            mailMessage.To.Add(new MailAddress(toMail));
+
+            //mailMessage.CC 获取包含此电子邮件的抄送(CC)收件人的地址集合
+            //邮件主题
+            mailMessage.SubjectEncoding = Encoding.UTF8;
+            mailMessage.Subject = "Hello";
+
+            //邮件正文
+            mailMessage.BodyEncoding = Encoding.UTF8;
+            mailMessage.Body = bodyStr;
+
+            //如果要发送html格式的消息，需要设置这个属性
+            mailMessage.IsBodyHtml = true;
+
+            //邮件内容即消息正文中中显示图片 
+            //需要为图片指明src=‘cid:idname(资源id)‘
+            //AlternateView htmlBody = AlternateView.CreateAlternateViewFromString("<img src=‘cid:zfp‘/>", null, "text/html");
+
+            //然后在LinkedResource加入文件的绝对地址，和ContentType 例如image/gif，text/html...与http请求的响应报文中的ContentType一致
+            //LinkedResource lr = new LinkedResource("1.gif", "image/gif");
+
+            //绑定上文中指定的idname
+            //lr.ContentId = "zfp";
+
+            //添加链接资源
+            //htmlBody.LinkedResources.Add(lr);
+
+            //mailMessage.AlternateViews.Add(htmlBody);
+
+
+            //创建邮件发送客户端
+            try
+            {
+                //这里使用qq邮箱 需要在设置->账户下开启POP3/SMTP服务 和 IMAP / SMTP服务
+                //qq邮箱的发件服务器smtp.qq.com  端口25
+                SmtpClient sendClient = new SmtpClient("smtp.163.com", 25)
+                {
+                    //指定邮箱账号和密码
+                    //在第三方客户端登陆qq邮箱时，密码是授权码
+                    //登陆qq邮箱在设置->账户下可以生成授权码
+                    Credentials = new NetworkCredential(fromMail, "LHUKAXARGFBBSLPM")
+                };
+
+                //指定如何发送电子邮件
+                sendClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                //指定使用使用安全套接字ssl加密的链接
+
+                sendClient.EnableSsl = true;
+                sendClient.Send(mailMessage);
+                return 1;
+            }
+            catch
             {
                 return 0;
             }
         }
+
+        #region 阿里邮箱发送
+        /// <summary>
+        /// 发送邮件
+        /// </summary>
+        /// <param name="bodyStr">邮件内容</param>
+        /// <param name="title">邮件标题</param>
+        /// <returns>返回结果，成功与否</returns>
+        public static int SendMail(string email, string bodyStr, string title)
+        {
+            //smtpClient.Host = "smtp.airkx.com";
+            //smtpClient.Credentials = new System.Net.NetworkCredential("sale@airkx.com", "Airkx9898");
+            //密码不是QQ密码，是qq账户设置里面的POP3/SMTP服务生成的key
+            string authName = "sale@airkx.com";
+            string password = "Airkx9898";
+
+            MailMessage msg = new MailMessage(authName, email);
+            msg.Body = bodyStr;
+            msg.Subject = "凯行网密码重置";
+            SmtpClient smtp = new SmtpClient();
+            smtp.Credentials = new NetworkCredential(authName, password);
+            smtp.Port = 465;
+            smtp.Host = "ssl.alibaba-inc.com";
+            smtp.EnableSsl = true;
+            smtp.Timeout = 10000;
+            try
+            {
+                smtp.Send(msg);
+                return 1;
+            }
+            catch (SmtpException ex)
+            {
+                LoggerHelper.Error(ex.ToString());
+                return 0;
+            }
+
+        }
+
         #endregion
 
         #region DataTableToJson        

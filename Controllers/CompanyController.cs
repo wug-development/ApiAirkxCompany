@@ -320,8 +320,9 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage SendEmail(string email)
         {
             // 13701381359@163.com   zk721215
-            string ebody = "<html> <head></head> <body> <table width='640px'> <tbody> <tr> <td> <a href='http://www.airkx.com' target='_blank'><img src='http://www.airkx.com/images/userregister.png' width='640' height='860' alt='点击重新设置密码' /></a> </td> </tr> </tbody> </table> </body> </html>";
+            string ebody = "<html> <head></head> <body> <table width='640px'> <tbody> <tr> <td> <a href='http://www.airkx.cn' target='_blank'><img src='http://www.airkx.com/images/userregister.png' width='640' height='860' alt='点击重新设置密码' /></a> </td> </tr> </tbody> </table> </body> </html>";
             int res = Utils.SendMail(email, ebody, null, null, "");
+            //int res = Utils.SendMail(email, ebody, ""); 
             return Utils.pubResult(res);
         }
         #endregion
