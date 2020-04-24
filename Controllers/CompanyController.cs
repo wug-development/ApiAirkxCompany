@@ -323,6 +323,7 @@ namespace ApiAirkxCompany.Controllers
             string ebody = "<html> <head></head> <body> <table width='640px'> <tbody> <tr> <td> <a href='http://www.airkx.cn' target='_blank'><img src='http://www.airkx.com/images/userregister.png' width='640' height='860' alt='点击重新设置密码' /></a> </td> </tr> </tbody> </table> </body> </html>";
             int res = Utils.SendMail(email, ebody, null, null, "");
             //int res = Utils.SendMail(email, ebody, ""); 
+            //int res = Utils.SendMail(email, ebody); 
             return Utils.pubResult(res);
         }
         #endregion

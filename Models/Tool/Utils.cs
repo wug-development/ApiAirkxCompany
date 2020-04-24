@@ -101,14 +101,19 @@ namespace ApiAirkxCompany
         {
             try
             {
+                //发件人邮箱地址。
+                string FromMial = "kaixing_service@163.com"; ///   "kaixing_service@163.com"  "wuguang407906079@163.com"
+                string FromPass = "LHUKAXARGFBBSLPM"; /// 授权码   "LHUKAXARGFBBSLPM"    "XPHVMFGAGWOXFMTH"
+
+                //string FromMial = "wuguang407906079@163.com"; ///
+                //string FromPass = "XPHVMFGAGWOXFMTH"; /// 授权码   
+
                 //实例化一个发送邮件类。
                 MailMessage mailMessage = new MailMessage();
 
                 //邮件的优先级，分为 Low, Normal, High，通常用 Normal即可
-                mailMessage.Priority = MailPriority.Normal;
+                mailMessage.Priority = MailPriority.High;
 
-                //发件人邮箱地址。
-                string FromMial = "kaixing_service@163.com"; /// 13701381359@163.com
                 mailMessage.From = new MailAddress(FromMial);
 
                 //收件人邮箱地址。需要群发就写多个
@@ -129,25 +134,24 @@ namespace ApiAirkxCompany
 
                 if (CCMial != "" && CCMial != null)
                 {
-                    List<string> CCMiallist = ToMial.Split(';').ToList();
+                    List<string> CCMiallist = CCMial.Split(';').ToList();
                     for (int i = 0; i < CCMiallist.Count; i++)
                     {
                         //邮件的抄送者，支持群发
                         mailMessage.CC.Add(new MailAddress(CCMial));
                     }
                 }
+                //邮件标题。
+                mailMessage.Subject = "凯行网密码重置";
                 //如果你的邮件标题包含中文，这里一定要指定，否则对方收到的极有可能是乱码。
                 mailMessage.SubjectEncoding = System.Text.Encoding.UTF8;
                 //邮件正文格式
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
-
                 //邮件正文是否是HTML格式
-                mailMessage.IsBodyHtml = true;
-
-                //邮件标题。
-                mailMessage.Subject = "凯行网密码重置";
+                //mailMessage.IsBodyHtml = true;
                 //邮件内容。
                 mailMessage.Body = emailbody;
+
 
                 //设置邮件的附件，将在客户端选择的附件先上传到服务器保存一个，然后加入到mail中  
                 if (File_Path != "" && File_Path != null)
@@ -164,56 +168,57 @@ namespace ApiAirkxCompany
                 #region 设置邮件服务器地址
 
                 //在这里我使用的是163邮箱，所以是smtp.163.com，如果你使用的是qq邮箱，那么就是smtp.qq.com。
-                // client.Host = "smtp.163.com";
-                if (FromMial.Length != 0)
-                {
-                    //根据发件人的邮件地址判断发件服务器地址   默认端口一般是25
-                    string[] addressor = FromMial.Trim().Split(new Char[] { '@', '.' });
-                    switch (addressor[1])
-                    {
-                        case "163":
-                            client.Host = "smtp.163.com";
-                            break;
-                        case "126":
-                            client.Host = "smtp.126.com";
-                            break;
-                        case "qq":
-                            client.Host = "smtp.qq.com";
-                            break;
-                        case "gmail":
-                            client.Host = "smtp.gmail.com";
-                            break;
-                        case "hotmail":
-                            client.Host = "smtp.live.com";//outlook邮箱
-                            //client.Port = 587;
-                            break;
-                        case "foxmail":
-                            client.Host = "smtp.foxmail.com";
-                            break;
-                        case "sina":
-                            client.Host = "smtp.sina.com.cn";
-                            break;
-                        case "airkx":
-                            client.Host = "smtp.airkx.com";
-                            break;
-                        default:
-                            client.Host = "smtp.exmail.qq.com";//qq企业邮箱
-                            break;
-                    }
-                }
+                client.Host = "smtp.163.com";
+
+                //if (FromMial.Length != 0)
+                //{
+                //    //根据发件人的邮件地址判断发件服务器地址   默认端口一般是25
+                //    string[] addressor = FromMial.Trim().Split(new Char[] { '@', '.' });
+                //    switch (addressor[1])
+                //    {
+                //        case "163":
+                //            client.Host = "smtp.163.com";
+                //            break;
+                //        case "126":
+                //            client.Host = "smtp.126.com";
+                //            break;
+                //        case "qq":
+                //            client.Host = "smtp.qq.com";
+                //            break;
+                //        case "gmail":
+                //            client.Host = "smtp.gmail.com";
+                //            break;
+                //        case "hotmail":
+                //            client.Host = "smtp.live.com";//outlook邮箱
+                //            //client.Port = 587;
+                //            break;
+                //        case "foxmail":
+                //            client.Host = "smtp.foxmail.com";
+                //            break;
+                //        case "sina":
+                //            client.Host = "smtp.sina.com.cn";
+                //            break;
+                //        case "airkx":
+                //            client.Host = "smtp.airkx.com";
+                //            break;
+                //        default:
+                //            client.Host = "smtp.exmail.qq.com";//qq企业邮箱
+                //            break;
+                //    }
+                //}
                 #endregion
 
-                client.Port = 25;
+                client.Port = 465; //465
 
                 //使用安全加密连接。
                 client.EnableSsl = true;
                 //不和请求一块发送。
                 client.UseDefaultCredentials = false;
                 //超时时间
-                client.Timeout = 10000;
+                client.Timeout = 3000;
 
                 //验证发件人身份(发件人的邮箱，邮箱里的生成授权码);
-                client.Credentials = new NetworkCredential(FromMial, "LHUKAXARGFBBSLPM");///zk721215
+                client.Credentials = new NetworkCredential(FromMial, FromPass);///zk721215 -- "LHUKAXARGFBBSLPM"
 
                 //如果发送失败，SMTP 服务器将发送 失败邮件告诉我  
                 mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
@@ -224,6 +229,7 @@ namespace ApiAirkxCompany
             catch (Exception ex)
             {
                 LoggerHelper.Error(ex.Message);
+                //throw ex;
                 return 0;
             }
         }
@@ -297,6 +303,39 @@ namespace ApiAirkxCompany
                 return 0;
             }
         }
+
+        #region 163邮箱
+        public static int SendMail(string email, string bodyStr)
+        {
+            try
+            {
+                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+                client.Host = "smtp.163.com";//使用163的SMTP服务器发送邮件
+                client.UseDefaultCredentials = true;
+                client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                client.Credentials = new System.Net.NetworkCredential("kaixing_service@163.com", "LHUKAXARGFBBSLPM");//163的SMTP服务器需要用163邮箱的用户名和密码作认证，如果没有需要去163申请个,
+                                                                                        //这里假定你已经拥有了一个163邮箱的账户，用户名为abc，密码为*******
+                System.Net.Mail.MailMessage Message = new System.Net.Mail.MailMessage();
+                Message.From = new System.Net.Mail.MailAddress("kaixing_service@163.com");//这里需要注意，163似乎有规定发信人的邮箱地址必须是163的，而且发信人的邮箱用户名必须和上面SMTP服务器认证时的用户名相同
+                                                                              //因为上面用的用户名abc作SMTP服务器认证，所以这里发信人的邮箱地址也应该写为abc@163.com
+                Message.To.Add(email);
+                //Message.To.Add("123456@qq.com");//将邮件发送给QQ邮箱
+                Message.Subject = "凯行网密码重置";
+                Message.Body = bodyStr;
+                Message.SubjectEncoding = System.Text.Encoding.UTF8;
+                Message.BodyEncoding = System.Text.Encoding.UTF8;
+                Message.Priority = System.Net.Mail.MailPriority.High;
+                Message.IsBodyHtml = true;
+                client.Send(Message);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper.Error(ex.Message);
+                return 0;
+            }
+        }
+        #endregion
 
         #region 阿里邮箱发送
         /// <summary>
