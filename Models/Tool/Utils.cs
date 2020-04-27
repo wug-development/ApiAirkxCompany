@@ -12,6 +12,9 @@ using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 namespace ApiAirkxCompany
 {
@@ -163,7 +166,7 @@ namespace ApiAirkxCompany
                 }
 
                 //实例化一个SmtpClient类。
-                SmtpClient client = new SmtpClient();
+                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
 
                 #region 设置邮件服务器地址
 
@@ -238,96 +241,29 @@ namespace ApiAirkxCompany
         public static int SendMails(string email, string bodyStr, string title)
         {
             string fromMail = "kaixing_service@163.com";
-            string toMail = email;
-            MailMessage mailMessage = new MailMessage
-            {
-                //发件人
-                From = new MailAddress(fromMail)
-            };
+            string FromPass = "LHUKAXARGFBBSLPM";
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("凯行网", fromMail));
+            message.To.Add(new MailboxAddress("", email));
+            message.Subject = title;
+            //html or plain
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = bodyStr;
+            bodyBuilder.TextBody = "邮件测试文本正文ken.io";
+            message.Body = bodyBuilder.ToMessageBody();
 
-            //收件人 可以添加多个收件人
-            mailMessage.To.Add(new MailAddress(toMail));
-
-            //mailMessage.CC 获取包含此电子邮件的抄送(CC)收件人的地址集合
-            //邮件主题
-            mailMessage.SubjectEncoding = Encoding.UTF8;
-            mailMessage.Subject = "Hello";
-
-            //邮件正文
-            mailMessage.BodyEncoding = Encoding.UTF8;
-            mailMessage.Body = bodyStr;
-
-            //如果要发送html格式的消息，需要设置这个属性
-            mailMessage.IsBodyHtml = true;
-
-            //邮件内容即消息正文中中显示图片 
-            //需要为图片指明src=‘cid:idname(资源id)‘
-            //AlternateView htmlBody = AlternateView.CreateAlternateViewFromString("<img src=‘cid:zfp‘/>", null, "text/html");
-
-            //然后在LinkedResource加入文件的绝对地址，和ContentType 例如image/gif，text/html...与http请求的响应报文中的ContentType一致
-            //LinkedResource lr = new LinkedResource("1.gif", "image/gif");
-
-            //绑定上文中指定的idname
-            //lr.ContentId = "zfp";
-
-            //添加链接资源
-            //htmlBody.LinkedResources.Add(lr);
-
-            //mailMessage.AlternateViews.Add(htmlBody);
-
-
-            //创建邮件发送客户端
             try
             {
-                //这里使用qq邮箱 需要在设置->账户下开启POP3/SMTP服务 和 IMAP / SMTP服务
-                //qq邮箱的发件服务器smtp.qq.com  端口25
-                SmtpClient sendClient = new SmtpClient("smtp.163.com", 25)
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
-                    //指定邮箱账号和密码
-                    //在第三方客户端登陆qq邮箱时，密码是授权码
-                    //登陆qq邮箱在设置->账户下可以生成授权码
-                    Credentials = new NetworkCredential(fromMail, "LHUKAXARGFBBSLPM")
-                };
-
-                //指定如何发送电子邮件
-                sendClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                //指定使用使用安全套接字ssl加密的链接
-
-                sendClient.EnableSsl = true;
-                sendClient.Send(mailMessage);
-                return 1;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        #region 163邮箱
-        public static int SendMail(string email, string bodyStr)
-        {
-            try
-            {
-                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
-                client.Host = "smtp.163.com";//使用163的SMTP服务器发送邮件
-                client.UseDefaultCredentials = true;
-                client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-                client.Credentials = new System.Net.NetworkCredential("kaixing_service@163.com", "LHUKAXARGFBBSLPM");//163的SMTP服务器需要用163邮箱的用户名和密码作认证，如果没有需要去163申请个,
-                                                                                        //这里假定你已经拥有了一个163邮箱的账户，用户名为abc，密码为*******
-                System.Net.Mail.MailMessage Message = new System.Net.Mail.MailMessage();
-                Message.From = new System.Net.Mail.MailAddress("kaixing_service@163.com");//这里需要注意，163似乎有规定发信人的邮箱地址必须是163的，而且发信人的邮箱用户名必须和上面SMTP服务器认证时的用户名相同
-                                                                              //因为上面用的用户名abc作SMTP服务器认证，所以这里发信人的邮箱地址也应该写为abc@163.com
-                Message.To.Add(email);
-                //Message.To.Add("123456@qq.com");//将邮件发送给QQ邮箱
-                Message.Subject = "凯行网密码重置";
-                Message.Body = bodyStr;
-                Message.SubjectEncoding = System.Text.Encoding.UTF8;
-                Message.BodyEncoding = System.Text.Encoding.UTF8;
-                Message.Priority = System.Net.Mail.MailPriority.High;
-                Message.IsBodyHtml = true;
-                client.Send(Message);
-                return 1;
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    //smtp服务器，端口，是否开启ssl
+                    client.Connect("smtp.163.com", 465, true);
+                    client.Authenticate(fromMail, FromPass);
+                    client.Send(message);
+                    client.Disconnect(true);
+                    return 1;
+                }
             }
             catch (Exception ex)
             {
@@ -335,43 +271,106 @@ namespace ApiAirkxCompany
                 return 0;
             }
         }
+
+        #region 163邮箱
+        public static int SendMail(string email, string bodyStr)
+        {
+            string fromEmail = "kaixing_service@163.com";     //发件人邮箱地址
+            string emailSMTPHost = "smtp.163.com";  //邮箱SMTP服务器,用来发送邮件
+            string emailSubject = "Email Subject";  //邮件主题
+            string emailBody = bodyStr; //邮件内容
+            string toEmail = email;   //要发送对象的邮箱地址
+
+            string emailName = fromEmail;  //登陆邮箱的用户名，可以和发件人邮箱地址一样
+            string emailPwd = "LHUKAXARGFBBSLPM";  //登陆邮箱的密码
+
+            try
+            {
+                using (MailMessage msg = new MailMessage(fromEmail, toEmail, emailSubject, emailBody))
+                {
+                    msg.IsBodyHtml = true;  //设置邮件内容是否支持html格式
+                    //msg.To.Add("zhangMao@sina.com");    //追加多个收件人邮箱，实现群发
+                    msg.Priority = MailPriority.High;   //发送邮件的优先等级
+
+                    System.Net.Mail.SmtpClient mailClient = new System.Net.Mail.SmtpClient(emailSMTPHost);
+                    mailClient.UseDefaultCredentials = false;  //设置是否随请求一起发送
+                    mailClient.Credentials = new System.Net.NetworkCredential(emailName, emailPwd);
+
+                    //是否使用安全套接字层 (SSL) 加密连接. SmtpClient 使用 SSL，则为 true；否则为 false。默认值为 false。
+                    mailClient.EnableSsl = true;
+
+                    mailClient.Send(msg); //调用发送邮件方法
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                //发送失败：ex.Message;
+                LoggerHelper.Error(ex.Message);
+                return 0;
+            }
+        }
         #endregion
 
         #region 阿里邮箱发送
-        /// <summary>
-        /// 发送邮件
+        // <summary>
+        /// 发送邮件，使用SSL协议加密
         /// </summary>
-        /// <param name="bodyStr">邮件内容</param>
-        /// <param name="title">邮件标题</param>
-        /// <returns>返回结果，成功与否</returns>
-        public static int SendMail(string email, string bodyStr, string title)
+        /// <param name="mailTitle">邮件标题</param>
+        /// <param name="mailContent">邮件内容</param>
+        /// <param name="mailAddress">收件人地址集合</param>
+        public static int SendMailSSL(string email, string bodyStr)
         {
-            //smtpClient.Host = "smtp.airkx.com";
-            //smtpClient.Credentials = new System.Net.NetworkCredential("sale@airkx.com", "Airkx9898");
-            //密码不是QQ密码，是qq账户设置里面的POP3/SMTP服务生成的key
-            string authName = "sale@airkx.com";
-            string password = "Airkx9898";
 
-            MailMessage msg = new MailMessage(authName, email);
+            //发件人邮箱地址。
+            string FromMial = "kaixing_service@163.com"; ///   "kaixing_service@163.com"  "wuguang407906079@163.com"
+            string FromPass = "LHUKAXARGFBBSLPM"; /// 授权码   "LHUKAXARGFBBSLPM"    "XPHVMFGAGWOXFMTH"
+
+            System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+            //添加收件人
+            //foreach (string address in mailAddress)
+            //{
+            //    msg.To.Add(address);
+            //}
+            msg.To.Add(email);
+            //设置发件邮箱地址，发件人姓名，以及邮件编码
+            msg.From = new MailAddress(FromMial, "凯行网", System.Text.Encoding.UTF8);
+            //设置邮件标题
+            msg.Subject = "kaixing";
+            //设置邮件标题编码 
+            msg.SubjectEncoding = System.Text.Encoding.UTF8;
+            //设置邮件内容
             msg.Body = bodyStr;
-            msg.Subject = "凯行网密码重置";
-            SmtpClient smtp = new SmtpClient();
-            smtp.Credentials = new NetworkCredential(authName, password);
-            smtp.Port = 465;
-            smtp.Host = "ssl.alibaba-inc.com";
-            smtp.EnableSsl = true;
-            smtp.Timeout = 10000;
+            //设置邮件内容编码
+            msg.BodyEncoding = System.Text.Encoding.UTF8;
+            //指定是否是HTML邮件 
+            msg.IsBodyHtml = true;
+            //设置邮件优先级 
+            msg.Priority = MailPriority.High;
+
+            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+            //设置邮箱账号密码
+            client.Credentials = new System.Net.NetworkCredential(FromMial, FromPass);
+            //设置邮箱服务器使用的SSL协议端口 -可能个别要见服务器要求设置SSL协议端口
+            client.Port = 465;
+            //设置smtp服务器
+            client.Host = "smtp.163.com";
+            //使用ssl加密 
+            client.EnableSsl = true;
+            object userState = msg;
             try
             {
-                smtp.Send(msg);
+                //异步发送
+                //client.SendAsync(msg, userState);
+                //同步发送
+                client.Send(msg);
                 return 1;
             }
-            catch (SmtpException ex)
+            catch (System.Net.Mail.SmtpException ex)
             {
-                LoggerHelper.Error(ex.ToString());
+                LoggerHelper.Error(ex.Message);
                 return 0;
             }
-
         }
 
         #endregion
