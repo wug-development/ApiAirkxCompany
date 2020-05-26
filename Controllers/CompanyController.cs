@@ -76,7 +76,7 @@ namespace ApiAirkxCompany.Controllers
             if (filters != null && filters != "")
             {
                 string v = PageValidate.SQL_KILL(filters);
-                sqlwhere = " and dcUserName like '%" + v + "%' ";
+                sqlwhere = " and dcShortName like '%" + v + "%' ";
             }
             string sqlfiled = " a.dcCompanyID as id,dcUserName as name,dcPassword as pass,dcFirstLetter as firstletter,a.dcLinkName as linkman,a.dcPhone as phone,a.dnCreditLine as xinyong,b.dnDebt as qiankuan,dcShortName as shortname,dcFullName as nickname,dnIsCUse as isUse,(select count (z.dcCompanyID) from dbo.T_Company z where z.dcParentCompanyID=a.dcCompanyID) as childnum ";
             string sql = "select * from (" +
@@ -147,7 +147,7 @@ namespace ApiAirkxCompany.Controllers
         public HttpResponseMessage AddCompany([FromBody] Company company)
         {
             string hand = PageValidate.SQL_KILL(company.comShorthand);
-            string sql = " select count(1) from T_Company where dcUserName='" + hand + "' ";
+            string sql = " select count(1) from T_Company where dcShortName='" + hand + "' ";
             int count = Convert.ToInt32(DbHelperSQL.GetSingle(sql));
             if (count < 1)
             {

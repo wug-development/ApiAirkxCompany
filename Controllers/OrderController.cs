@@ -832,6 +832,43 @@ namespace ApiAirkxCompany.Controllers
         }
         #endregion
 
+        #region 获取客服信息
+        [HttpGet]
+        public HttpResponseMessage GetServiceInfo(string id, string cid)
+        {
+            if (string.IsNullOrWhiteSpace(id)) {
+                if (string.IsNullOrWhiteSpace(cid))
+                {
+                    return Utils.pubResult(0, "获取失败", "");
+                }
+                else {
+                    StringBuilder str = new StringBuilder();
+                    str.Append("select top 1 dcAdminID from T_Company ");
+                    str.Append(" where dcCompanyID=@dcCompanyID ");
+                    SqlParameter[] param = {
+                    new SqlParameter("@dcCompanyID", SqlDbType.VarChar,40)            };
+                    param[0].Value = cid;
+                    id = DbHelperSQL.GetSingle(str.ToString(), param).ToString();
+                }
+            }
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select top 1 dcAdminID as id,dcAdminName as name,dcRealName as rname,dcPhone as phone from T_Admin ");
+            strSql.Append(" where dcAdminID=@dcAdminID ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@dcAdminID", SqlDbType.VarChar,40)            };
+            parameters[0].Value = id;
+
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return Utils.pubResult(1, "获取成功", ds.Tables[0]);
+            }
+            else
+            {
+                return Utils.pubResult(0, "获取失败", ""); 
+            }
+        }
+        #endregion
     }
 
     public class changeOrderBody

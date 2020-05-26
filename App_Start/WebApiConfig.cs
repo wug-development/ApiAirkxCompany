@@ -32,6 +32,10 @@ namespace ApiAirkxCompany
 
             // 格式化时间
             ReturnDateFormatInJsonSerializersSettings();
+
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.IsoDateTimeConverter() {
+                DateTimeFormat = "yyyy-MM-dd HH:mm:ss"
+            });
         }
 
         private static void ReturnDateFormatInJsonSerializersSettings()
