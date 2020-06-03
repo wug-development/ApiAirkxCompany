@@ -28,7 +28,7 @@ namespace ApiAirkxCompany.Controllers
             string sqlwhere = "";
             if (v != "")
             {
-                sqlwhere = " and (dcUserName like '%" + v + "%' or dcFirstLetter like '%" + v + "%') ";
+                sqlwhere = " and (dcShortName like '%" + v + "%' or dcFirstLetter like '%" + v + "%') ";
             }
             else
             {
