@@ -186,18 +186,27 @@ namespace ApiAirkxCompany
             string text = "";
             if (v.Length == 1)
             {
-                text = v;
+                // text = v;
+                switch (v)
+                {
+                    case "1": text = "NI"; break; // 1 身份证
+                    case "2": text = "PP"; break; // 2 护照 
+                    case "3": text = "ID"; break; // 3 军官证
+                    case "4": text = "ID"; break; // 4 士兵证
+                    case "5": text = "UU"; break; // 5 台胞证
+                    default: text = "UU"; break;
+                }
             }
             else
             {
                 switch (v)
                 {
-                    case "身份证": text = "1"; break;
-                    case "护照": text = "2"; break;
-                    case "军官证": text = "3"; break;
-                    case "士兵证": text = "4"; break;
-                    case "台胞证": text = "5"; break;
-                    default: text = "6"; break;
+                    case "身份证": text = "NI"; break; // 1
+                    case "护照": text = "PP"; break; // 2
+                    case "军官证": text = "ID"; break; // 3
+                    case "士兵证": text = "ID"; break; // 4
+                    case "台胞证": text = "UU"; break; // 5
+                    default: text = "UU"; break;
                 }
             }
             return text;
